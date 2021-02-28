@@ -36,23 +36,27 @@ def main():
   print(counts)
   print(counts.min())
 
-  steps = np.arange(-0.5, steps, 1)
-  vertexes = np.arange(-0.5, N-1, 1)
+  steps_Y = np.arange(-0.5, steps, 1)
+  vertexes_X = np.arange(-0.5, N-1, 1)
 
   fig, ax = plt.subplots(1,1,figsize=(6,9))
   pcm = ax.pcolormesh(
-      vertexes,
-      steps,
+      vertexes_X,
+      steps_Y,
       counts,
       cmap='plasma',
       shading='auto',
       norm=colors.LogNorm(vmin=counts.min(), vmax=counts.max())
   )
+  ax.set_title(f'Csúcsok száma: {N}\nKiindulási csúcs: {start}\nFutások darabszáma: {simulations}\nLépések száma egy futásban: {steps}\n', loc='left')
+  ax.set_xlabel('Csúcsindexek')
+  ax.set_ylabel('Lépések')
   fig.colorbar(pcm, ax=ax, extend='max')
-
-#  fig = plt.figure(figsize=(8.0, 5.0))
- # fig.hist2d(counts, cmap='plasma', interpolation='nearest')
-  fig.savefig('counts.png', dpi=600)
+  fig.savefig(
+      f'counts_circle_N_{N}_start_{start}_simulations_{simulations}_steps_{steps}.png',
+      dpi=600,
+      bbox_inches='tight'
+  )
 
 if __name__ == '__main__':
     main()
