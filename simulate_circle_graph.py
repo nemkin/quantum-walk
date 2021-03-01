@@ -13,18 +13,6 @@ def move(pos, N, graph):
   pos = np.random.choice(N, 1, p=graph[pos,:].flatten())
   return pos
 
-def generate_graph(N, connections, random_factor):
-  graph = np.zeros([N,N])
-  max_random = (int)(N*random_factor)
-  for i in range(N):
-    graph[i,:max_random]  = 1
-    np.random.shuffle(graph[i,:])
-    print(graph[i,:])
-    for j in range(-connections,connections+1):
-      graph[i,(i+j)%N] = 1
-    graph[i] = graph[i] / np.linalg.norm(graph[i], ord=1)
-  return graph
-
 def simulate(N,simulations,steps,connections,random_factor):
   graph = generate_graph(N,connections,random_factor)
   start = N // 2
@@ -66,6 +54,6 @@ def simulate(N,simulations,steps,connections,random_factor):
 if __name__ == '__main__':
     # Csúcsok száma, futások száma, lépések száma 
     simulate(101,10,10000,1,0)
-    # simulate(101,1000,1000)
+    simulate(101,1000,1000,1,0)
     # simulate(1001, 1000, 10000)
 
