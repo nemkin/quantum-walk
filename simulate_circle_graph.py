@@ -55,8 +55,19 @@ def simulate(N,simulations,steps,w,density):
     f.write(str(graph))
 
 if __name__ == '__main__':
-    # Csúcsok száma, futások száma, lépések száma 
-    simulate(11,5,10,1,0)
-    # simulate(101,1000,1000,1,0)
-    # simulate(1001, 1000, 10000)
+    # Csúcsok száma, futások száma, lépések száma, szélesség, density
+    simulate(101, 1, 1000, 1, 0)
+    simulate(101, 1, 1000, 2, 0)
+    simulate(101, 1, 1000, 3, 0)
+    simulate(101, 1, 1000, 3, 0.2)
+
+    simulate(101, 10, 1000, 1, 0)
+    simulate(101, 10, 1000, 2, 0)
+    simulate(101, 10, 1000, 3, 0)
+    simulate(101, 10, 1000, 3, 0.2)
+
+    simulate(101, 1000, 1000, 1, 0)
+    simulate(101, 1000, 1000, 2, 0)
+    simulate(101, 1000, 1000, 3, 0)
+    simulate(101, 1000, 1000, 3, 0.2)
 
