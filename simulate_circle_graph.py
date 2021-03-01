@@ -9,15 +9,6 @@ from generate_graph import generate
 
 now = datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
 
-def save_sparse_csr(filename, array):
-    np.savez(filename, data=array.data, indices=array.indices,
-             indptr=array.indptr, shape=array.shape)
-
-def load_sparse_csr(filename):
-    loader = np.load(filename)
-    return csr_matrix((loader['data'], loader['indices'], loader['indptr']),
-                      shape=loader['shape'])
-
 def move(pos, N, graph):
   pos = np.random.choice(N, 1, p=graph[pos,:].todense().flat)
   return pos
@@ -60,11 +51,12 @@ def simulate(N,simulations,steps,w,density):
       bbox_inches='tight'
   )
   plt.close(fig)
-  save_sparse_csr(f'{filename}_graph.txt', graph)
+  with open(f'{filename}_graph.txt', 'w') as f:
+    f.write(str(graph))
 
 if __name__ == '__main__':
     # Csúcsok száma, futások száma, lépések száma 
-    simulate(101,10,10000,1,0)
-    simulate(101,1000,1000,1,0)
+    simulate(11,5,10,1,0)
+    # simulate(101,1000,1000,1,0)
     # simulate(1001, 1000, 10000)
 
