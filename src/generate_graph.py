@@ -7,7 +7,7 @@ def generate(N, width, density):
   identity = np.array(range(N))
   shifted = (identity + 1) % N
   ones = np.array([1]*N)
- 
+
   graph = csr_matrix((ones, (identity, identity)), shape=(N, N))
 
   perm_fwd = csr_matrix((ones, (identity, shifted)), shape=(N, N))
@@ -18,8 +18,8 @@ def generate(N, width, density):
 
   for _ in range(width):
     graph += add_fwd
-    graph += add_bck 
-    
+    graph += add_bck
+
     add_fwd *= perm_fwd
     add_bck *= perm_bck
 

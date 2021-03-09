@@ -130,5 +130,6 @@ dmypy.json
 
 # Vim
 *.swp
-*.png
-*.txt
+
+# Newly generated pictures
+generations/new

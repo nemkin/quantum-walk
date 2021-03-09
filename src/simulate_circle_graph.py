@@ -7,16 +7,21 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from generate_graph import generate
 
-now = datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
+file_location = "../generations/new"
+
+def get_now():
+  return  datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
 
 def move(pos, N, graph):
   pos = np.random.choice(N, 1, p=graph[pos,:].todense().flat)
   return pos
 
 def simulate(N,simulations,steps,w,density):
+  now = get_now()
   graph = generate(N,w,density)
   start = N // 2
 
+  print(now)
   print(f"N={N}, w={w}, density={density}, start={start}, simulations={simulations}, steps={steps}")
 
   counts = np.zeros([steps+1, N])
@@ -44,7 +49,8 @@ def simulate(N,simulations,steps,w,density):
   ax.set_xlabel('Csúcsindexek')
   ax.set_ylabel('Lépések')
   fig.colorbar(pcm, ax=ax, extend='max')
-  filename = f'{now}_counts_circle_N_{N}_w_{w}_density_{density}_start_{start}_simulations_{simulations}_steps_{steps}'
+
+  filename = f'{file_location}/{now}_counts_circle'
   fig.savefig(
       f'{filename}.png',
       dpi=600,
@@ -52,7 +58,7 @@ def simulate(N,simulations,steps,w,density):
   )
   plt.close(fig)
   with open(f'{filename}_graph.txt', 'w') as f:
-    f.write(str(graph))
+    f.write(str(graph)) #TODO print full graph
 
 if __name__ == '__main__':
     # Csúcsok száma, futások száma, lépések száma, szélesség, density
