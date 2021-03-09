@@ -22,7 +22,14 @@ def simulate(N,simulations,steps,w,density):
   start = N // 2
 
   print(now)
-  print(f"N={N}, w={w}, density={density}, start={start}, simulations={simulations}, steps={steps}")
+  print(
+    f'N={N}, '
+    f'w={w}, '
+    f'density={density}, '
+    f'start={start}, '
+    f'simulations={simulations}, '
+    f'steps={steps}'
+    )
 
   counts = np.zeros([steps+1, N])
   counts += 0.01
@@ -45,7 +52,15 @@ def simulate(N,simulations,steps,w,density):
       shading='auto',
       norm=colors.LogNorm(vmin=counts.min(), vmax=counts.max())
   )
-  ax.set_title(f'Csúcsok száma: {N}\nSzélesség: {w}\nVéletlen élek: {density}\nKiindulási csúcs: {start}\nFutások darabszáma: {simulations}\nLépések száma egy futásban: {steps}\n', loc='left')
+  ax.set_title(
+    f'Csúcsok száma: {N}\n'
+    f'Szélesség: {w}\n'
+    f'Véletlen élek: {density}\n'
+    f'Kiindulási csúcs: {start}\n'
+    f'Futások darabszáma: {simulations}\n'
+    f'Lépések száma egy futásban: {steps}',
+    loc='left'
+    )
   ax.set_xlabel('Csúcsindexek')
   ax.set_ylabel('Lépések')
   fig.colorbar(pcm, ax=ax, extend='max')
