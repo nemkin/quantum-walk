@@ -1,17 +1,8 @@
-import os
-import random
 import progressbar
-from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from generate_graph import generate
-
-file_location = "../generations/new"
-
-
-def get_now():
-    return datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
 
 
 def move(pos, N, graph):
@@ -19,12 +10,11 @@ def move(pos, N, graph):
     return pos
 
 
-def simulate(N, simulations, steps, w, density):
-    now = get_now()
-    graph = generate(N, w, density)
+def simulate(N, simulations, steps, w, density, filename):
+
+    graph = generate(N, range(1, w+1), density)
     start = N // 2
 
-    print(now)
     print(
         f'N={N}, '
         f'w={w}, '
@@ -68,12 +58,9 @@ def simulate(N, simulations, steps, w, density):
     ax.set_ylabel('Lépések')
     fig.colorbar(pcm, ax=ax, extend='max')
 
-    filename = f'{file_location}/{now}_counts_circle'
     fig.savefig(
         f'{filename}.png',
         dpi=600,
         bbox_inches='tight'
     )
     plt.close(fig)
-    with open(f'{filename}_graph.txt', 'w') as f:
-        f.write(str(graph))  # TODO print full graph

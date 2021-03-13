@@ -1,16 +1,24 @@
-from generate_graph import simulate
+from datetime import datetime
+from simulate_circle_graph import simulate
 
-simulate(101, 1, 1000, 1, 0)
-simulate(101, 1, 1000, 2, 0)
-simulate(101, 1, 1000, 3, 0)
-simulate(101, 1, 1000, 3, 0.2)
+root_path = "../generations/new"
 
-simulate(101, 10, 1000, 1, 0)
-simulate(101, 10, 1000, 2, 0)
-simulate(101, 10, 1000, 3, 0)
-simulate(101, 10, 1000, 3, 0.2)
 
-simulate(101, 1000, 1000, 1, 0)
-simulate(101, 1000, 1000, 2, 0)
-simulate(101, 1000, 1000, 3, 0)
-simulate(101, 1000, 1000, 3, 0.2)
+def now():
+    return datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
+
+
+simulate(101, 1, 1000, 1, 0, f'{root_path}/{now()}_counts_circle')
+simulate(101, 1, 1000, 2, 0, f'{root_path}/{now()}_counts_circle')
+simulate(101, 1, 1000, 3, 0, f'{root_path}/{now()}_counts_circle')
+simulate(101, 1, 1000, 3, 0.2, f'{root_path}/{now()}_counts_circle')
+
+simulate(101, 10, 1000, 1, 0, f'{root_path}/{now()}_counts_circle')
+simulate(101, 10, 1000, 2, 0, f'{root_path}/{now()}_counts_circle')
+simulate(101, 10, 1000, 3, 0, f'{root_path}/{now()}_counts_circle')
+simulate(101, 10, 1000, 3, 0.2, f'{root_path}/{now()}_counts_circle')
+
+simulate(101, 1000, 1000, 1, 0, f'{root_path}/{now()}_counts_circle')
+simulate(101, 1000, 1000, 2, 0, f'{root_path}/{now()}_counts_circle')
+simulate(101, 1000, 1000, 3, 0, f'{root_path}/{now()}_counts_circle')
+simulate(101, 1000, 1000, 3, 0.2, f'{root_path}/{now()}_counts_circle')
