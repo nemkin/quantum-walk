@@ -33,6 +33,11 @@ def simulate(N, simulations, steps, w, density, filename):
             pos = move(pos, N, graph)
             counts[step_i, pos] += 1
 
+    draw_simulation(N, steps, counts, filename)
+
+
+def draw_simulation(N, steps, counts, filename):
+
     steps_Y = np.arange(-0.5, steps, 1)
     vertexes_X = np.arange(-0.5, N-1, 1)
 
@@ -47,10 +52,10 @@ def simulate(N, simulations, steps, w, density, filename):
     )
     ax.set_title(
         f'Csúcsok száma: {N}\n'
-        f'Szélesség: {w}\n'
-        f'Véletlen élek: {density}\n'
-        f'Kiindulási csúcs: {start}\n'
-        f'Futások darabszáma: {simulations}\n'
+        #f'Szélesség: {w}\n'
+        #f'Véletlen élek: {density}\n'
+        #f'Kiindulási csúcs: {start}\n'
+        #f'Futások darabszáma: {simulations}\n'
         f'Lépések száma egy futásban: {steps}',
         loc='left'
     )
