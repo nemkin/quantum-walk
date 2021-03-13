@@ -10,15 +10,13 @@ def move(pos, N, graph):
     return pos
 
 
-def simulate(N, simulations, steps, w, density, filename):
+def simulate(graph, start, simulations, steps):
 
-    graph = generate(N, range(1, w+1), density)
-    start = N // 2
-
+    N = graph.get_shape()[0]
     print(
         f'N={N}, '
-        f'w={w}, '
-        f'density={density}, '
+        #f'w={w}, '
+        #f'density={density}, '
         f'start={start}, '
         f'simulations={simulations}, '
         f'steps={steps}'
@@ -33,7 +31,7 @@ def simulate(N, simulations, steps, w, density, filename):
             pos = move(pos, N, graph)
             counts[step_i, pos] += 1
 
-    draw_simulation(N, steps, counts, filename)
+    return counts
 
 
 def draw_simulation(N, steps, counts, filename):
