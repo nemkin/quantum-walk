@@ -1,6 +1,5 @@
 import progressbar
 import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 
 
@@ -9,7 +8,7 @@ def move(pos, N, graph):
     return pos
 
 
-def simulate(graph, start, simulations, steps):
+def simulate_classical(graph, start, simulations, steps):
 
     N = graph.get_shape()[0]
     print(
@@ -33,7 +32,7 @@ def simulate(graph, start, simulations, steps):
     return counts
 
 
-def draw_simulation(N, steps, counts, ax):
+def draw_classical(N, steps, counts, ax):
 
     steps_Y = np.arange(-0.5, steps, 1)
     vertexes_X = np.arange(-0.5, N-1, 1)
