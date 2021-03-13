@@ -2,7 +2,6 @@ import progressbar
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
-from generate_graph import generate
 
 
 def move(pos, N, graph):

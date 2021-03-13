@@ -1,6 +1,6 @@
 from datetime import datetime
-from simulate_circle_graph import simulate, draw_simulation
-from generate_graph import generate
+from simulators.classical_simulator import simulate, draw_simulation
+from generators.circular_graph_generator import generate
 root_path = "../generations/new"
 
 
