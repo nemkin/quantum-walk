@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/home/nemkin/Code/env/py3/bin/python"
+    "python.pythonPath": "/home/nemkin/Code/env/py3/bin/python",
+    "python.formatting.provider": "autopep8"
 }
