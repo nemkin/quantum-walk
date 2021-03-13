@@ -33,7 +33,7 @@ def simulate(graph, start, simulations, steps):
     return counts
 
 
-def draw_simulation(N, steps, counts, filename, fig, ax):
+def draw_simulation(N, steps, counts, ax):
 
     steps_Y = np.arange(-0.5, steps, 1)
     vertexes_X = np.arange(-0.5, N-1, 1)
@@ -57,4 +57,4 @@ def draw_simulation(N, steps, counts, filename, fig, ax):
     )
     ax.set_xlabel('Csúcsindexek')
     ax.set_ylabel('Lépések')
-    fig.colorbar(pcm, ax=ax, extend='max')
+    ax.figure.colorbar(pcm, ax=ax, extend='max')

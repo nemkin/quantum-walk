@@ -39,7 +39,7 @@ def generate(N, distances, density):
     return graph
 
 
-def draw_graph(graph, _fig, ax):
+def draw_graph(graph, ax):
     nx_graph = nx.from_scipy_sparse_matrix(graph)
     pos = nx.circular_layout(nx_graph)
     nx.draw_networkx(nx_graph, pos=pos, with_labels=True, ax=ax)
