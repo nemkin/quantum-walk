@@ -39,10 +39,7 @@ def generate(N, distances, density):
     return graph
 
 
-if __name__ == '__main__':
-    graph = generate(50, [1, 10], 0)
-    G = nx.from_scipy_sparse_matrix(graph)
-    pos = nx.circular_layout(G)
-    fig, ax = plt.subplots(1, 1, figsize=(9, 9))
-    nx.draw_networkx(G, pos=pos, with_labels=True, ax=ax)
-    fig.savefig('../generations/new/cucc.png', dpi=600)
+def draw_graph(graph, _fig, ax):
+    nx_graph = nx.from_scipy_sparse_matrix(graph)
+    pos = nx.circular_layout(nx_graph)
+    nx.draw_networkx(nx_graph, pos=pos, with_labels=True, ax=ax)
