@@ -23,8 +23,8 @@ def run_circular_classical_case(vertex_count, walker_count, step_count, connecti
     filename = f'{new}/{now()}_circular_classical'
     graph = generate_circular_graph(
         vertex_count, connection_distances, density)
-    plt.spy(graph)
-    plt.grid('on')
+    plt.spy(graph, markeredgewidth=0.1)
+
     plt.savefig(f'{filename}_adj.jpg', bbox_inches='tight')
     plt.close()
     start = vertex_count // 2
@@ -36,8 +36,8 @@ def run_dumbbell_classical_case(vertex_count, walker_count, step_count, connecti
     filename = f'{new}/{now()}_dumbbell_classical'
     graph = generate_dumbbell_graph(
         vertex_count, connection_distances, density)
-    plt.spy(graph)
-    plt.grid('on')
+    plt.spy(graph, markeredgewidth=0.1)
+
     plt.savefig(f'{filename}_adj.jpg', bbox_inches='tight')
     plt.close()
     start = vertex_count // 2
