@@ -19,30 +19,30 @@ def now():
     return datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
 
 
+def setup_plots(vertex_count, step_count):
+    fig, ax = plt.subplots(2, 1, figsize=(6, 20), dpi=150,
+                           gridspec_kw={'height_ratios': [6, 14], 'hspace': 0})
+    fig.tight_layout()
+    return fig, ax
+
+
 def run_circular_classical_case(vertex_count, walker_count, step_count, connection_distances, density):
     filename = f'{new}/{now()}_circular_classical.jpg'
-    width = 6
-    height = 6 * (vertex_count + step_count) / vertex_count
-    fig, ax = plt.subplots(2, 1, figsize=(width, height), dpi=150, gridspec_kw={
-                           'height_ratios': [vertex_count + step_count, vertex_count], 'hspace': 0.05})
-    ax[1].set_facecolor('red')
+    fig, ax = setup_plots(vertex_count, step_count)
     graph = generate_circular_graph(
         vertex_count, connection_distances, density)
     ax[0].spy(graph)
     start = vertex_count // 2
     counts = simulate_classical(graph, start, walker_count, step_count)
     draw_classical(vertex_count, step_count, counts, ax[1])
+    # plt.show()
     fig.savefig(filename, bbox_inches='tight')
     plt.close(fig)
 
 
 def run_dumbbell_classical_case(vertex_count, walker_count, step_count, connection_distances, density):
     filename = f'{new}/{now()}_dumbbell_classical.jpg'
-    width = 6
-    height = 6 * (vertex_count + step_count) / vertex_count
-    fig, ax = plt.subplots(2, 1, figsize=(width, height), dpi=150, gridspec_kw={
-                           'height_ratios': [vertex_count + step_count, vertex_count], 'hspace': 0.05})
-    ax[1].set_facecolor('red')
+    fig, ax = setup_plots(vertex_count, step_count)
     graph = generate_dumbbell_graph(
         vertex_count, connection_distances, density)
     ax[0].spy(graph)

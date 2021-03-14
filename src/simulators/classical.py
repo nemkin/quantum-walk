@@ -37,14 +37,16 @@ def draw_classical(N, steps, counts, ax):
     steps_Y = np.arange(-0.5, steps, 1)
     vertexes_X = np.arange(-0.5, N-1, 1)
 
-    pcm = ax.pcolormesh(
+    pcm = ax.pcolor(
         vertexes_X,
-        np.flip(steps_Y, 0),
-        np.flip(counts, 0),
+        steps_Y,
+        counts,
         cmap='plasma',
         shading='auto',
+        linewidths=1, snap=True,
         norm=colors.LogNorm(vmin=counts.min(), vmax=counts.max())
     )
+    ax.invert_yaxis()
     ax.set_xlabel('Csúcsindexek')
     ax.set_ylabel('Lépések')
-    ax.figure.colorbar(pcm, ax=ax, aspect=100, orientation="horizontal")
+    #ax.figure.colorbar(pcm, ax=ax, aspect=100, orientation="horizontal")
