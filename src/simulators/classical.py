@@ -1,6 +1,7 @@
 import progressbar
 import numpy as np
 import matplotlib.colors as colors
+import matplotlib.pyplot as plt
 
 
 def move(pos, N, graph):
@@ -32,11 +33,12 @@ def simulate_classical(graph, start, simulations, steps):
     return counts
 
 
-def draw_classical(N, steps, counts, ax):
+def draw_classical(N, steps, counts, filename):
 
     steps_Y = np.arange(-0.5, steps, 1)
     vertexes_X = np.arange(-0.5, N-1, 1)
 
+    fig, ax = plt.subplots(1, 1, figsize=(6, 20))
     pcm = ax.pcolor(
         vertexes_X,
         steps_Y,
@@ -46,7 +48,9 @@ def draw_classical(N, steps, counts, ax):
         linewidths=1, snap=True,
         norm=colors.LogNorm(vmin=counts.min(), vmax=counts.max())
     )
-    ax.invert_yaxis()
     ax.set_xlabel('Csúcsindexek')
     ax.set_ylabel('Lépések')
-    #ax.figure.colorbar(pcm, ax=ax, aspect=100, orientation="horizontal")
+    #fig.colorbar(pcm, ax=ax, aspect=100, orientation="horizontal", pad=0.1)
+    fig.tight_layout()
+    fig.savefig(filename)
+    plt.close(fig)
