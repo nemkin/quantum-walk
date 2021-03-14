@@ -3,6 +3,7 @@ import networkx as nx
 from scipy.sparse import rand
 from scipy.sparse import csr_matrix
 from sklearn.preprocessing import normalize
+import matplotlib.pylab as pylab
 
 
 def generate_circular_graph(vertex_count, connection_distances, randomness):
@@ -40,9 +41,3 @@ def generate_circular_graph(vertex_count, connection_distances, randomness):
 
     graph = normalize(graph, norm='l1')
     return graph
-
-
-def draw_circular_graph(graph, ax):
-    nx_graph = nx.from_scipy_sparse_matrix(graph)
-    pos = nx.circular_layout(nx_graph)
-    nx.draw_networkx(nx_graph, pos=pos, with_labels=True, ax=ax)

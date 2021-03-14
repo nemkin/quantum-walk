@@ -1,12 +1,10 @@
 from datetime import datetime
 from simulators.classical import simulate_classical, draw_classical
-from generators.circular_graph import generate_circular_graph, draw_circular_graph
-from generators.dumbbell_graph import generate_dumbbell_graph, draw_dumbbell_graph
+from generators.circular_graph import generate_circular_graph
+from generators.dumbbell_graph import generate_dumbbell_graph
 import matplotlib.pyplot as plt
 from pathlib import Path
 import sys
-
-plt.rcParams.update({'font.size': 50})
 
 new = Path("../generations/new")
 archives = Path("../generations/archives")
@@ -23,36 +21,42 @@ def now():
 
 def run_circular_classical_case(vertex_count, walker_count, step_count, connection_distances, density):
     filename = f'{new}/{now()}_circular_classical.jpg'
-    fig, ax = plt.subplots(1, 2, figsize=(
-        60, 45), gridspec_kw={'width_ratios': [3, 1]})
+    width = 6
+    height = 6 * (vertex_count + step_count) / vertex_count
+    fig, ax = plt.subplots(2, 1, figsize=(width, height), dpi=150, gridspec_kw={
+                           'height_ratios': [vertex_count + step_count, vertex_count], 'hspace': 0.05})
+    ax[1].set_facecolor('red')
     graph = generate_circular_graph(
         vertex_count, connection_distances, density)
-    draw_circular_graph(graph, ax[0])
+    ax[0].spy(graph)
     start = vertex_count // 2
     counts = simulate_classical(graph, start, walker_count, step_count)
     draw_classical(vertex_count, step_count, counts, ax[1])
-    fig.savefig(filename, dpi=150, bbox_inches='tight')
+    fig.savefig(filename, bbox_inches='tight')
     plt.close(fig)
 
 
 def run_dumbbell_classical_case(vertex_count, walker_count, step_count, connection_distances, density):
     filename = f'{new}/{now()}_dumbbell_classical.jpg'
-    fig, ax = plt.subplots(1, 2, figsize=(
-        60, 45), gridspec_kw={'width_ratios': [3, 1]})
+    width = 6
+    height = 6 * (vertex_count + step_count) / vertex_count
+    fig, ax = plt.subplots(2, 1, figsize=(width, height), dpi=150, gridspec_kw={
+                           'height_ratios': [vertex_count + step_count, vertex_count], 'hspace': 0.05})
+    ax[1].set_facecolor('red')
     graph = generate_dumbbell_graph(
         vertex_count, connection_distances, density)
-    draw_dumbbell_graph(graph, ax[0])
+    ax[0].spy(graph)
     start = vertex_count // 2
     counts = simulate_classical(graph, start, walker_count, step_count)
     draw_classical(vertex_count, step_count, counts, ax[1])
-    fig.savefig(filename, dpi=150, bbox_inches='tight')
+    fig.savefig(filename, bbox_inches='tight')
     plt.close(fig)
 
 
+run_circular_classical_case(51, 1, 1000, [1], 0)
 run_dumbbell_classical_case(50, 1, 1000, [1, 2], 0)
 sys.exit()
 
-run_circular_classical_case(51, 1, 1000, [1], 0)
 run_circular_classical_case(51, 1, 1000, [1, 2], 0)
 run_circular_classical_case(51, 1, 1000, [1, 2, 3], 0)
 run_circular_classical_case(51, 1, 1000, [1, 2, 3], 0.002)

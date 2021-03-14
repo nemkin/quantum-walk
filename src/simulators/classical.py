@@ -39,21 +39,12 @@ def draw_classical(N, steps, counts, ax):
 
     pcm = ax.pcolormesh(
         vertexes_X,
-        steps_Y,
-        counts,
+        np.flip(steps_Y, 0),
+        np.flip(counts, 0),
         cmap='plasma',
         shading='auto',
         norm=colors.LogNorm(vmin=counts.min(), vmax=counts.max())
     )
-    ax.set_title(
-        f'Csúcsok száma: {N}\n'
-        #f'Szélesség: {w}\n'
-        #f'Véletlen élek: {density}\n'
-        #f'Kiindulási csúcs: {start}\n'
-        #f'Futások darabszáma: {simulations}\n'
-        f'Lépések száma egy futásban: {steps}',
-        loc='left'
-    )
     ax.set_xlabel('Csúcsindexek')
     ax.set_ylabel('Lépések')
-    ax.figure.colorbar(pcm, ax=ax, extend='max')
+    ax.figure.colorbar(pcm, ax=ax, aspect=100, orientation="horizontal")

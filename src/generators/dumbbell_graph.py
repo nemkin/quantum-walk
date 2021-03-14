@@ -32,8 +32,3 @@ def generate_dumbbell_graph(vertex_count, connection_distances, randomness):
 
     graph = normalize(graph, norm='l1')
     return graph
-
-
-def draw_dumbbell_graph(graph, ax):
-    nx_graph = nx.from_scipy_sparse_matrix(graph)
-    nx.draw_networkx(nx_graph, with_labels=True, ax=ax)
