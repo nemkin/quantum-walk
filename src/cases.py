@@ -1,3 +1,4 @@
+import itertools
 from datetime import datetime
 from simulators.classical import simulate_classical, draw_classical
 from generators.circular_graph import generate_circular_graph
@@ -45,9 +46,19 @@ def run_dumbbell_classical_case(vertex_count, walker_count, step_count, connecti
     draw_classical(vertex_count, step_count, counts, f'{filename}_sim.jpg')
 
 
+n = [50]
+walkers = [1, 10, 1000]
+edges = [[1], [1, 20]]
+randomizer = [0, 0.002]
+
+for n_i, w_i, e_i in itertools.product(n, walkers, edges):
+    run_dumbbell_classical_case(n_i, w_i, 1000, e_i, 0)
+
+
+sys.exit()
+
 run_circular_classical_case(51, 1, 1000, [1], 0)
 run_dumbbell_classical_case(50, 1, 1000, [1, 2], 0)
-sys.exit()
 
 run_circular_classical_case(51, 1, 1000, [1, 2], 0)
 run_circular_classical_case(51, 1, 1000, [1, 2, 3], 0)
