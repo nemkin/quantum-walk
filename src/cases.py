@@ -6,6 +6,7 @@ from graphs.Graph import Graph
 from graphs.subgraphs.Circle import Circle
 from graphs.subgraphs.BinaryTree import BinaryTree
 from graphs.subgraphs.Bipartite import Bipartite
+from graphs.subgraphs.Random import Random
 from simulators.classical import simulate_classical
 
 
@@ -32,7 +33,7 @@ def draw(N, steps, counts, filename):
 
 
 graph = Graph()
-sub_graph = Bipartite(range(100), range(100,200)) #, list(range(-10,10+1)))
+sub_graph = Random(range(100), 0.1)
 graph.sub_graphs.append(sub_graph)
 
 N = graph.vertex_count()
