@@ -30,11 +30,11 @@ def draw(N, steps, counts, filename):
 
 
 graph = Graph()
-circle = Circle(range(10), [-1, 0, 1])
+circle = Circle(range(1000), list(range(-10,10+1)))
 graph.sub_graphs.append(circle)
 
 N = graph.vertex_count()
-simulations = 10
-steps = 10
+simulations = 1000
+steps = 1000
 counts = simulate_classical(graph, N//2, simulations, steps)
 draw(N, steps, counts, "../generations/new/cucc.jpg")
