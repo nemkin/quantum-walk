@@ -4,6 +4,7 @@ import matplotlib.colors as colors
 
 from graphs.Graph import Graph
 from graphs.subgraphs.Circle import Circle
+from graphs.subgraphs.BinaryTree import BinaryTree
 from simulators.classical import simulate_classical
 
 
@@ -30,8 +31,8 @@ def draw(N, steps, counts, filename):
 
 
 graph = Graph()
-circle = Circle(range(1000), list(range(-10,10+1)))
-graph.sub_graphs.append(circle)
+sub_graph = BinaryTree(range(1000)) #, list(range(-10,10+1)))
+graph.sub_graphs.append(sub_graph)
 
 N = graph.vertex_count()
 simulations = 1000
