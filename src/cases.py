@@ -32,12 +32,30 @@ def draw(N, steps, counts, filename):
     plt.close(fig)
 
 
-graph = Graph()
-sub_graph = Random(range(100), 0.1)
-graph.sub_graphs.append(sub_graph)
+def run_dumbbell():
+  graph = Graph()
 
-N = graph.vertex_count()
-simulations = 1000
-steps = 1000
-counts = simulate_classical(graph, N//2, simulations, steps)
-draw(N, steps, counts, "../generations/new/cucc.jpg")
+  graph.sub_graphs.append(Circle(range(0,   100), range(-4,4+1)))
+  graph.sub_graphs.append(Circle(range(100, 200), range(-4,4+1)))
+  graph.sub_graphs.append(Bipartite(range(0, 10), range(100, 110)))
+
+  N = graph.vertex_count()
+  simulations = 1000
+  steps = 1000
+  counts = simulate_classical(graph, N//2, simulations, steps)
+  draw(N, steps, counts, "../generations/new/cucc.jpg")
+
+def run_glued_binary():
+  graph = Graph()
+
+  graph.sub_graphs.append(BinaryTree(range(0, 2**10-1)))
+  graph.sub_graphs.append(BinaryTree(range(2**10-1, 2**10-1 + 2**10-1)))
+  graph.sub_graphs.append(Bipartite(range(2**9, 2**10-1), range(2**10-1 + 2**9, 2**10-1 + 2**10-1)))
+
+  N = graph.vertex_count()
+  simulations = 1000
+  steps = 1000
+  counts = simulate_classical(graph, N//2, simulations, steps)
+  draw(N, steps, counts, "../generations/new/cucc.jpg")
+
+run_glued_binary()

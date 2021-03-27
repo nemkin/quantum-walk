@@ -13,4 +13,4 @@ class Bipartite(object):
           return self.side_b
         if vertex in self.side_b:
           return self.side_a
-        return []
+        return [vertex]

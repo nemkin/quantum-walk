@@ -5,8 +5,11 @@ class BinaryTree(object):
         self.vertexes = list(vertexes)
 
     def neighbours(self, vertex):
-        index = self.vertexes.index(vertex)
-
+        try:
+            index = self.vertexes.index(vertex)
+        except ValueError:
+            return [vertex]
+        
         parent = index//2
         left_child = index*2
         right_child = index*2+1
