@@ -8,4 +8,4 @@ class Circle(object):
 
     def neighbours(self, vertex):
         index = self.vertexes.index(vertex)
-        return map(lambda dist: self.vertexes[(dist + index) % len(self.vertexes)], self.neighbour_distances)
+        return list(map(lambda dist: self.vertexes[(dist + index) % len(self.vertexes)], self.neighbour_distances))
