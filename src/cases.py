@@ -11,9 +11,18 @@ from simulators.classical import simulate_classical
 
 
 def draw_adj(adj, filename):
-  fig, ax = plt.subplots(1, 1)
+  fig, ax = plt.subplots(1, 1, figsize=(6, 6))
   X, Y = np.meshgrid(range(adj.shape[0]+1), range(adj.shape[1]+1))
-  ax.pcolormesh(X, Y, adj, cmap='hot')
+  ax.pcolormesh(
+      X,
+      Y,
+      adj,
+      cmap='plasma',
+      shading='auto',
+      linewidths=1,
+      snap=True,
+      norm=colors.LogNorm(1, vmax=adj.max())
+  )
   fig.tight_layout()
   fig.savefig(filename)
   plt.close(fig)
@@ -31,7 +40,8 @@ def draw(N, steps, counts, filename):
       counts,
       cmap='plasma',
       shading='auto',
-      linewidths=1, snap=True,
+      linewidths=1,
+      snap=True,
       norm=colors.LogNorm(1, vmax=counts.max())
   )
   ax.set_xlabel('Csúcsindexek')
@@ -58,10 +68,12 @@ def run_dumbbell():
 def run_glued_binary():
   graph = Graph()
 
-  graph.sub_graphs.append(BinaryTree(range(0, 2**10-1)))
-  graph.sub_graphs.append(BinaryTree(range(2**10-1, 2**10-1 + 2**10-1)))
+  size = 2**5
+
+  graph.sub_graphs.append(BinaryTree(range(0, size-1)))
+  graph.sub_graphs.append(BinaryTree(range(size-1, size-1 + size-1)))
   graph.sub_graphs.append(
-      Bipartite(range(2**9, 2**10-1), range(2**10-1 + 2**9, 2**10-1 + 2**10-1)))
+      Bipartite(range(size//2, size-1), range(size-1 + size//2, size-1 + size-1)))
 
   draw_adj(graph.adjacency_matrix(), '../generations/new/cucc_1.jpg')
   N = graph.vertex_count()
