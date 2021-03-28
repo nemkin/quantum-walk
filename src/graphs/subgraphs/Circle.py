@@ -1,4 +1,7 @@
-class Circle(object):
+from graphs.subgraphs.SubGraph import SubGraph
+
+
+class Circle(SubGraph):
   vertexes = []
   neighbour_distances = []
 

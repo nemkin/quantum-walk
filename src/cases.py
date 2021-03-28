@@ -10,6 +10,15 @@ from graphs.subgraphs.Random import Random
 from simulators.classical import simulate_classical
 
 
+def draw_adj(adj, filename):
+  fig, ax = plt.subplots(1, 1)
+  X, Y = np.meshgrid(range(adj.shape[0]+1), range(adj.shape[1]+1))
+  ax.pcolormesh(X, Y, adj, cmap='hot')
+  fig.tight_layout()
+  fig.savefig(filename)
+  plt.close(fig)
+
+
 def draw(N, steps, counts, filename):
 
   steps_Y = np.arange(-0.5, steps, 1)
@@ -53,6 +62,15 @@ def run_glued_binary():
   graph.sub_graphs.append(BinaryTree(range(2**10-1, 2**10-1 + 2**10-1)))
   graph.sub_graphs.append(
       Bipartite(range(2**9, 2**10-1), range(2**10-1 + 2**9, 2**10-1 + 2**10-1)))
+
+  draw_adj(graph.adjacency_matrix(), '../generations/new/cucc_1.jpg')
+  N = graph.vertex_count()
+  draw_adj(graph.sub_graphs[0].adjacency_matrix(N),
+           '../generations/new/cucc_2.jpg')
+  draw_adj(graph.sub_graphs[1].adjacency_matrix(N),
+           '../generations/new/cucc_3.jpg')
+  draw_adj(graph.sub_graphs[2].adjacency_matrix(N),
+           '../generations/new/cucc_4.jpg')
 
   N = graph.vertex_count()
   simulations = 1000

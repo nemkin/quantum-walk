@@ -1,7 +1,9 @@
 from scipy.sparse import rand
 
+from graphs.subgraphs.SubGraph import SubGraph
 
-class Random(object):
+
+class Random(SubGraph):
   edge_probability = 0
   vertexes = []
 

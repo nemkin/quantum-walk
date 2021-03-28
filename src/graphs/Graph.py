@@ -15,7 +15,7 @@ class Graph(object):
 
   def adjacency_matrix(self):
     N = self.vertex_count()
-    adjacencies = map(
-        self.sub_graphs, lambda sg: sg.adjacency_matrix(N))
+    adjacencies = list(map(lambda sg: sg.adjacency_matrix(N),
+                           self.sub_graphs))
 
-    return np.sum(adjacencies)
+    return np.sum(adjacencies, 0)
