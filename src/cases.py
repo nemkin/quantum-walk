@@ -33,7 +33,10 @@ def draw(N, steps, counts, filename):
   steps_Y = np.arange(-0.5, steps, 1)
   vertexes_X = np.arange(-0.5, N-1, 1)
 
-  fig, ax = plt.subplots(1, 1)
+  x = 6
+  y = min(6*steps//N, 12)
+
+  fig, ax = plt.subplots(1, 1, figsize=(x, y))
   pcm = ax.pcolor(
       vertexes_X,
       steps_Y,
