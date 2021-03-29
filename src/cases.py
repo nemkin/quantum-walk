@@ -1,3 +1,4 @@
+import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
@@ -87,64 +88,124 @@ def run(graph, sim_configs):
   os.makedirs(dir)
 
   description = []
-  description += ["\section{Gráf}"]
 
-  graph_file = f'{dir}/graph.jpg'
-  description += [f"Fotó: {graph_file}"]
-  draw_adj(graph.adjacency_matrix(), graph_file)
+  description += ["% Geometry setup"]
+  description += ["\\documentclass[14pt,a4paper]{article}"]
+  description += ["\\usepackage[margin=3cm]{geometry}"]
+  description += [""]
+  description += ["% Language setup"]
+  description += ["\\usepackage[magyar]{babel} % Babel for Hungarian"]
+  description += ["\\usepackage[T1]{fontenc} % Output character encoding"]
+  description += ["\\usepackage[utf8]{inputenc} % Input character encoding"]
+  description += [""]
+  description += ["% Spacing setup"]
+  description += ["\\setlength{\\parindent}{0pt} % No paragraph indenting"]
+  description += ["\\setlength{\\parskip}{5pt} % Set spacing between paragraphs"]
+  description += ["\\frenchspacing"]
+  description += ["\\newcommand{\\rmspace}{\\vspace{-19pt}}"]
+  description += [""]
+  description += ["% Dependency setup"]
+  description += ["\\usepackage{amsmath}"]
+  description += ["\\usepackage{amssymb}"]
+  description += ["\\usepackage{listings}"]
+  description += ["\\usepackage{float}"]
+  description += ["\\usepackage{graphicx}"]
+  description += [""]
+  description += ["% Title setup"]
+  description += ["\\title{Gráfszimuláció}"]
+  description += ["\\author{Nemkin Viktória}"]
+  description += ["\date{}"]
+  description += [""]
+  description += ["% Document"]
+  description += ["\\begin{document}"]
+  description += ["\\maketitle"]
+
+  description += ["\\section{Gráf}"]
+
+  graph_file = 'graph.jpg'
+
+  description += ["\\begin{figure}[H]"]
+  description += ["\\centering"]
+  description += [
+      f"\\includegraphics[width = 0.7\\columnwidth]{{{graph_file}}}"]
+  description += ["\\caption{Gráf szomszédossági mátrixa}"]
+  description += ["\\end{figure}"]
+
+  draw_adj(graph.adjacency_matrix(), f'{dir}/{graph_file}')
   N = graph.vertex_count()
 
   for i in range(len(graph.sub_graphs)):
-    description += ["\subsection{Részgráf}"]
+    description += ["\\subsection{Részgráf}"]
     description += [graph.sub_graphs[i].describe()]
-    sub_graph_file = f'{dir}/subgraph_{i:02}.jpg'
-    description += [f"Fotó: {sub_graph_file}"]
-    draw_adj(graph.sub_graphs[i].adjacency_matrix(N), sub_graph_file)
+    sub_graph_file = f'subgraph_{i:02}.jpg'
 
-  description += ["\section{Szimulációk}"]
+    description += ["\\begin{figure}[H]"]
+    description += ["\\centering"]
+    description += [
+        f"\\includegraphics[width = 0.7\\columnwidth]{{{sub_graph_file}}}"]
+    description += [f"\\caption{{{i}. részgráf szomszédossági mátrixa}}"]
+    description += ["\\end{figure}"]
+
+    draw_adj(graph.sub_graphs[i].adjacency_matrix(
+        N), f'{dir}/{sub_graph_file}')
+
+  description += ["\\section{Szimulációk}"]
   N = graph.vertex_count()
   start = N//2
 
   for i in range(len(sim_configs)):
-    description += ["\subsection{Szimuláció}"]
+    description += ["\\subsection{Szimuláció}"]
     simulations, steps = sim_configs[i]
     description += [f"Kezdőcsúcs: {start}"]
     description += [f"Bolyongók: {simulations}"]
     description += [f"Lépésszám: {steps}"]
-    sim_file = f'{dir}/sim{i:02}.jpg'
-    description += [f"Fotó: {sim_file}"]
+    sim_file = f'sim{i:02}.jpg'
+
+    description += ["\\begin{figure}[H]"]
+    description += ["\\centering"]
+    description += [
+        f"\\includegraphics[width = 0.7\\columnwidth]{{{sim_file}}}"]
+    description += [f"\\caption{{{i}. szimuláció}}"]
+    description += ["\\end{figure}"]
+
     counts = simulate_classical(graph, start, simulations, steps)
-    draw(N, steps, counts, sim_file)
+    draw(N, steps, counts, f'{dir}/{sim_file}')
+
+  description += ["\\end{document}"]
 
   latex_file = f'{dir}/latex.tex'
   with open(latex_file, 'w') as f:
     f.writelines("\n".join(description))
 
+  latexmk = ["latexmk", "-pdf", latex_file, f"-outdir={dir}"]
+  process = subprocess.Popen(latexmk, stdout=subprocess.PIPE)
+  output, error = process.communicate()
+
 
 def run_dumbbell():
-  graph = Graph()
-  graph.sub_graphs.append(Circle(range(0,   100), range(-4, 4+1)))
-  graph.sub_graphs.append(Circle(range(100, 200), range(-4, 4+1)))
-  graph.sub_graphs.append(Bipartite(range(0, 10), range(100, 110)))
+  graph1 = Graph()
+  graph1.sub_graphs.append(Circle(range(0,   100), range(-4, 4+1)))
+  graph1.sub_graphs.append(Circle(range(100, 200), range(-4, 4+1)))
+  graph1.sub_graphs.append(Bipartite(range(0, 10), range(100, 110)))
 
   sim_configs = [[1000, 1000]]
 
-  run(graph, sim_configs)
+  run(graph1, sim_configs)
 
 
 def run_glued_binary():
-  graph = Graph()
+  graph2 = Graph()
   size = 2**5
-  graph.sub_graphs.append(BinaryTree(range(0, size-1)))
-  graph.sub_graphs.append(BinaryTree(range(size-1, size-1 + size-1)))
-  graph.sub_graphs.append(
+  graph2.sub_graphs.append(BinaryTree(range(0, size-1)))
+  graph2.sub_graphs.append(BinaryTree(range(size-1, size-1 + size-1)))
+  graph2.sub_graphs.append(
       Bipartite(range(size//2, size-1), range(size-1 + size//2, size-1 + size-1)))
 
   sim_configs = [[1000, 1000]]
 
-  run(graph, sim_configs)
+  run(graph2, sim_configs)
 
 
 archive()
-run_dumbbell()
+# run_dumbbell()
 run_glued_binary()
