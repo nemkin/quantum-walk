@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+import pydng
+import time
 
 from graphs.Graph import Graph
 from graphs.subgraphs.Circle import Circle
@@ -94,4 +96,35 @@ def run_glued_binary():
   draw(N, steps, counts, "../generations/new/cucc.jpg")
 
 
-run_glued_binary()
+def make_name():
+  path = "../generations/new"
+  time_part = time.strftime('%Y_%m_%d__%H_%M_%S')
+  unique_part = pydng.generate_name()
+  return f"{path}/{time_part}_{unique_part}"
+
+
+def run(graph):
+  dir = make_name()
+
+  draw_adj(graph.adjacency_matrix(), '../generations/new/cucc_1.jpg')
+  N = graph.vertex_count()
+  draw_adj(graph.sub_graphs[0].adjacency_matrix(N),
+           '../generations/new/cucc_2.jpg')
+  draw_adj(graph.sub_graphs[1].adjacency_matrix(N),
+           '../generations/new/cucc_3.jpg')
+  draw_adj(graph.sub_graphs[2].adjacency_matrix(N),
+           '../generations/new/cucc_4.jpg')
+
+  N = graph.vertex_count()
+  simulations = 1000
+  steps = 1000
+  counts = simulate_classical(graph, N//2, simulations, steps)
+  draw(N, steps, counts, "../generations/new/cucc.jpg")
+
+
+graph = Graph()
+size = 2**5
+graph.sub_graphs.append(BinaryTree(range(0, size-1)))
+graph.sub_graphs.append(BinaryTree(range(size-1, size-1 + size-1)))
+graph.sub_graphs.append(
+    Bipartite(range(size//2, size-1), range(size-1 + size//2, size-1 + size-1)))
