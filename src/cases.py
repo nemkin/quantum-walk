@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import pydng
 import time
+import os
 
 from graphs.Graph import Graph
 from graphs.subgraphs.Circle import Circle
@@ -56,46 +57,6 @@ def draw(N, steps, counts, filename):
   plt.close(fig)
 
 
-def run_dumbbell():
-  graph = Graph()
-
-  graph.sub_graphs.append(Circle(range(0,   100), range(-4, 4+1)))
-  graph.sub_graphs.append(Circle(range(100, 200), range(-4, 4+1)))
-  graph.sub_graphs.append(Bipartite(range(0, 10), range(100, 110)))
-
-  N = graph.vertex_count()
-  simulations = 1000
-  steps = 1000
-  counts = simulate_classical(graph, N//2, simulations, steps)
-  draw(N, steps, counts, "../generations/new/cucc.jpg")
-
-
-def run_glued_binary():
-  graph = Graph()
-
-  size = 2**5
-
-  graph.sub_graphs.append(BinaryTree(range(0, size-1)))
-  graph.sub_graphs.append(BinaryTree(range(size-1, size-1 + size-1)))
-  graph.sub_graphs.append(
-      Bipartite(range(size//2, size-1), range(size-1 + size//2, size-1 + size-1)))
-
-  draw_adj(graph.adjacency_matrix(), '../generations/new/cucc_1.jpg')
-  N = graph.vertex_count()
-  draw_adj(graph.sub_graphs[0].adjacency_matrix(N),
-           '../generations/new/cucc_2.jpg')
-  draw_adj(graph.sub_graphs[1].adjacency_matrix(N),
-           '../generations/new/cucc_3.jpg')
-  draw_adj(graph.sub_graphs[2].adjacency_matrix(N),
-           '../generations/new/cucc_4.jpg')
-
-  N = graph.vertex_count()
-  simulations = 1000
-  steps = 1000
-  counts = simulate_classical(graph, N//2, simulations, steps)
-  draw(N, steps, counts, "../generations/new/cucc.jpg")
-
-
 def make_name():
   path = "../generations/new"
   time_part = time.strftime('%Y_%m_%d__%H_%M_%S')
@@ -103,28 +64,49 @@ def make_name():
   return f"{path}/{time_part}_{unique_part}"
 
 
-def run(graph):
+def run(graph, sim_configs):
   dir = make_name()
+  os.makedirs(dir)
 
-  draw_adj(graph.adjacency_matrix(), '../generations/new/cucc_1.jpg')
+  draw_adj(graph.adjacency_matrix(), f'{dir}/graph.jpg')
   N = graph.vertex_count()
-  draw_adj(graph.sub_graphs[0].adjacency_matrix(N),
-           '../generations/new/cucc_2.jpg')
-  draw_adj(graph.sub_graphs[1].adjacency_matrix(N),
-           '../generations/new/cucc_3.jpg')
-  draw_adj(graph.sub_graphs[2].adjacency_matrix(N),
-           '../generations/new/cucc_4.jpg')
+
+  for i in range(len(graph.sub_graphs)):
+    draw_adj(graph.sub_graphs[i].adjacency_matrix(
+        N), f'{dir}/subgraph_{i:02}.jpg')
 
   N = graph.vertex_count()
-  simulations = 1000
-  steps = 1000
-  counts = simulate_classical(graph, N//2, simulations, steps)
-  draw(N, steps, counts, "../generations/new/cucc.jpg")
+  start = N//2
+
+  for i in range(len(sim_configs)):
+    simulations, steps = sim_configs[i]
+    counts = simulate_classical(graph, start, simulations, steps)
+    draw(N, steps, counts, f'{dir}/sim{i:02}.jpg')
 
 
-graph = Graph()
-size = 2**5
-graph.sub_graphs.append(BinaryTree(range(0, size-1)))
-graph.sub_graphs.append(BinaryTree(range(size-1, size-1 + size-1)))
-graph.sub_graphs.append(
-    Bipartite(range(size//2, size-1), range(size-1 + size//2, size-1 + size-1)))
+def run_dumbbell():
+  graph = Graph()
+  graph.sub_graphs.append(Circle(range(0,   100), range(-4, 4+1)))
+  graph.sub_graphs.append(Circle(range(100, 200), range(-4, 4+1)))
+  graph.sub_graphs.append(Bipartite(range(0, 10), range(100, 110)))
+
+  sim_configs = [[1000, 1000]]
+
+  run(graph, sim_configs)
+
+
+def run_glued_binary():
+  graph = Graph()
+  size = 2**5
+  graph.sub_graphs.append(BinaryTree(range(0, size-1)))
+  graph.sub_graphs.append(BinaryTree(range(size-1, size-1 + size-1)))
+  graph.sub_graphs.append(
+      Bipartite(range(size//2, size-1), range(size-1 + size//2, size-1 + size-1)))
+
+  sim_configs = [[1000, 1000]]
+
+  run(graph, sim_configs)
+
+
+run_dumbbell()
+run_glued_binary()
