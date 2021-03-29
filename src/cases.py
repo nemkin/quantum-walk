@@ -4,6 +4,7 @@ import matplotlib.colors as colors
 import pydng
 import time
 import os
+import shutil
 
 from graphs.Graph import Graph
 from graphs.subgraphs.Circle import Circle
@@ -11,6 +12,9 @@ from graphs.subgraphs.BinaryTree import BinaryTree
 from graphs.subgraphs.Bipartite import Bipartite
 from graphs.subgraphs.Random import Random
 from simulators.classical import simulate_classical
+
+new_root = "../generations/new"
+archive_root = "../generations/archives"
 
 
 def draw_adj(adj, filename):
@@ -57,15 +61,29 @@ def draw(N, steps, counts, filename):
   plt.close(fig)
 
 
+def archive():
+  try:
+    os.makedirs(new_root)
+  except:
+    pass
+  try:
+    os.makedirs(archive_root)
+  except:
+    pass
+  file_names = os.listdir(new_root)
+  for file_name in file_names:
+    shutil.move(os.path.join(new_root, file_name), archive_root)
+
+
 def make_name():
-  path = "../generations/new"
   time_part = time.strftime('%Y_%m_%d__%H_%M_%S')
   unique_part = pydng.generate_name()
-  return f"{path}/{time_part}_{unique_part}"
+  return f"{time_part}_{unique_part}"
 
 
 def run(graph, sim_configs):
-  dir = make_name()
+  name = make_name()
+  dir = f"{new_root}/{name}"
   os.makedirs(dir)
 
   draw_adj(graph.adjacency_matrix(), f'{dir}/graph.jpg')
@@ -108,5 +126,6 @@ def run_glued_binary():
   run(graph, sim_configs)
 
 
+archive()
 run_dumbbell()
 run_glued_binary()
