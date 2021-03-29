@@ -6,6 +6,9 @@ class SubGraph(object):
   def neighbours(self, vertex):
     return []
 
+  def describe(self):
+    return "Ismeretlen részgráf"
+
   def adjacency_matrix(self, vertex_count):
     adjacency = np.zeros([vertex_count, vertex_count])
 

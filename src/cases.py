@@ -86,20 +86,39 @@ def run(graph, sim_configs):
   dir = f"{new_root}/{name}"
   os.makedirs(dir)
 
-  draw_adj(graph.adjacency_matrix(), f'{dir}/graph.jpg')
+  description = []
+  description += ["\section{Gráf}"]
+
+  graph_file = f'{dir}/graph.jpg'
+  description += [f"Fotó: {graph_file}"]
+  draw_adj(graph.adjacency_matrix(), graph_file)
   N = graph.vertex_count()
 
   for i in range(len(graph.sub_graphs)):
-    draw_adj(graph.sub_graphs[i].adjacency_matrix(
-        N), f'{dir}/subgraph_{i:02}.jpg')
+    description += ["\subsection{Részgráf}"]
+    description += [graph.sub_graphs[i].describe()]
+    sub_graph_file = f'{dir}/subgraph_{i:02}.jpg'
+    description += [f"Fotó: {sub_graph_file}"]
+    draw_adj(graph.sub_graphs[i].adjacency_matrix(N), sub_graph_file)
 
+  description += ["\section{Szimulációk}"]
   N = graph.vertex_count()
   start = N//2
 
   for i in range(len(sim_configs)):
+    description += ["\subsection{Szimuláció}"]
     simulations, steps = sim_configs[i]
+    description += [f"Kezdőcsúcs: {start}"]
+    description += [f"Bolyongók: {simulations}"]
+    description += [f"Lépésszám: {steps}"]
+    sim_file = f'{dir}/sim{i:02}.jpg'
+    description += [f"Fotó: {sim_file}"]
     counts = simulate_classical(graph, start, simulations, steps)
-    draw(N, steps, counts, f'{dir}/sim{i:02}.jpg')
+    draw(N, steps, counts, sim_file)
+
+  latex_file = f'{dir}/latex.tex'
+  with open(latex_file, 'w') as f:
+    f.writelines("\n".join(description))
 
 
 def run_dumbbell():

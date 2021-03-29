@@ -21,3 +21,6 @@ class BinaryTree(SubGraph):
     result = list(map(lambda v: self.vertexes[v], filter(
         lambda v: 0 <= v and v < len(self.vertexes), possibilities)))
     return result
+
+  def describe(self):
+    return f"Bináris fa, szülő = index/2, gyerekek = index*2 és index*2 + 1"
