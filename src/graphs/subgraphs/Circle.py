@@ -13,7 +13,7 @@ class Circle(SubGraph):
     try:
       index = self.vertexes.index(vertex)
     except ValueError:
-      return [vertex]
+      return []
 
     return list(map(lambda dist: self.vertexes[(dist + index) % len(self.vertexes)], self.neighbour_distances))
 

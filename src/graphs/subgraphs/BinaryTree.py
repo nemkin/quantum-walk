@@ -11,7 +11,7 @@ class BinaryTree(SubGraph):
     try:
       index = self.vertexes.index(vertex)
     except ValueError:
-      return [vertex]
+      return []
 
     parent = index//2
     left_child = index*2

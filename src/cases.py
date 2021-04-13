@@ -186,7 +186,7 @@ def run_dumbbell():
   graph1 = Graph()
   graph1.sub_graphs.append(Circle(range(0,   100), range(-4, 4+1)))
   graph1.sub_graphs.append(Circle(range(100, 200), range(-4, 4+1)))
-  graph1.sub_graphs.append(Bipartite(range(0, 10), range(100, 110)))
+  graph1.sub_graphs.append(Bipartite(range(90, 100), range(100, 110)))
 
   sim_configs = [[1000, 1000]]
 
@@ -196,10 +196,12 @@ def run_dumbbell():
 def run_glued_binary():
   graph2 = Graph()
   size = 2**5
-  graph2.sub_graphs.append(BinaryTree(range(0, size-1)))
-  graph2.sub_graphs.append(BinaryTree(range(size-1, size-1 + size-1)))
+  first = [0, size]
+  second = [first[1], size*2]
+  graph2.sub_graphs.append(BinaryTree(range(first[0], first[1])))
+  graph2.sub_graphs.append(BinaryTree(range(second[1] - 1, second[0] - 1, -1)))
   graph2.sub_graphs.append(
-      Bipartite(range(size//2, size-1), range(size-1 + size//2, size-1 + size-1)))
+      Bipartite(range(first[1]-size//2, first[1]), range(second[0], second[0] + size//2)))
 
   sim_configs = [[1000, 1000]]
 

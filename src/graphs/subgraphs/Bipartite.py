@@ -16,7 +16,7 @@ class Bipartite(SubGraph):
       return self.side_b
     if vertex in self.side_b:
       return self.side_a
-    return [vertex]
+    return []
 
   def describe(self):
     return f"Teljes páros gráf"

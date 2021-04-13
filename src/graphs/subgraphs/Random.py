@@ -19,7 +19,7 @@ class Random(SubGraph):
     try:
       index = self.vertexes.index(vertex)
     except ValueError:
-      return [vertex]
+      return []
 
     neighbour_indices = list(self.edges.getrow(index).nonzero()[1])
     return list(map(lambda ni: self.vertexes[ni], neighbour_indices))
