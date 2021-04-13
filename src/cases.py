@@ -188,7 +188,7 @@ def run_dumbbell():
   graph1.sub_graphs.append(Circle(range(100, 200), range(-4, 4+1)))
   graph1.sub_graphs.append(Bipartite(range(90, 100), range(100, 110)))
 
-  sim_configs = [[1000, 1000]]
+  sim_configs = [[1, 1000], [10, 1000], [100, 1000], [1000, 1000]]
 
   run(graph1, sim_configs)
 
@@ -203,11 +203,11 @@ def run_glued_binary():
   graph2.sub_graphs.append(
       Bipartite(range(first[1]-size//2, first[1]), range(second[0], second[0] + size//2)))
 
-  sim_configs = [[1000, 1000]]
+  sim_configs = [[1, 1000], [10, 1000], [100, 1000], [1000, 1000]]
 
   run(graph2, sim_configs)
 
 
 archive()
-# run_dumbbell()
-run_glued_binary()
+run_dumbbell()
+# run_glued_binary()
