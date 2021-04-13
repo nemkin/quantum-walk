@@ -182,10 +182,10 @@ def run(graph, sim_configs):
   output, error = process.communicate()
 
 
-def run_dumbbell():
+def run_dumbbell(size):
   graph1 = Graph()
-  graph1.sub_graphs.append(Circle(range(0,   100), range(-4, 4+1)))
-  graph1.sub_graphs.append(Circle(range(100, 200), range(-4, 4+1)))
+  graph1.sub_graphs.append(Circle(range(0,   100), range(-size, size+1)))
+  graph1.sub_graphs.append(Circle(range(100, 200), range(-size, size+1)))
   graph1.sub_graphs.append(Bipartite(range(90, 100), range(100, 110)))
 
   sim_configs = [[1, 1000], [10, 1000], [100, 1000], [1000, 1000]]
@@ -209,5 +209,5 @@ def run_glued_binary():
 
 
 archive()
-run_dumbbell()
+# run_dumbbell(0)
 # run_glued_binary()
