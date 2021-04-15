@@ -14,7 +14,7 @@ from graphs.subgraphs.Circle import Circle
 from graphs.subgraphs.BinaryTree import BinaryTree
 from graphs.subgraphs.Bipartite import Bipartite
 from graphs.subgraphs.Random import Random
-from simulators.classical import simulate_classical
+from simulators.classical import Classical
 
 new_root = "../generations/new"
 archive_root = "../generations/archives"
@@ -152,12 +152,11 @@ def run(graph, sim_configs):
         N), f'{dir}/{sub_graph_file}')
 
   description += ["\\section{Szimulációk}"]
-  N = graph.vertex_count()
-  start = N//2
 
   for i in range(len(sim_configs)):
-    description += ["\\subsection{Szimuláció}"]
-    simulations, steps = sim_configs[i]
+    simulator, start, simulations, steps = sim_configs[i]
+
+    description += [f"\\subsection{{{simulator.describe()}}}"]
     description += [f"Kezdőcsúcs: {start}"]
     description += [f"Bolyongók: {simulations}"]
     description += [f"Lépésszám: {steps}"]
@@ -170,7 +169,7 @@ def run(graph, sim_configs):
     description += [f"\\caption{{{i}. szimuláció}}"]
     description += ["\\end{figure}"]
 
-    counts = simulate_classical(graph, start, simulations, steps)
+    counts = simulator.simulate(graph, start, simulations, steps)
     draw(N, steps, counts, f'{dir}/{sim_file}')
 
   description += ["\\end{document}"]
@@ -186,13 +185,24 @@ def run(graph, sim_configs):
 
 def run_dumbbell(size):
   graph1 = Dumbbell(100, size, 10)
-  sim_configs = [[1, 1000], [10, 1000], [100, 1000], [1000, 1000]]
+  N = graph1.vertex_count()
+  sim_configs = [
+      [Classical, N//2, 1, 1000],
+      [Classical, N//2, 10, 1000],
+      [Classical, N//2, 100, 1000],
+      [Classical, N//2, 1000, 1000]
+  ]
   run(graph1, sim_configs)
 
 
 def run_glued_binary():
   graph2 = GluedBinary(5)
-  sim_configs = [[1, 1000], [10, 1000], [100, 1000], [1000, 1000]]
+  sim_configs = [
+      [Classical, 0, 1, 1000],
+      [Classical, 0, 10, 1000],
+      [Classical, 0, 100, 1000],
+      [Classical, 0, 1000, 1000]
+  ]
   run(graph2, sim_configs)
 
 
