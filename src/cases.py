@@ -8,6 +8,7 @@ import os
 import shutil
 
 from graphs.Graph import Graph
+from graphs.composites.Dumbbell import Dumbbell
 from graphs.subgraphs.Circle import Circle
 from graphs.subgraphs.BinaryTree import BinaryTree
 from graphs.subgraphs.Bipartite import Bipartite
@@ -183,13 +184,8 @@ def run(graph, sim_configs):
 
 
 def run_dumbbell(size):
-  graph1 = Graph()
-  graph1.sub_graphs.append(Circle(range(0,   100), range(-size, size+1)))
-  graph1.sub_graphs.append(Circle(range(100, 200), range(-size, size+1)))
-  graph1.sub_graphs.append(Bipartite(range(90, 100), range(100, 110)))
-
+  graph1 = Dumbbell(100, size, 10)
   sim_configs = [[1, 1000], [10, 1000], [100, 1000], [1000, 1000]]
-
   run(graph1, sim_configs)
 
 
@@ -209,5 +205,5 @@ def run_glued_binary():
 
 
 archive()
-# run_dumbbell(0)
+run_dumbbell(2)
 # run_glued_binary()
