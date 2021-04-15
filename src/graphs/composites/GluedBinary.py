@@ -10,19 +10,15 @@ class GluedBinary(Graph):
     size = 2**binary_height
     first = [0, size]
     second = [first[1], size*2]
-    self.sub_graphs.append(
+    self.sub_graphs = [
         BinaryTree(
             range(first[0], first[1])
-        )
-    )
-    self.sub_graphs.append(
+        ),
         BinaryTree(
             range(second[1] - 1, second[0] - 1, -1)
-        )
-    )
-    self.sub_graphs.append(
+        ),
         Bipartite(
             range(first[1]-size//2, first[1]),
             range(second[0], second[0] + size//2)
         )
-    )
+    ]

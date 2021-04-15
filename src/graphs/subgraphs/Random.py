@@ -4,8 +4,6 @@ from graphs.subgraphs.SubGraph import SubGraph
 
 
 class Random(SubGraph):
-  edge_probability = 0
-  vertexes = []
 
   def __init__(self, vertexes, edge_probability):
     self.vertexes = list(vertexes)

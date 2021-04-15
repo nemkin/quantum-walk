@@ -2,8 +2,6 @@ from graphs.subgraphs.SubGraph import SubGraph
 
 
 class Circle(SubGraph):
-  vertexes = []
-  neighbour_distances = []
 
   def __init__(self, vertexes, neighbour_distances):
     self.vertexes = list(vertexes)

@@ -3,13 +3,9 @@ import numpy as np
 
 
 class Graph(object):
-  sub_graphs = []
 
-  def __init__(self, sub_graph_or_list):
-    if isinstance(sub_graph_or_list, list):
-      self.sub_graphs = sub_graph_or_list
-    else:
-      self.sub_graphs.append(sub_graph_or_list)
+  def __init__(self, sub_graphs):
+    self.sub_graphs = list(sub_graphs)
 
   def vertex_count(self):
     max_vertexes = map(lambda sub_graph: max(

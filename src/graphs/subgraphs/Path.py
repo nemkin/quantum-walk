@@ -2,7 +2,6 @@ from graphs.subgraphs.SubGraph import SubGraph
 
 
 class Path(SubGraph):
-  vertexes = []
 
   def __init__(self, vertexes):
     self.vertexes = list(vertexes)

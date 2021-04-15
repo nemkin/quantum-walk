@@ -2,9 +2,6 @@ from graphs.subgraphs.SubGraph import SubGraph
 
 
 class Bipartite(SubGraph):
-  side_a = []
-  side_b = []
-  vertexes = []
 
   def __init__(self, side_a, side_b):
     self.side_a = list(side_a)

@@ -12,42 +12,42 @@ from commands import run
 from commands import archive
 
 
-def run_dumbbell(size):
-  graph1 = Dumbbell(100, size, 10)
-  N = graph1.vertex_count()
+def run_dumbbell():
+  graph = Dumbbell(100, 2, 10)
+  N = graph.vertex_count()
   sim_configs = [
       [Classical, N//2, 1, 1000],
       [Classical, N//2, 10, 1000],
       [Classical, N//2, 100, 1000],
       [Classical, N//2, 1000, 1000]
   ]
-  run(graph1, sim_configs)
+  run(graph, sim_configs)
 
 
 def run_glued_binary():
-  graph2 = GluedBinary(5)
+  graph = GluedBinary(5)
   sim_configs = [
       [Classical, 0, 1, 1000],
       [Classical, 0, 10, 1000],
       [Classical, 0, 100, 1000],
       [Classical, 0, 1000, 1000]
   ]
-  run(graph2, sim_configs)
+  run(graph, sim_configs)
 
 
 def run_path():
-  graph3 = Graph(Path(range(100)))
-  N = graph3.vertex_count()
+  graph = Graph(Path(range(100)))
+  N = graph.vertex_count()
   sim_configs = [
       [Classical, N//2, 1, 1000],
       [Classical, N//2, 10, 1000],
       [Classical, N//2, 100, 1000],
       [Classical, N//2, 1000, 1000]
   ]
-  run(graph3, sim_configs)
+  run(graph, sim_configs)
 
 
 archive()
-# run_dumbbell(2)
-# run_glued_binary()
+run_dumbbell()
+run_glued_binary()
 run_path()
