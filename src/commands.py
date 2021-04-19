@@ -47,7 +47,7 @@ def draw(N, steps, counts, filename):
       shading='auto',
       linewidths=1,
       snap=True,
-      norm=colors.LogNorm(1, vmax=counts.max())
+      norm=colors.LogNorm(0.001, vmax=counts.max())
   )
   ax.set_xlabel('Csúcsindexek')
   ax.set_ylabel('Lépések')

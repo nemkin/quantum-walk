@@ -7,6 +7,7 @@ from graphs.subgraphs.Bipartite import Bipartite
 from graphs.subgraphs.Path import Path
 from graphs.subgraphs.Random import Random
 from simulators.classical import Classical
+from simulators.quantum import Quantum
 
 from commands import run
 from commands import archive
@@ -36,18 +37,15 @@ def run_glued_binary():
 
 
 def run_path():
-  graph = Graph(Path(range(100)))
+  graph = Graph([Path(range(2001))])
   N = graph.vertex_count()
   sim_configs = [
-      [Classical, N//2, 1, 1000],
-      [Classical, N//2, 10, 1000],
-      [Classical, N//2, 100, 1000],
-      [Classical, N//2, 1000, 1000]
+      [Quantum, N//2, 1, 1000]
   ]
   run(graph, sim_configs)
 
 
 archive()
-run_dumbbell()
-run_glued_binary()
+# run_dumbbell()
+# run_glued_binary()
 run_path()
