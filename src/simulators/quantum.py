@@ -1,7 +1,7 @@
 import random
+from tqdm import tqdm
 
 import numpy as np
-import progressbar
 from scipy.linalg import hadamard
 
 
@@ -11,7 +11,7 @@ class Quantum():
 
   def measure(N, psii):
     prob = np.empty(N)
-    for k in range(N):
+    for k in tqdm(range(N), leave=False):
       posn = np.zeros(N)
       posn[k] = 1
       M_hat_k = np.kron(np.outer(posn, posn), np.eye(2))
@@ -39,15 +39,16 @@ class Quantum():
 
     U = S_hat.dot(np.kron(np.eye(N), C_hat))
 
-    for _ in progressbar.progressbar(range(simulations)):
+    for _ in tqdm(range(simulations), leave=False):
 
       pos = np.zeros(N)
       pos[start] = 1
 
       psi0 = np.kron(pos, (coin0 + coin1 * 1j) / np.sqrt(2.))
+      psii = psi0.copy()
       counts = np.array([Quantum.measure(N, psi0)])
-      for step_i in range(1, steps + 1):
-        psii = np.linalg.matrix_power(U, step_i).dot(psi0)
+      for step_i in tqdm(range(1, steps + 1), leave=False):
+        psii = U.dot(psii)
         prob = Quantum.measure(N, psii)
 
       # TODO options = graph.neighbours(pos)

@@ -37,7 +37,7 @@ def run_glued_binary():
 
 
 def run_path():
-  graph = Graph([Path(range(1001))])
+  graph = Graph([Path(range(101))])
   N = graph.vertex_count()
   sim_configs = [
       [Quantum, N//2, 1, 500]
