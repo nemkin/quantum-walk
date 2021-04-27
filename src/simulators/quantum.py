@@ -68,31 +68,28 @@ class Quantum():
 
     c_hat = recursive_kronecker(int(np.log2(regularity)))
 
-    print("WOO")
     s_hat = np.kron(np.zeros((N, N)), np.zeros(
         (regularity, regularity), dtype=complex))
     for i in range(regularity):
       s_hat += np.kron(matrices[i], coin_outers[i][i])
 
-    print("WOO")
     print(s_hat.shape)
     a = np.kron(np.eye(N, dtype=complex), c_hat)
     print(a.shape)
 
     # Illegal instruction, csinaljuk kezzel...
     # U = s_hat.dot(a)
-    print("WOO")
     U = np.zeros((s_hat.shape[0], a.shape[1]), dtype=complex)
-    print("WOO")
     if s_hat.shape[1] != a.shape[0]:
       raise Exception("Nem kompatibilis skalaris szorzashoz")
 
-    for i, k, j in zip(range(s_hat.shape[0]), range(s_hat.shape[1]), range(a.shape[1])):
-      print("WOO")
-      U[i, j] += s_hat[i, k] * a[k, j]
+    for i in tqdm(range(s_hat.shape[0]), leave=False):
+      for k in tqdm(range(s_hat.shape[1]), leave=False):
+        for j in tqdm(range(a.shape[1]), leave=False):
+          U[i, j] += s_hat[i, k] * a[k, j]
+    print(np.nonzero(U))
     # Vege
 
-    print("WOO")
     for _ in tqdm(range(simulations), leave=False):
 
       pos = np.zeros(N, dtype=complex)
