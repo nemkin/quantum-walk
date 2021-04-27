@@ -1,8 +1,25 @@
 import random
+import sys
+import traceback
+
 from tqdm import tqdm
 
 import numpy as np
 from scipy.linalg import hadamard
+
+
+hadamard2 = np.matrix([[1, 1], [1, -1]]) // np.sqrt(2)
+
+
+def recursive_kronecker(k):
+  if k == 1:
+    return hadamard2
+  else:
+    return np.kron(hadamard2, recursive_kronecker(k-1, hadamard2))
+
+
+def is_power_of_two(n):
+  return (n & (n-1) == 0) and n != 0
 
 
 class Quantum():
@@ -22,36 +39,77 @@ class Quantum():
   def simulate(graph, start, simulations, steps):
 
     N = graph.vertex_count()
+    adj = graph.adjacency_matrix()
+    nonzeros = np.transpose(np.nonzero(adj))
 
-    coin0 = np.array([1, 0])  # |0>
-    coin1 = np.array([0, 1])  # |1>
+    current_matrix = np.zeros(N, dtype=int)
+    matrices = []
+    for i, j in nonzeros:
+      if len(matrices) <= current_matrix[i]:
+        matrices.append(np.zeros((N, N)))
+      matrices[current_matrix[i]][i, j] = adj[i, j]
+      current_matrix[i] += 1
 
-    C00 = np.outer(coin0, coin0)  # |0><0|
-    C01 = np.outer(coin0, coin1)  # |0><1|
-    C10 = np.outer(coin1, coin0)  # |1><0|
-    C11 = np.outer(coin1, coin1)  # |1><1|
+    regularity = len(matrices)
 
-    C_hat = (C00 + C01 + C10 - C11)/np.sqrt(2.)
+    if not is_power_of_two(regularity):
+      raise Exception("Regularitás nem 2 hatvány.")
 
-    ShiftPlus = np.roll(np.eye(N), 1, axis=0)
-    ShiftMinus = np.roll(np.eye(N), -1, axis=0)
-    S_hat = np.kron(ShiftPlus, C00) + np.kron(ShiftMinus, C11)
+    coin_faces = []  # coini
+    for i in range(regularity):  # |i>
+      coin_i = np.zeros(regularity, dtype=complex)
+      coin_i[i] = 1
+      coin_faces.append(coin_i)
+    coin_outers = []  # Cij
+    for i in range(regularity):
+      coin_outers.append([])
+      for j in range(regularity):
+        coin_outers[i].append(np.outer(coin_faces[i], coin_faces[j]))  # |i><j|
 
-    U = S_hat.dot(np.kron(np.eye(N), C_hat))
+    c_hat = recursive_kronecker(int(np.log2(regularity)))
 
+    print("WOO")
+    s_hat = np.kron(np.zeros((N, N)), np.zeros(
+        (regularity, regularity), dtype=complex))
+    for i in range(regularity):
+      s_hat += np.kron(matrices[i], coin_outers[i][i])
+
+    print("WOO")
+    print(s_hat.shape)
+    a = np.kron(np.eye(N, dtype=complex), c_hat)
+    print(a.shape)
+
+    # Illegal instruction, csinaljuk kezzel...
+    # U = s_hat.dot(a)
+    print("WOO")
+    U = np.zeros((s_hat.shape[0], a.shape[1]), dtype=complex)
+    print("WOO")
+    if s_hat.shape[1] != a.shape[0]:
+      raise Exception("Nem kompatibilis skalaris szorzashoz")
+
+    for i, k, j in zip(range(s_hat.shape[0]), range(s_hat.shape[1]), range(a.shape[1])):
+      print("WOO")
+      U[i, j] += s_hat[i, k] * a[k, j]
+    # Vege
+
+    print("WOO")
     for _ in tqdm(range(simulations), leave=False):
 
-      pos = np.zeros(N)
+      pos = np.zeros(N, dtype=complex)
       pos[start] = 1
 
-      psi0 = np.kron(pos, (coin0 + coin1 * 1j) / np.sqrt(2.))
-      psii = psi0.copy()
-      counts = np.array([Quantum.measure(N, psi0)])
+      # Hát ez itt tuti nem jó.
+      coins_entangle = np.zeros(regularity, dtype=complex)
+      for i in range(regularity):
+        coins_entangle += coin_faces[i] * (1j if i % 2 == 1 else 1)
+      coins_entangle /= np.sqrt(regularity)
+
+      psii = np.kron(pos, coins_entangle)
+      counts = np.array([Quantum.measure(N, psii)])
       for step_i in tqdm(range(1, steps + 1), leave=False):
         psii = U.dot(psii)
         prob = Quantum.measure(N, psii)
 
-      # TODO options = graph.neighbours(pos)
         counts = np.concatenate((counts, np.array([prob])), axis=0)
 
     return counts
