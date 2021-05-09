@@ -5,7 +5,8 @@ import traceback
 from tqdm import tqdm
 
 import numpy as np
-from scipy.linalg import hadamard
+
+from simulators.simulator import Simulator
 
 
 hadamard2 = np.matrix([[1, 1], [1, -1]]) // np.sqrt(2)
@@ -22,7 +23,7 @@ def is_power_of_two(n):
   return (n & (n-1) == 0) and n != 0
 
 
-class Quantum():
+class Quantum(Simulator):
 
   # http://susan-stepney.blogspot.com/2014/02/mathjax.html
 

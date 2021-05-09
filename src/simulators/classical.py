@@ -3,8 +3,10 @@ import random
 import numpy as np
 import progressbar
 
+from simulators.simulator import Simulator
 
-class Classical():
+
+class Classical(Simulator):
 
   def simulate(graph, start, simulations, steps):
     counts = np.zeros([steps+1, graph.vertex_count()])

@@ -5,7 +5,7 @@ class Circle(SubGraph):
 
   def __init__(self, vertexes, neighbour_distances):
     self.vertexes = list(vertexes)
-    self.neighbour_distances = neighbour_distances
+    self.neighbour_distances = list(neighbour_distances)
 
   def neighbours(self, vertex):
     try:

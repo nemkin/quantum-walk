@@ -6,7 +6,7 @@ class Bipartite(SubGraph):
   def __init__(self, side_a, side_b):
     self.side_a = list(side_a)
     self.side_b = list(side_b)
-    self.vertexes = self.side_a + self.side_b
+    self.vertexes = list(self.side_a + self.side_b)
 
   def neighbours(self, vertex):
     if vertex in self.side_a:

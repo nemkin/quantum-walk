@@ -1,0 +1,95 @@
+% Geometry setup
+\documentclass[14pt,a4paper]{article}
+\usepackage[margin=3cm]{geometry}
+
+% Language setup
+\usepackage[magyar]{babel} % Babel for Hungarian
+\usepackage[T1]{fontenc} % Output character encoding
+\usepackage[utf8]{inputenc} % Input character encoding
+
+% Spacing setup
+\setlength{\parindent}{0pt} % No paragraph indenting
+\setlength{\parskip}{5pt} % Set spacing between paragraphs
+\frenchspacing
+\newcommand{\rmspace}{\vspace{-19pt}}
+
+% Dependency setup
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{graphicx}
+
+% Title setup
+\title{Gráfszimuláció}
+\author{Nemkin Viktória}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+\section{Gráf}
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\columnwidth]{graph.jpg}
+\caption{Gráf szomszédossági mátrixa}
+\end{figure}
+\subsection{Részgráf}
+Kör -2, -1, 0, 1, 2 távolságokat behúzva
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\columnwidth]{subgraph_00.jpg}
+\caption{0. részgráf szomszédossági mátrixa}
+\end{figure}
+\subsection{Részgráf}
+Kör -2, -1, 0, 1, 2 távolságokat behúzva
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\columnwidth]{subgraph_01.jpg}
+\caption{1. részgráf szomszédossági mátrixa}
+\end{figure}
+\subsection{Részgráf}
+Teljes páros gráf
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\columnwidth]{subgraph_02.jpg}
+\caption{2. részgráf szomszédossági mátrixa}
+\end{figure}
+\section{Szimulációk}
+\subsection{Klasszikus szimuláció}
+Kezdőcsúcs: 100
+Bolyongók: 1
+Lépésszám: 1000
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\columnwidth]{sim00.jpg}
+\caption{0. szimuláció}
+\end{figure}
+\subsection{Klasszikus szimuláció}
+Kezdőcsúcs: 100
+Bolyongók: 10
+Lépésszám: 1000
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\columnwidth]{sim01.jpg}
+\caption{1. szimuláció}
+\end{figure}
+\subsection{Klasszikus szimuláció}
+Kezdőcsúcs: 100
+Bolyongók: 100
+Lépésszám: 1000
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\columnwidth]{sim02.jpg}
+\caption{2. szimuláció}
+\end{figure}
+\subsection{Klasszikus szimuláció}
+Kezdőcsúcs: 100
+Bolyongók: 1000
+Lépésszám: 1000
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\columnwidth]{sim03.jpg}
+\caption{3. szimuláció}
+\end{figure}
+\end{document}

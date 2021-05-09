@@ -26,12 +26,21 @@ def run_dumbbell():
 
 
 def run_glued_binary():
-  graph = GluedBinary(5)
+  graph = GluedBinary(10)
   sim_configs = [
       [Classical, 0, 1, 1000],
       [Classical, 0, 10, 1000],
       [Classical, 0, 100, 1000],
       [Classical, 0, 1000, 1000]
+  ]
+  run(graph, sim_configs)
+
+
+def run_path_normal():
+  graph = Graph([Path(range(200))])
+  N = graph.vertex_count()
+  sim_configs = [
+      [Classical, N//2, 50000, 100]
   ]
   run(graph, sim_configs)
 
@@ -46,6 +55,7 @@ def run_path():
 
 
 archive()
+# run_path_normal()
 # run_dumbbell()
-# run_glued_binary()
-run_path()
+run_glued_binary()
+# run_path()
