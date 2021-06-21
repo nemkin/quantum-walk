@@ -36,9 +36,8 @@ class Quantum(Simulator):
         nextpos = np.zeros((N, max_neighbour_count), dtype=complex)
         for i in tqdm(range(N), leave=False):
           n = graph.neighbours(i)
+          # Ha ez nem sorted hanem random (egyszer balra/egyszer jobbra) akkor nagyon más jön ki!
           n = sorted(n + [i]*(max_neighbour_count-len(n)))
-          print(i)
-          print(n)
           for index, multiplicators in enumerate(Quantum.coin(max_neighbour_count)):
             nextpos[n[index],
                     index] += currpos[i].dot(np.squeeze(multiplicators))
