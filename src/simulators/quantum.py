@@ -11,6 +11,9 @@ from simulators.simulator import Simulator
 
 class Quantum(Simulator):
 
+  def probability(probability_amplitudes):
+    return probability_amplitudes.real**2 + probability_amplitudes.imag**2
+
   def simulate(graph, start, simulations, steps):
 
     N = graph.vertex_count()
@@ -38,8 +41,8 @@ class Quantum(Simulator):
         currpos_0 = nextpos_0
         currpos_1 = nextpos_1
 
-        probabilities = (currpos_0 * currpos_0.conjugate()).real + \
-            (currpos_1 * currpos_1.conjugate()).real
+        probabilities = Quantum.probability(
+            currpos_0) + Quantum.probability(currpos_1)
 
         counts = counts = np.concatenate(
             (counts, np.array([probabilities])), axis=0)

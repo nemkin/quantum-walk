@@ -49,7 +49,7 @@ def run_path():
   graph = Graph([Path(range(101))])
   N = graph.vertex_count()
   sim_configs = [
-      [Quantum, N//2, 1, 200]
+      [Quantum, N//2, 1, 150]
   ]
   run(graph, sim_configs)
 
