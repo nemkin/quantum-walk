@@ -15,6 +15,6 @@ class SubGraph(object):
     for i in range(vertex_count):
       neighbours = self.neighbours(i)
       for j in neighbours:
-        adjacency[i, j] += 1
+        adjacency[j, i] += 1
 
     return adjacency
