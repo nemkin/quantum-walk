@@ -23,7 +23,7 @@ def draw_adj(adj, filename):
       shading='auto',
       linewidths=1,
       snap=True,
-      norm=colors.LogNorm(0.0001, vmax=adj.max())
+      norm=colors.LogNorm(1, vmax=adj.max())
   )
   fig.tight_layout()
   fig.savefig(filename)
@@ -36,7 +36,7 @@ def draw(N, steps, counts, filename):
   vertexes_X = np.arange(-0.5, N-1, 1)
 
   x = 6
-  y = 3  # min(6*steps//N, 12)
+  y = min(6*steps//N, 12)
 
   fig, ax = plt.subplots(1, 1, figsize=(x, y))
   pcm = ax.pcolor(
@@ -47,7 +47,7 @@ def draw(N, steps, counts, filename):
       shading='auto',
       linewidths=1,
       snap=True,
-      norm=colors.LogNorm(0.0001, vmax=counts.max())
+      norm=colors.LogNorm(0.001, vmax=counts.max())
   )
   ax.set_xlabel('Csúcsindexek')
   ax.set_ylabel('Lépések')

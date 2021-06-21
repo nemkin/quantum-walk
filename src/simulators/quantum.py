@@ -21,8 +21,9 @@ class Quantum(Simulator):
     for _ in tqdm(range(simulations), leave=False):
 
       pos_0 = np.zeros(N, dtype=complex)
-      pos_0[start] = 1
       pos_1 = np.zeros(N, dtype=complex)
+      pos_0[start] = 1 / np.sqrt(2)
+      pos_1[start] = 1j / np.sqrt(2)
 
       currpos_0 = pos_0
       currpos_1 = pos_1
