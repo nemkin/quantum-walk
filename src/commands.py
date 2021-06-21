@@ -30,6 +30,21 @@ def draw_adj(adj, filename):
   plt.close(fig)
 
 
+def draw_single(N, steps, counts, filename):
+  vertexes_X = np.arange(-0.5, N-1, 1)
+
+  fig, ax = plt.subplots(1, 1)
+  pcm = ax.plot(
+      vertexes_X,
+      counts[N//2],
+  )
+  ax.set_xlabel('Csúcsindexek')
+  ax.set_ylabel('Valószínűségek')
+  fig.tight_layout()
+  fig.savefig(f"{filename}_single.png")
+  plt.close(fig)
+
+
 def draw(N, steps, counts, filename):
 
   steps_Y = np.arange(-0.5, steps, 1)
@@ -54,6 +69,7 @@ def draw(N, steps, counts, filename):
   fig.tight_layout()
   fig.savefig(filename)
   plt.close(fig)
+  draw_single(N, steps, counts, filename)
 
 
 def archive():
