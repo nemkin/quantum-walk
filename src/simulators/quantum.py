@@ -34,15 +34,12 @@ class Quantum(Simulator):
 
           nextpos_0[n2] += (currpos_0[i] + currpos_1[i]) / np.sqrt(2)
           nextpos_1[n1] += (currpos_0[i] - currpos_1[i]) / np.sqrt(2)
-          print(
-              f"{n2}, {currpos_0[i]} + {currpos_1[i]} / sqrt(2) = {nextpos_0[n2]}")
-          print(
-              f"{n1}, {currpos_0[i]} - {currpos_1[i]} / sqrt(2) = {nextpos_1[n1]}")
-          print("---")
+
         currpos_0 = nextpos_0
         currpos_1 = nextpos_1
-        print("NEW LINE ---------------------------------------------------")
-        probabilities = np.absolute(currpos_0) + np.absolute(currpos_1)
+
+        probabilities = (currpos_0 * currpos_0.conjugate()).real + \
+            (currpos_1 * currpos_1.conjugate()).real
 
         counts = counts = np.concatenate(
             (counts, np.array([probabilities])), axis=0)
