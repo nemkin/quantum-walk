@@ -49,7 +49,7 @@ def run_path():
   graph = Graph([Path(range(101))])
   N = graph.vertex_count()
   sim_configs = [
-      [Quantum, N//2, 1, 500]
+      [Quantum, N//2, 1, 10]
   ]
   run(graph, sim_configs)
 
@@ -57,5 +57,5 @@ def run_path():
 archive()
 # run_path_normal()
 # run_dumbbell()
-run_glued_binary()
-# run_path()
+# run_glued_binary()
+run_path()

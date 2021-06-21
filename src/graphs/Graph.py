@@ -13,7 +13,7 @@ class Graph(object):
     return max(max_vertexes)+1
 
   def neighbours(self, vertex):
-    return list(set(list(itertools.chain.from_iterable(map(lambda sub_graph: sub_graph.neighbours(vertex), self.sub_graphs)))))
+    return sorted(list(set(list(itertools.chain.from_iterable(map(lambda sub_graph: sub_graph.neighbours(vertex), self.sub_graphs))))))
 
   def adjacency_matrix(self):
     N = self.vertex_count()
