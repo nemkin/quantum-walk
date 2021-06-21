@@ -13,7 +13,8 @@ class Path(SubGraph):
       return []
 
     n = len(self.vertexes)
-    return [max(index-1, 0), min(index+1, n-1)]
+
+    return list(filter(lambda i: 0 <= i < n, [index-1, index+1]))
 
   def describe(self):
-    return f"Irányítatlan élekből álló út, az első és az utolsó csúcson hurokéllel."
+    return f"Irányítatlan élekből álló út."

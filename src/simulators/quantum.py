@@ -36,7 +36,7 @@ class Quantum(Simulator):
         nextpos = np.zeros((N, max_neighbour_count), dtype=complex)
         for i in tqdm(range(N), leave=False):
           n = graph.neighbours(i)
-          n = n + [i]*(max_neighbour_count-len(n))
+          n = sorted(n + [i]*(max_neighbour_count-len(n)))
           print(i)
           print(n)
           for index, multiplicators in enumerate(Quantum.coin(max_neighbour_count)):
