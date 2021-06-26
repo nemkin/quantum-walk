@@ -1,10 +1,7 @@
-import random
 import sys
-import traceback
-
-from tqdm import tqdm
-
 import numpy as np
+from scipy import linalg as splinalg
+from tqdm import tqdm
 
 from simulators.simulator import Simulator
 
@@ -12,33 +9,36 @@ from simulators.simulator import Simulator
 class Quantum(Simulator):
 
   def probability(probability_amplitudes):
-    print(probability_amplitudes)
     return (probability_amplitudes.real**2 + probability_amplitudes.imag**2).sum(axis=1)
 
+  def coin_start_state(size):
+    return [1] + [0]*(size-1)
+
   def coin(size):
-    return np.array(([1, 1], [1, -1])) / np.sqrt(2)
+    return splinalg.dft(size) / np.sqrt(size)
 
   def simulate(graph, start, simulations, steps):
 
     N = graph.vertex_count()
-    max_neighbour_count = int(graph.adjacency_matrix().sum(axis=0).max())
-    print(max_neighbour_count)
+    regularity = graph.max_degree()
+    coin = Quantum.coin(regularity)
+
     for _ in tqdm(range(simulations), leave=False):
 
-      pos = np.zeros((N, max_neighbour_count), dtype=complex)
-      pos[start, 0] = 1
+      pos = np.zeros((N, regularity), dtype=complex)
+      pos[start] = Quantum.coin_start_state(regularity)
 
       currpos = pos
       counts = np.zeros((1, N), dtype=float)
       counts[0, start] = 1
 
       for _ in tqdm(range(steps), leave=False):
-        nextpos = np.zeros((N, max_neighbour_count), dtype=complex)
+        nextpos = np.zeros((N, regularity), dtype=complex)
         for i in tqdm(range(N), leave=False):
           n = graph.neighbours(i)
           # Ha ez nem sorted hanem random (egyszer balra/egyszer jobbra) akkor nagyon más jön ki!
-          n = sorted(n + [i]*(max_neighbour_count-len(n)))
-          for index, multiplicators in enumerate(Quantum.coin(max_neighbour_count)):
+          n = sorted(n + [i]*(regularity-len(n)))
+          for index, multiplicators in enumerate(coin):
             nextpos[n[index],
                     index] += currpos[i].dot(np.squeeze(multiplicators))
 

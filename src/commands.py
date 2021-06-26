@@ -6,7 +6,7 @@ import pydng
 import time
 import os
 import shutil
-
+from tqdm import tqdm
 
 new_root = "../generations/new"
 archive_root = "../generations/archives"
@@ -51,8 +51,7 @@ def draw(N, steps, counts, filename):
   vertexes_X = np.arange(-0.5, N-1, 1)
 
   x = 6
-  y = min(6*steps//N, 12)
-
+  y = 12  # min(6*steps//N, 12)
   fig, ax = plt.subplots(1, 1, figsize=(x, y))
   pcm = ax.pcolor(
       vertexes_X,
@@ -69,7 +68,7 @@ def draw(N, steps, counts, filename):
   fig.tight_layout()
   fig.savefig(filename)
   plt.close(fig)
-  draw_single(N, steps, counts, filename)
+  # draw_single(N, steps, counts, filename)
 
 
 def archive():
@@ -144,7 +143,7 @@ def run(graph, sim_configs):
   draw_adj(graph.adjacency_matrix(), f'{dir}/{graph_file}')
   N = graph.vertex_count()
 
-  for i in range(len(graph.sub_graphs)):
+  for i in tqdm(range(len(graph.sub_graphs)), leave=False):
     description += ["\\subsection{Részgráf}"]
     description += [graph.sub_graphs[i].describe()]
     sub_graph_file = f'subgraph_{i:02}.jpg'
@@ -161,7 +160,7 @@ def run(graph, sim_configs):
 
   description += ["\\section{Szimulációk}"]
 
-  for i in range(len(sim_configs)):
+  for i in tqdm(range(len(sim_configs)),  leave=False):
     simulator, start, simulations, steps = sim_configs[i]
 
     description += [f"\\subsection{{{simulator.describe()}}}"]
@@ -186,6 +185,6 @@ def run(graph, sim_configs):
   with open(latex_file, 'w') as f:
     f.writelines("\n".join(description))
 
-  latexmk = ["latexmk", "-pdf", latex_file, f"-outdir={dir}"]
+  latexmk = ["latexmk", "-pdf", "-silent", latex_file, f"-outdir={dir}"]
   process = subprocess.Popen(latexmk, stdout=subprocess.PIPE)
   output, error = process.communicate()

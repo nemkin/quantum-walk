@@ -1,3 +1,4 @@
+from graphs.subgraphs.Grid import Grid
 from graphs.Graph import Graph
 from graphs.composites.Dumbbell import Dumbbell
 from graphs.composites.GluedBinary import GluedBinary
@@ -14,48 +15,59 @@ from commands import archive
 
 
 def run_dumbbell():
+  print('Dumbbell:')
   graph = Dumbbell(100, 2, 10)
   N = graph.vertex_count()
   sim_configs = [
       [Classical, N//2, 1, 1000],
       [Classical, N//2, 10, 1000],
       [Classical, N//2, 100, 1000],
-      [Classical, N//2, 1000, 1000]
+      [Classical, N//2, 1000, 1000],
+      [Quantum, N//2, 1, 1000],
   ]
   run(graph, sim_configs)
 
 
 def run_glued_binary():
+  print('Glued binary:')
   graph = GluedBinary(10)
   sim_configs = [
       [Classical, 0, 1, 1000],
       [Classical, 0, 10, 1000],
       [Classical, 0, 100, 1000],
-      [Classical, 0, 1000, 1000]
-  ]
-  run(graph, sim_configs)
-
-
-def run_path_normal():
-  graph = Graph([Path(range(200))])
-  N = graph.vertex_count()
-  sim_configs = [
-      [Classical, N//2, 50000, 100]
+      [Classical, 0, 1000, 1000],
+      [Quantum, 0, 1, 10],
   ]
   run(graph, sim_configs)
 
 
 def run_path():
+  print('Path:')
   graph = Graph([Path(range(101))])
   N = graph.vertex_count()
   sim_configs = [
+      [Classical, N//2, 50000, 100],
       [Quantum, N//2, 1, 1000]
   ]
   run(graph, sim_configs)
 
 
+def run_grid():
+  print('Grid:')
+  graph = Graph([Grid(range(100))])
+  N = graph.vertex_count()
+  sim_configs = [
+      [Classical, N//2, 1, 1000],
+      [Classical, N//2, 10, 1000],
+      [Classical, N//2, 100, 1000],
+      [Classical, N//2, 1000, 1000],
+      [Quantum, N//2, 1, 1000],
+  ]
+  run(graph, sim_configs)
+
+
 archive()
-# run_path_normal()
 # run_dumbbell()
-# run_glued_binary()
+run_glued_binary()
 run_path()
+run_grid()

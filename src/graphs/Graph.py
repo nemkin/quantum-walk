@@ -21,3 +21,6 @@ class Graph(object):
                            self.sub_graphs))
 
     return np.sum(adjacencies, 0)
+
+  def max_degree(self):
+    return int(self.adjacency_matrix().sum(axis=0).max())
