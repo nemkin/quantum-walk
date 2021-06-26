@@ -20,7 +20,22 @@ class Grid(SubGraph):
     n = len(self.vertexes)
     side = int(np.sqrt(n))
 
-    return list(map(lambda i: self.vertexes[i], filter(lambda i: 0 <= i < n, [index-1, index+side, index+1, index-side])))
+    return list(
+        map(
+            lambda i: self.vertexes[i],
+            filter(
+                lambda i: 0 <= i < n,
+                [
+                    index+side,
+                    index-side,
+                    index-1 if (index // side) == ((index-1) //
+                                                   side) else index,
+                    index+1 if (index // side) == ((index+1) //
+                                                   side) else index,
+                ]
+            )
+        )
+    )
 
   def describe(self):
     return f"Irányítatlan élekből álló grid."

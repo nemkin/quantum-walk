@@ -12,7 +12,7 @@ class Quantum(Simulator):
     return (probability_amplitudes.real**2 + probability_amplitudes.imag**2).sum(axis=1)
 
   def coin_start_state(size):
-    return [1] + [0]*(size-1)
+    return [1/np.sqrt(2), 1j/np.sqrt(2)] + [0]*(size-2)
 
   def coin(size):
     return splinalg.dft(size) / np.sqrt(size)
