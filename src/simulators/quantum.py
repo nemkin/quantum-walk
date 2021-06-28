@@ -25,7 +25,7 @@ class Quantum():
 
   def simulate(graph, start, simulations, steps):
 
-    with open("../generations/old_simulator.txt", "w") as f:
+    with open("../generations/old_simulator.txt", "wb") as f:
 
       N = graph.vertex_count()
 
@@ -61,7 +61,7 @@ class Quantum():
         # TODO options = graph.neighbours(pos)
           counts = np.concatenate((counts, np.array([prob])), axis=0)
 
-      f.write(np.array2string(out))
+      np.save(f, out)
     return counts
 
   def describe():
