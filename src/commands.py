@@ -10,6 +10,7 @@ from tqdm import tqdm
 
 new_root = "../generations/new"
 archive_root = "../generations/archives"
+np.set_printoptions(threshold=np.inf)
 
 
 def draw_adj(adj, filename):
@@ -68,6 +69,10 @@ def draw(N, steps, counts, filename):
   fig.tight_layout()
   fig.savefig(filename)
   plt.close(fig)
+
+  with open(f"{filename}_counts.txt", "w") as f:
+    f.write(np.array2string(counts))
+
   # draw_single(N, steps, counts, filename)
 
 
