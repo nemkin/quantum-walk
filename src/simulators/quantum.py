@@ -55,8 +55,8 @@ class Quantum(Simulator):
         counts = counts = np.concatenate(
             (counts, np.array([probabilities])), axis=0)
 
-    with open("../generations/new_simulator.txt", "w") as f:
-      f.write(np.array2string(out))
+    with open("../generations/new_simulator.txt", "wb") as f:
+      np.save(f, out)
 
     return counts
 
