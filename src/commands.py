@@ -30,6 +30,9 @@ def draw_adj(adj, filename):
   fig.savefig(filename)
   plt.close(fig)
 
+  with open(f"{filename}_adj.txt", "w") as f:
+    f.write(np.array2string(adj))
+
 
 def draw_single(N, steps, counts, filename):
   vertexes_X = np.arange(-0.5, N-1, 1)
