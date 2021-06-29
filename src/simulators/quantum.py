@@ -26,9 +26,8 @@ class Quantum(Simulator):
     N = graph.vertex_count()
     regularity = graph.max_degree()
     coin = Quantum.coin(regularity)
-
-    for _ in tqdm(range(simulations), leave=False):
-
+    print(coin)
+    for _ in range(simulations):
       pos = np.zeros((N, regularity), dtype=complex)
       pos[start] = Quantum.coin_start_state(regularity)
 
@@ -37,17 +36,31 @@ class Quantum(Simulator):
       counts[0, start] = 1
 
       out = [currpos.flatten()]
-      for _ in tqdm(range(steps), leave=False):
+      for _ in range(steps):
         nextpos = np.zeros((N, regularity), dtype=complex)
-        for i in tqdm(range(N), leave=False):
+        for i in range(N):
           n = graph.neighbours(i)
+          # if n[0] == 0 and n[1] == 2:
+          #   n = [2, 0]
+          print(n)
           # Ha ez nem sorted hanem random (egyszer balra/egyszer jobbra) akkor nagyon más jön ki!
-          n = sorted(n + [i]*(regularity-len(n)))
+          # n = sorted(n + [i]*(regularity-len(n)))
+
           for index, multiplicators in enumerate(coin):
+            print(n[index])
+            print(currpos[i])
+            print(multiplicators)
+            print()
+            print(nextpos[n[index], index])
+
             nextpos[n[index],
                     index] += currpos[i].dot(np.squeeze(multiplicators))
+            print(nextpos[n[index], index])
+            print()
+            print("--")
 
         currpos = nextpos
+        print("---------------------")
         out = np.concatenate((out, np.array([currpos.flatten()])), axis=0)
 
         probabilities = Quantum.probability(currpos)

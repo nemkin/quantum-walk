@@ -14,7 +14,7 @@ class Path(SubGraph):
 
     n = len(self.vertexes)
 
-    return list(map(lambda i: self.vertexes[i], filter(lambda i: 0 <= i < n, [0 if index == 0 else index-1, n-1 if index == (n-1) else index+1])))
+    return list(map(lambda i: self.vertexes[i], filter(lambda i: 0 <= i < n, [n-1 if index == 0 else index-1, 0 if index == (n-1) else index+1])))
 
   def describe(self):
     return f"Irányítatlan élekből álló út."

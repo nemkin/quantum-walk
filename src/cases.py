@@ -1,3 +1,5 @@
+from simulators.quantum_old import QuantumOld
+import numpy as np
 from graphs.subgraphs.Grid import Grid
 from graphs.Graph import Graph
 from graphs.composites.Dumbbell import Dumbbell
@@ -43,11 +45,12 @@ def run_glued_binary():
 
 def run_path():
   print('Path:')
-  graph = Graph([Path(range(5))])
+  graph = Graph([Path(range(11))])
   N = graph.vertex_count()
   sim_configs = [
       # [Classical, N//2, 50000, 100],
-      [Quantum, N//2, 1, 10]
+      [Quantum, N//2, 1, 10],
+      [QuantumOld, N//2, 1, 10]
   ]
   run(graph, sim_configs)
 
@@ -71,3 +74,18 @@ archive()
 # run_glued_binary()
 run_path()
 # run_grid()
+
+
+with open("../generations/new_simulator.txt", "rb") as f:
+  new_sim = np.load(f)
+
+
+with open("../generations/old_simulator.txt", "rb") as f:
+  old_sim = np.load(f)
+
+np.set_printoptions(precision=2)
+np.set_printoptions(suppress=True)
+print(old_sim)
+print()
+print(new_sim)
+print()
