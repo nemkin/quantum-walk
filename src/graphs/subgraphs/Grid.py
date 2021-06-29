@@ -26,12 +26,12 @@ class Grid(SubGraph):
             filter(
                 lambda i: 0 <= i < n,
                 [
-                    index+side,
-                    index-side,
+                    index+side if index+side < n else (index+side) - n,
+                    index-side if 0 <= index-side else (index-side) + n,
                     index-1 if (index // side) == ((index-1) //
-                                                   side) else index,
+                                                   side) else (index + side - 1) % n,
                     index+1 if (index // side) == ((index+1) //
-                                                   side) else index,
+                                                   side) else (index - side + 1) if 0 <= (index - side + 1) else (index - side + 1 + n),
                 ]
             )
         )

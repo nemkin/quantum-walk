@@ -54,13 +54,16 @@ def run_path():
 
 def run_grid():
   print('Grid:')
-  graph = Graph([Grid(range(100))])
+  graph = Graph([Grid(range(16))])
   N = graph.vertex_count()
   sim_configs = [
-      # [Classical, N//2, 1, 1000],
-      # [Classical, N//2, 10, 1000],
-      # [Classical, N//2, 100, 1000],
-      # [Classical, N//2, 1000, 1000],
+      [Classical, N//2, 1, 1000],
+      [Classical, N//2, 10, 1000],
+      [Classical, N//2, 100, 1000],
+      [Classical, N//2, 1000, 1000],
+      [Quantum, N//2, 1, 30],
+      [Quantum, N//2, 1, 100],
+      [Quantum, N//2, 1, 500],
       [Quantum, N//2, 1, 1000],
   ]
   run(graph, sim_configs)
@@ -69,5 +72,5 @@ def run_grid():
 archive()
 # run_dumbbell()
 # run_glued_binary()
-run_path()
-# run_grid()
+# run_path()
+run_grid()
