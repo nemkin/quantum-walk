@@ -5,11 +5,32 @@ from graphs.subgraphs.SubGraph import SubGraph
 class Grid(SubGraph):
 
   def __init__(self, vertexes):
-    n = len(vertexes)
-    side = int(np.sqrt(n))
-    if side ** 2 != n:
+    self.n = len(vertexes)
+    self.side = int(np.sqrt(self.n))
+    if self.side ** 2 != self.n:
       raise "Number of vertexes is not a square number."
     self.vertexes = list(vertexes)
+
+  def row(self, index):
+    return index // self.side
+
+  def left(self, index):
+    if self.row(index) == self.row(index-1):
+      return index-1
+    else:
+      return (index + self.side - 1) % self.n
+
+  def right(self, index):
+    if self.row(index) == self.row(index+1):
+      return index+1
+    else:
+      return (index - self.side + 1) % self.n
+
+  def top(self, index):
+    return (index + self.side) % self.n
+
+  def bottom(self, index):
+    return (index - self.side) % self.n
 
   def neighbours(self, vertex):
     try:
@@ -17,23 +38,15 @@ class Grid(SubGraph):
     except ValueError:
       return []
 
-    n = len(self.vertexes)
-    side = int(np.sqrt(n))
-
     return list(
         map(
             lambda i: self.vertexes[i],
-            filter(
-                lambda i: 0 <= i < n,
-                [
-                    index+side if index+side < n else (index+side) - n,
-                    index-side if 0 <= index-side else (index-side) + n,
-                    index-1 if (index // side) == ((index-1) //
-                                                   side) else (index + side - 1) % n,
-                    index+1 if (index // side) == ((index+1) //
-                                                   side) else (index - side + 1) if 0 <= (index - side + 1) else (index - side + 1 + n),
-                ]
-            )
+            [
+                self.top(index),
+                self.bottom(index),
+                self.left(index),
+                self.right(index)
+            ]
         )
     )
 
