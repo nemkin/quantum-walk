@@ -73,6 +73,9 @@ def draw(N, steps, counts, filename):
   with open(f"{filename}_counts.txt", "w") as f:
     f.write(np.array2string(counts))
 
+  with open(f"{filename}_count_sums.txt", "w") as f:
+    f.write(np.array2string(counts.sum(axis=1)))
+
   # draw_single(N, steps, counts, filename)
 
 
