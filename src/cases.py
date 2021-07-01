@@ -43,11 +43,11 @@ def run_glued_binary():
 
 def run_path():
   print('Path:')
-  graph = Graph([Path(range(5))])
+  graph = Graph([Path(range(100))])
   N = graph.vertex_count()
   sim_configs = [
-      # [Classical, N//2, 50000, 100],
-      [Quantum, N//2, 1, 10]
+      [Classical, N//2, 5000, 1000],
+      [Quantum, N//2, 1, 1000]
   ]
   run(graph, sim_configs)
 
@@ -72,5 +72,5 @@ def run_grid():
 archive()
 # run_dumbbell()
 # run_glued_binary()
-# run_path()
+run_path()
 run_grid()

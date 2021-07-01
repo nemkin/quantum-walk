@@ -13,6 +13,18 @@ archive_root = "../generations/archives"
 np.set_printoptions(threshold=np.inf)
 
 
+def print_debug(graph, filename):
+  coin_faces = graph.coin_faces()
+  with open(f"{filename}_coin_faces.txt", "w") as f:
+    for coin_face in coin_faces:
+      f.write(np.array2string(coin_face))
+      f.write("\n\n")
+      f.write(np.array2string(coin_face.sum(axis=0)))
+      f.write("\n")
+      f.write(np.array2string(coin_face.sum(axis=1)))
+      f.write("\n\n\n")
+
+
 def draw_adj(adj, filename):
   fig, ax = plt.subplots(1, 1, figsize=(6, 6))
   X, Y = np.meshgrid(range(adj.shape[0]+1), range(adj.shape[1]+1))
@@ -140,6 +152,7 @@ def run(graph, sim_configs):
   description += ["\\section{Gráf}"]
 
   graph_file = 'graph.jpg'
+  debug_file = 'graph'
 
   description += ["\\begin{figure}[H]"]
   description += ["\\centering"]
@@ -148,6 +161,7 @@ def run(graph, sim_configs):
   description += ["\\caption{Gráf szomszédossági mátrixa}"]
   description += ["\\end{figure}"]
 
+  print_debug(graph, f'{dir}/{debug_file}')
   draw_adj(graph.adjacency_matrix(), f'{dir}/{graph_file}')
   N = graph.vertex_count()
 

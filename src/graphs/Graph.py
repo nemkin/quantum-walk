@@ -22,5 +22,17 @@ class Graph(object):
 
     return np.sum(adjacencies, 0)
 
+  def coin_faces(self):
+    N = self.vertex_count()
+    r = self.max_degree()
+    coin_faces = [np.zeros([N, N])]*r
+
+    for i in range(N):
+      neighbours = self.neighbours(i)
+      for (index, j) in enumerate(neighbours):
+        coin_faces[index][j, i] += 1
+
+    return coin_faces
+
   def max_degree(self):
     return int(self.adjacency_matrix().sum(axis=0).max())
