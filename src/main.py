@@ -18,7 +18,6 @@ from commands import archive
 
 
 def run_dumbbell():
-  print('Dumbbell:')
   graph = Dumbbell(100, 2, 10)
   N = graph.vertex_count()
   simulators = [
@@ -30,12 +29,11 @@ def run_dumbbell():
   ]
 
   run = Run(graph, simulators)
-  Tester(run).test()
   Exporter(run).export()
+  Tester(run).test()
 
 
 def run_glued_binary():
-  print('Glued binary:')
   graph = GluedBinary(10)
   simulators = [
       Classical(0, 1, 1000),
@@ -45,26 +43,24 @@ def run_glued_binary():
       Quantum(0, 1, 10),
   ]
   run = Run(graph, simulators)
-  Tester(run).test()
   Exporter(run).export()
+  Tester(run).test()
 
 
 def run_path():
-  print('Path:')
-  graph = Graph([Path(range(10))])
+  graph = Graph('Path', [Path(range(10))])
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 50, 100),
       Quantum(N//2, 1, 100)
   ]
   run = Run(graph, simulators)
-  Tester(run).test()
   Exporter(run).export()
+  Tester(run).test()
 
 
 def run_grid():
-  print('Grid:')
-  graph = Graph([Grid(range(16))])
+  graph = Graph('Grid', [Grid(range(16))])
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 1, 1000),
@@ -77,12 +73,12 @@ def run_grid():
       Quantum(N//2, 1, 1000),
   ]
   run = Run(graph, simulators)
-  Tester(run).test()
   Exporter(run).export()
+  Tester(run).test()
 
 
 archive()
-# run_dumbbell()
-# run_glued_binary()
+run_dumbbell()
+run_glued_binary()
 run_path()
-# run_grid()
+run_grid()

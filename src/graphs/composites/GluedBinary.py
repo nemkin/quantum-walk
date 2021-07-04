@@ -7,6 +7,7 @@ from graphs.subgraphs.BinaryTree import BinaryTree
 class GluedBinary(Graph):
 
   def __init__(self, binary_height):
+    self.name = "Glued binary"
     size = 2**binary_height
     first = [0, size]
     second = [first[1], size*2]

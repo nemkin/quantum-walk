@@ -20,7 +20,8 @@ class Run:
             "describe": sub_graph.describe(),
             "adj": sub_graph.adjacency_matrix(self.N)
         },
-        tqdm(graph.sub_graphs, leave=False)
+        tqdm(graph.sub_graphs,
+             desc=f"{graph.name} subgraph adjacency matrices", leave=False)
     )
     self.simulations = map(
-        lambda s: {"simulator": s, "counts": s.simulate(graph)}, tqdm(simulators, leave=False))
+        lambda s: {"simulator": s, "counts": s.simulate(graph)}, tqdm(simulators, desc=f"{graph.name} simulations", leave=False))

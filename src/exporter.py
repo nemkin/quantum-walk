@@ -120,7 +120,7 @@ class Exporter:
     self.description += ["\\end{figure}"]
 
   def add_coin_faces(self):
-    for i, coin_face in tqdm(enumerate(self.run.coin_faces), leave=False):
+    for i, coin_face in tqdm(enumerate(self.run.coin_faces), desc="Export coin faces", leave=False):
       coin_face_file = f'coin_face_{i:02}'
       self.draw_adj(coin_face, coin_face_file)
 
@@ -134,7 +134,7 @@ class Exporter:
       self.description += ["\\end{figure}"]
 
   def add_sub_graphs(self):
-    for i, sub_graph in tqdm(enumerate(self.run.sub_graphs), leave=False):
+    for i, sub_graph in tqdm(enumerate(self.run.sub_graphs), desc="Export sub graphs", leave=False):
       sub_graph_file = f'subgraph_{i:02}'
       self.draw_adj(sub_graph["adj"], sub_graph_file)
 
@@ -151,7 +151,7 @@ class Exporter:
   def add_simulations(self):
     self.description += ["\\section{Szimulációk}"]
 
-    for i, simulation in tqdm(enumerate(self.run.simulations),  leave=False):
+    for i, simulation in tqdm(enumerate(self.run.simulations),  desc="Export simulations", leave=False):
       simulator = simulation["simulator"]
       counts = simulation["counts"]
 

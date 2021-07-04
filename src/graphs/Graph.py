@@ -4,7 +4,8 @@ import numpy as np
 
 class Graph(object):
 
-  def __init__(self, sub_graphs):
+  def __init__(self, name, sub_graphs):
+    self.name = name
     self.sub_graphs = list(sub_graphs)
 
   def vertex_count(self):

@@ -23,7 +23,7 @@ class Quantum(Simulator):
     regularity = graph.max_degree()
     coin = Quantum.coin(regularity)
 
-    for _ in tqdm(range(self.simulations), leave=False):
+    for _ in tqdm(range(self.simulations), desc=f"{graph.name}: {self.describe()} simulations", leave=False):
 
       pos = np.zeros((N, regularity), dtype=complex)
       pos[self.start] = Quantum.coin_start_state(regularity)
@@ -32,9 +32,9 @@ class Quantum(Simulator):
       counts = np.zeros((1, N), dtype=float)
       counts[0, self.start] = 1
 
-      for _ in tqdm(range(self.steps), leave=False):
+      for _ in tqdm(range(self.steps), desc=f"{graph.name}: {self.describe()} steps", leave=False):
         nextpos = np.zeros((N, regularity), dtype=complex)
-        for i in tqdm(range(N), leave=False):
+        for i in tqdm(range(N), desc=f"{graph.name}: {self.describe()} vertexes", leave=False):
           n = graph.neighbours(i)
           for index, multiplicators in enumerate(coin):
             nextpos[n[index],

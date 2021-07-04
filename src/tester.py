@@ -23,4 +23,4 @@ class Tester:
     for index, coin_face in enumerate(self.run.coin_faces):
       if not Tester.is_permuation_matrix(coin_face):
         raise Exception(
-            f"Coin face #{index} is not a permutation matrix! \n {coin_face}")
+            f"Run {self.run.name}: Coin face #{index} is not a permutation matrix!")
