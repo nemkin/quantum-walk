@@ -48,11 +48,11 @@ def run_glued_binary():
 
 
 def run_path():
-  graph = Graph('Path', [Path(range(10))])
+  graph = Graph('Path', [Path(range(9))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 50, 100),
-      Quantum(N//2, 1, 100)
+      Classical(N//2, 5000, 10000),
+      Quantum(N//2, 1, 10000)
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
@@ -60,17 +60,11 @@ def run_path():
 
 
 def run_grid():
-  graph = Graph('Grid', [Grid(range(16))])
+  graph = Graph('Grid', [Grid(range(9))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 1, 1000),
-      Classical(N//2, 10, 1000),
-      Classical(N//2, 100, 1000),
-      Classical(N//2, 1000, 1000),
-      Quantum(N//2, 1, 30),
-      Quantum(N//2, 1, 100),
-      Quantum(N//2, 1, 500),
-      Quantum(N//2, 1, 1000),
+      Classical(N//2, 1000, 10000),
+      Quantum(N//2, 1, 10000),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
@@ -78,7 +72,7 @@ def run_grid():
 
 
 archive()
-run_dumbbell()
-run_glued_binary()
+# run_dumbbell()
+# run_glued_binary()
 run_path()
 run_grid()
