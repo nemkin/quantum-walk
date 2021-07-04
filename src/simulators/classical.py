@@ -9,7 +9,8 @@ from simulators.simulator import Simulator
 class Classical(Simulator):
 
   def simulate(self, graph):
-    counts = np.zeros([self.steps+1, graph.vertex_count()])
+    N = graph.vertex_count()
+    counts = np.zeros([self.steps+1, N])
     for _ in tqdm(range(self.simulations), leave=False):
       pos = self.start
       counts[0, pos] += 1
@@ -17,7 +18,7 @@ class Classical(Simulator):
         options = graph.neighbours(pos)
         pos = random.choice(options)
         counts[step_i, pos] += 1
-    return counts
+    return counts / self.simulations
 
   def describe(self):
     return "Klasszikus szimuláció"
