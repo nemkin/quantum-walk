@@ -13,7 +13,9 @@ class Graph(object):
     return max(max_vertexes)+1
 
   def neighbours(self, vertex):
-    return [neighbour for sub_graph in self.sub_graphs for neighbour in sub_graph.neighbours(vertex)]
+    return [neighbour
+            for sub_graph in self.sub_graphs
+            for neighbour in sub_graph.neighbours(vertex)]
 
   def adjacency_matrix(self):
     N = self.vertex_count()
@@ -25,7 +27,7 @@ class Graph(object):
   def coin_faces(self):
     N = self.vertex_count()
     r = self.max_degree()
-    coin_faces = [np.zeros([N, N])]*r
+    coin_faces = [np.zeros([N, N]) for _ in range(r)]
 
     for i in range(N):
       neighbours = self.neighbours(i)

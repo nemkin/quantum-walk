@@ -17,37 +17,34 @@ class Quantum(Simulator):
   def coin(size):
     return splinalg.dft(size) / np.sqrt(size)
 
-  def simulate(graph, start, simulations, steps):
+  def simulate(self, graph):
 
     N = graph.vertex_count()
     regularity = graph.max_degree()
     coin = Quantum.coin(regularity)
 
-    for _ in tqdm(range(simulations), leave=False):
+    for _ in tqdm(range(self.simulations), leave=False):
 
       pos = np.zeros((N, regularity), dtype=complex)
-      pos[start] = Quantum.coin_start_state(regularity)
+      pos[self.start] = Quantum.coin_start_state(regularity)
 
       currpos = pos
       counts = np.zeros((1, N), dtype=float)
-      counts[0, start] = 1
+      counts[0, self.start] = 1
 
-      for _ in tqdm(range(steps), leave=False):
+      for _ in tqdm(range(self.steps), leave=False):
         nextpos = np.zeros((N, regularity), dtype=complex)
         for i in tqdm(range(N), leave=False):
           n = graph.neighbours(i)
           for index, multiplicators in enumerate(coin):
             nextpos[n[index],
                     index] += currpos[i].dot(np.squeeze(multiplicators))
-
         currpos = nextpos
-
         probabilities = Quantum.probability(currpos)
-
         counts = counts = np.concatenate(
             (counts, np.array([probabilities])), axis=0)
 
     return counts
 
-  def describe():
+  def describe(self):
     return "Kvantum szimuláció"
