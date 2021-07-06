@@ -30,9 +30,10 @@ class Run:
 
   def mixing_time(counts):
     n = len(counts)
-    diffarray = np.zeros(n-1)
-    for i in range(n-1):
-      diffarray[i] = np.linalg.norm(counts[i+1]-counts[i])
+    k = 2
+    diffarray = np.zeros(n-k)
+    for i in range(n-k):
+      diffarray[i] = np.linalg.norm(counts[i+k]-counts[i])
     return diffarray
 
   def hitting_time(counts):

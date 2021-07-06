@@ -42,11 +42,11 @@ class Exporter:
         X,
         Y,
         adj,
-        cmap='plasma',
+        cmap='rainbow',
         shading='auto',
         linewidths=1,
         snap=True,
-        norm=colors.LogNorm(1, vmax=adj.max())
+        norm=colors.LogNorm(vmin=np.min(adj[np.nonzero(adj)]), vmax=adj.max())
     )
     ax.xaxis.tick_top()
     ax.invert_yaxis()
@@ -58,26 +58,37 @@ class Exporter:
     with open(f"{self.full_path(filename)}.txt", "w") as f:
       f.write(np.array2string(adj))
 
+    with open(f"{self.full_path(filename)}.npy", 'wb') as f:
+      np.save(f, adj)
+
   def draw(self, simulation, filename):
     simulator = simulation["simulator"]
     counts = simulation["counts"]
 
+    smaller = 2 * self.run.N
+    steps_smaller = simulator.steps - smaller
+
+    steps_Y_smaller = np.arange(-0.5 + smaller, simulator.steps, 1)
+    counts_smaller = counts[smaller:]
+
     steps_Y = np.arange(-0.5, simulator.steps, 1)
     vertexes_X = np.arange(-0.5, self.run.N-1, 1)
 
-    x = 6
-    y = 12  # min(6*steps//N, 12)
+    div = np.gcd(self.run.N, simulator.steps)
+    x = 6  # self.run.N // div
+    y = 12  # simulator.steps // div
 
     fig, ax = plt.subplots(1, 1, figsize=(x, y))
     pcm = ax.pcolor(
         vertexes_X,
         steps_Y,
         counts,
-        cmap='plasma',
+        cmap='rainbow',
         shading='auto',
         linewidths=1,
         snap=True,
-        norm=colors.LogNorm(0.001, vmax=counts.max())
+        norm=colors.LogNorm(vmin=np.min(
+            counts[np.nonzero(counts)]), vmax=counts.max())
     )
     ax.set_xlabel('Csúcsindexek')
     ax.set_ylabel('Lépések')
@@ -86,8 +97,35 @@ class Exporter:
     fig.savefig(f"{self.full_path(filename)}.jpg")
     plt.close(fig)
 
+    if steps_smaller > 0:
+      div = np.gcd(self.run.N, steps_smaller)
+      x = 6  # self.run.N // div
+      y = 12  # steps_smaller // div
+
+      fig, ax = plt.subplots(1, 1, figsize=(x, y))
+      pcm = ax.pcolor(
+          vertexes_X,
+          steps_Y_smaller,
+          counts_smaller,
+          cmap='rainbow',
+          shading='auto',
+          linewidths=1,
+          snap=True,
+          norm=colors.LogNorm(vmin=np.min(
+              counts_smaller[np.nonzero(counts_smaller)]), vmax=counts_smaller.max())
+      )
+      ax.set_xlabel('Csúcsindexek')
+      ax.set_ylabel('Lépések')
+      fig.tight_layout()
+
+      fig.savefig(f"{self.full_path(filename)}_smaller.jpg")
+      plt.close(fig)
+
     with open(f"{self.full_path(filename)}.txt", "w") as f:
       f.write(np.array2string(counts))
+
+    with open(f"{self.full_path(filename)}.npy", 'wb') as f:
+      np.save(f, counts)
 
   def add_graphics(self, file, caption):
     self.description += ["\\begin{figure}[H]"]
@@ -196,6 +234,8 @@ class Exporter:
 
       self.add_graphics(
           sim_file, f"{i}. szimuláció")
+      self.add_graphics(
+          f"{sim_file}_smaller", f"{i}. szimuláció levágva az elejét")
       self.add_graphics(
           mix_time_file, f"{i}. szimuláció mixing time")
       self.add_graphics(
