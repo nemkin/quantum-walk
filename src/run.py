@@ -2,14 +2,31 @@ from tqdm import tqdm
 import pydng
 import time
 import numpy as np
+from datetime import datetime
 
 
 class Run:
 
-  def make_name(self):
-    time_part = time.strftime('%Y_%m_%d__%H_%M_%S')
-    unique_part = pydng.generate_name()
-    return f"{time_part}_{unique_part}"
+  def make_name():
+    now = datetime.now()
+    time_filename = now.strftime('%Y_%m_%d__%H_%M_%S')
+    time_title = now.strftime('%Y. %m. %d. %H:%M:%S')
+
+    name_filename = pydng.generate_name()
+    name_title = ' '.join(map(
+        lambda s: s.capitalize(),
+        name_filename.split('_')
+    ))
+
+    title = name_title
+    subtitle = time_title
+    filename = f"{time_filename}_{name_filename}"
+
+    return title, subtitle, filename
+
+  def eigen_values(adj):
+    eigen_values, eigen_vectors = np.linalg.eig(adj)
+    return sorted(eigen_values, reverse=True)
 
   def mixing_time(counts):
     n = len(counts)
@@ -37,9 +54,10 @@ class Run:
     }
 
   def __init__(self, graph, simulators):
-    self.name = self.make_name()
+    self.title, self.subtitle, self.filename = Run.make_name()
     self.N = graph.vertex_count()
     self.graph_adj = graph.adjacency_matrix()
+    self.eigen_values = Run.eigen_values(self.graph_adj)
     self.coin_faces = graph.coin_faces()
     self.sub_graphs = map(
         lambda sub_graph: {

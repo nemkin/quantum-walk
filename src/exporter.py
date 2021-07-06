@@ -140,8 +140,8 @@ class Exporter:
 
     self.description += ["\\section{Gráf}"]
     self.description += ["\\subsection{Sajátértékek}"]
-    self.description += ["$" +
-                         ', '.join(map(lambda n: f"{n:.2f}", self.run.eigen_values)) + "$"]
+    self.description += [
+        ', '.join(map(lambda n: f"${n:.2f}$", self.run.eigen_values))]
     self.description += ["\\subsection{Szomszédossági mátrix}"]
     self.add_graphics(graph_file, "Gráf szomszédossági mátrixa")
 
