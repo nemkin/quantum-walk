@@ -13,7 +13,7 @@ class Exporter:
 
   def __init__(self, run):
     self.run = run
-    self.path = f"{Config.new_root}/{self.run.name}"
+    self.path = f"{Config.new_root}/{self.run.filename}"
     self.description = []
 
   def full_path(self, filename):
@@ -125,8 +125,9 @@ class Exporter:
     self.description += ["\\usepackage{graphicx}"]
     self.description += [""]
     self.description += ["% Title setup"]
-    self.description += ["\\title{Gráfszimuláció}"]
-    self.description += ["\\author{Nemkin Viktória}"]
+    self.description += [
+        f"\\title{{{self.run.title} \\ \large {self.run.subtitle}}}"]
+    self.description += ["\\author{}"]
     self.description += ["\date{}"]
     self.description += [""]
     self.description += ["% Document"]
@@ -138,6 +139,10 @@ class Exporter:
     self.draw_adj(self.run.graph_adj, graph_file)
 
     self.description += ["\\section{Gráf}"]
+    self.description += ["\\subsection{Sajátértékek}"]
+    self.description += ["$" +
+                         ', '.join(map(lambda n: f"{n:.2f}", self.run.eigen_values)) + "$"]
+    self.description += ["\\subsection{Szomszédossági mátrix}"]
     self.add_graphics(graph_file, "Gráf szomszédossági mátrixa")
 
   def add_coin_faces(self):
@@ -200,7 +205,7 @@ class Exporter:
     self.description += ["\\end{document}"]
 
   def create_latex(self):
-    latex_file = self.full_path(f'{self.run.name}.tex')
+    latex_file = self.full_path(f'{self.run.filename}.tex')
     with open(latex_file, 'w') as f:
       f.writelines("\n".join(self.description))
 
