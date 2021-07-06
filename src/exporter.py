@@ -100,7 +100,7 @@ class Exporter:
   def add_begin(self):
     self.description += ["% Geometry setup"]
     self.description += ["\\documentclass[14pt,a4paper]{article}"]
-    self.description += ["\\usepackage[margin=3cm]{geometry}"]
+    self.description += ["\\usepackage[margin=1.5cm]{geometry}"]
     self.description += [""]
     self.description += ["% Language setup"]
     self.description += ["\\usepackage[magyar]{babel} % Babel for Hungarian"]
@@ -126,7 +126,7 @@ class Exporter:
     self.description += [""]
     self.description += ["% Title setup"]
     self.description += [
-        f"\\title{{{self.run.title} \\ \large {self.run.subtitle}}}"]
+        f"\\title{{{self.run.title} \\\\ \\large {self.run.subtitle}}}"]
     self.description += ["\\author{}"]
     self.description += ["\date{}"]
     self.description += [""]
