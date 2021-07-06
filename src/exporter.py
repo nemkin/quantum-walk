@@ -46,6 +46,10 @@ class Exporter:
         snap=True,
         norm=colors.LogNorm(1, vmax=adj.max())
     )
+
+    ax.xaxis.tick_top()
+    ax.invert_yaxis()
+
     fig.tight_layout()
 
     fig.savefig(f"{self.full_path(filename)}.jpg")
