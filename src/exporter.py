@@ -19,6 +19,20 @@ class Exporter:
   def full_path(self, filename):
     return f"{self.path}/{filename}"
 
+  def draw_graphics(self, y, xlabel, ylabel, filename):
+    N = len(y)
+    x = np.arange(0, N, 1)
+    fig, ax = plt.subplots(1, 1)
+    pcm = ax.plot(x, y)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    fig.tight_layout()
+    fig.savefig(f"{self.full_path(filename)}.jpg")
+    plt.close(fig)
+
+    with open(f"{self.full_path(filename)}.txt", "w") as f:
+      f.write(np.array2string(y))
+
   def draw_adj(self, adj, filename):
     fig, ax = plt.subplots(1, 1, figsize=(6, 6))
     X, Y = np.meshgrid(range(adj.shape[0]+1), range(adj.shape[1]+1))
@@ -71,6 +85,14 @@ class Exporter:
     with open(f"{self.full_path(filename)}.txt", "w") as f:
       f.write(np.array2string(counts))
 
+  def add_graphics(self, file, caption):
+    self.description += ["\\begin{figure}[H]"]
+    self.description += ["\\centering"]
+    self.description += [
+        f"\\includegraphics[width = 0.7\\columnwidth]{{{file}}}"]
+    self.description += [f"\\caption{{{caption}}}"]
+    self.description += ["\\end{figure}"]
+
   def add_begin(self):
     self.description += ["% Geometry setup"]
     self.description += ["\\documentclass[14pt,a4paper]{article}"]
@@ -112,12 +134,7 @@ class Exporter:
     self.draw_adj(self.run.graph_adj, graph_file)
 
     self.description += ["\\section{Gráf}"]
-    self.description += ["\\begin{figure}[H]"]
-    self.description += ["\\centering"]
-    self.description += [
-        f"\\includegraphics[width = 0.7\\columnwidth]{{{graph_file}}}"]
-    self.description += ["\\caption{Gráf szomszédossági mátrixa}"]
-    self.description += ["\\end{figure}"]
+    self.add_graphics(graph_file, "Gráf szomszédossági mátrixa")
 
   def add_coin_faces(self):
     for i, coin_face in tqdm(enumerate(self.run.coin_faces), desc="Export coin faces", leave=False):
@@ -125,13 +142,8 @@ class Exporter:
       self.draw_adj(coin_face, coin_face_file)
 
       self.description += ["\\subsection{Érme oldal}"]
-      self.description += ["\\begin{figure}[H]"]
-      self.description += ["\\centering"]
-      self.description += [
-          f"\\includegraphics[width = 0.7\\columnwidth]{{{coin_face_file}}}"]
-      self.description += [
-          f"\\caption{{{i}. érmeoldal szomszédossági mátrixa}}"]
-      self.description += ["\\end{figure}"]
+      self.add_graphics(
+          coin_face_file, f"{i}. érmeoldal szomszédossági mátrixa")
 
   def add_sub_graphs(self):
     for i, sub_graph in tqdm(enumerate(self.run.sub_graphs), desc="Export sub graphs", leave=False):
@@ -140,13 +152,8 @@ class Exporter:
 
       self.description += ["\\subsection{Részgráf}"]
       self.description += [sub_graph["describe"]]
-      self.description += ["\\begin{figure}[H]"]
-      self.description += ["\\centering"]
-      self.description += [
-          f"\\includegraphics[width = 0.7\\columnwidth]{{{sub_graph_file}}}"]
-      self.description += [
-          f"\\caption{{{i}. részgráf szomszédossági mátrixa}}"]
-      self.description += ["\\end{figure}"]
+      self.add_graphics(
+          sub_graph_file, f"{i}. részgráf szomszédossági mátrixa")
 
   def add_simulations(self):
     self.description += ["\\section{Szimulációk}"]
@@ -154,20 +161,36 @@ class Exporter:
     for i, simulation in tqdm(enumerate(self.run.simulations),  desc="Export simulations", leave=False):
       simulator = simulation["simulator"]
       counts = simulation["counts"]
+      mixing_time = simulation["mixing_time"]
+      hitting_time = simulation["hitting_time"]
 
       sim_file = f'sim{i:02}'
+      mix_time_file = f'{sim_file}_mixing_time'
+      hit_time_file = f'{sim_file}_hitting_time'
+
       self.draw(simulation, sim_file)
+      self.draw_graphics(
+          mixing_time,
+          "Lépések",
+          "Egymás utáni eloszlások euklideszi távolsága",
+          mix_time_file)
+      self.draw_graphics(
+          hitting_time,
+          "Csúcsok",
+          "Első nem 0 step",
+          hit_time_file)
 
       self.description += [f"\\subsection{{{simulator.describe()}}}"]
       self.description += [f"Kezdőcsúcs: {simulator.start}"]
       self.description += [f"Bolyongók: {simulator.simulations}"]
       self.description += [f"Lépésszám: {simulator.steps}"]
-      self.description += ["\\begin{figure}[H]"]
-      self.description += ["\\centering"]
-      self.description += [
-          f"\\includegraphics[width = 0.7\\columnwidth]{{{sim_file}}}"]
-      self.description += [f"\\caption{{{i}. szimuláció}}"]
-      self.description += ["\\end{figure}"]
+
+      self.add_graphics(
+          sim_file, f"{i}. szimuláció")
+      self.add_graphics(
+          mix_time_file, f"{i}. szimuláció mixing time")
+      self.add_graphics(
+          hit_time_file, f"{i}. szimuláció hitting time")
 
   def add_end(self):
     self.description += ["\\end{document}"]

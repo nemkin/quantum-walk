@@ -51,8 +51,8 @@ def run_path():
   graph = Graph('Path', [Path(range(9))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 5000, 10000),
-      Quantum(N//2, 1, 10000)
+      Classical(N//2, 5000, 1000),
+      Quantum(N//2, 1, 1000)
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
@@ -63,8 +63,8 @@ def run_grid():
   graph = Graph('Grid', [Grid(range(9))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 1000, 10000),
-      Quantum(N//2, 1, 10000),
+      Classical(N//2, 1000, 1000),
+      Quantum(N//2, 1, 1000),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
