@@ -26,6 +26,8 @@ class Exporter:
     pcm = ax.plot(x, y)
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
+    ax.set_ylim(ymin=0)
+
     fig.tight_layout()
     fig.savefig(f"{self.full_path(filename)}.jpg")
     plt.close(fig)
@@ -46,12 +48,10 @@ class Exporter:
         snap=True,
         norm=colors.LogNorm(1, vmax=adj.max())
     )
-
     ax.xaxis.tick_top()
     ax.invert_yaxis()
 
     fig.tight_layout()
-
     fig.savefig(f"{self.full_path(filename)}.jpg")
     plt.close(fig)
 
