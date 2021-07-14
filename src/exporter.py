@@ -1,3 +1,4 @@
+from locations import RunLocations
 import os
 import subprocess
 import numpy as np
@@ -13,11 +14,8 @@ class Exporter:
 
   def __init__(self, run):
     self.run = run
-    self.path = f"{Config.new_root}/{self.run.filename}"
+    self.loc = RunLocations(run)
     self.description = []
-
-  def full_path(self, filename):
-    return f"{self.path}/{filename}"
 
   def draw_graphics(self, y, title, xlabel, ylabel, filename):
     N = len(y)
@@ -30,10 +28,10 @@ class Exporter:
     ax.set_ylim(ymin=0)
 
     fig.tight_layout()
-    fig.savefig(f"{self.full_path(filename)}.jpg")
+    fig.savefig(filename.image())
     plt.close(fig)
 
-    with open(f"{self.full_path(filename)}.txt", "w") as f:
+    with open(filename.text(), "w") as f:
       f.write(np.array2string(y))
 
   def draw_adj(self, adj, filename):
@@ -53,16 +51,16 @@ class Exporter:
     ax.invert_yaxis()
 
     fig.tight_layout()
-    fig.savefig(f"{self.full_path(filename)}.jpg")
+    fig.savefig(filename.image())
     plt.close(fig)
 
-    with open(f"{self.full_path(filename)}.txt", "w") as f:
+    with open(filename.text(), "w") as f:
       f.write(np.array2string(adj))
 
-    with open(f"{self.full_path(filename)}.npy", 'wb') as f:
+    with open(filename.numpy(), 'wb') as f:
       np.save(f, adj)
 
-  def draw(self, simulation, filename):
+  def draw(self, simulation, simloc):
     simulator = simulation["simulator"]
     counts = simulation["counts"]
 
@@ -96,7 +94,7 @@ class Exporter:
     ax.set_ylabel('Lépések')
     fig.tight_layout()
 
-    fig.savefig(f"{self.full_path(filename)}.jpg")
+    fig.savefig(simloc.counts().image())
     plt.close(fig)
 
     if steps_smaller > 0:
@@ -121,13 +119,13 @@ class Exporter:
       ax.set_ylabel('Lépések')
       fig.tight_layout()
 
-      fig.savefig(f"{self.full_path(filename)}_smaller.jpg")
+      fig.savefig(simloc.counts_short().image())
       plt.close(fig)
 
-    with open(f"{self.full_path(filename)}.txt", "w") as f:
+    with open(simloc.counts().text(), "w") as f:
       f.write(np.array2string(counts))
 
-    with open(f"{self.full_path(filename)}.npy", 'wb') as f:
+    with open(simloc.counts().numpy(), 'wb') as f:
       np.save(f, counts)
 
   def add_graphics(self, file, caption):
@@ -140,7 +138,7 @@ class Exporter:
 
   def add_numbers(self, numbers):
     n = len(numbers)
-    cols = 8
+    cols = 10
     self.description += ["\\begin{centering}"]
     self.description += [f"\\begin{{tabular}}{{{'|'.join(['r']*cols)}}}"]
     for i in range(0, n, cols):
@@ -191,33 +189,32 @@ class Exporter:
     self.description += ["\\maketitle"]
 
   def add_graph(self):
-    graph_file = 'graph'
-    self.draw_adj(self.run.graph_adj, graph_file)
+    self.draw_adj(self.run.graph_adj, self.loc.graph_adj())
 
     self.description += ["\\section{Gráf}"]
-    self.add_graphics(graph_file, "Gráf szomszédossági mátrixa")
+    self.add_graphics(self.loc.graph_adj(latex=True).image(),
+                      "Gráf szomszédossági mátrixa")
     self.description += ["\\subsection{Sajátértékek}"]
     self.add_numbers(sorted(self.run.eigens.keys(), reverse=True))
     self.description += ["\\subsection{Szomszédossági mátrix}"]
 
   def add_coin_faces(self):
     for i, coin_face in tqdm(enumerate(self.run.coin_faces), desc="Export coin faces", leave=False):
-      coin_face_file = f'coin_face_{i:02}'
-      self.draw_adj(coin_face, coin_face_file)
+      self.draw_adj(coin_face, self.loc.coin_face(i))
 
       self.description += ["\\subsection{Érme oldal}"]
-      self.add_graphics(
-          coin_face_file, f"{i}. érmeoldal szomszédossági mátrixa")
+      self.add_graphics(self.loc.coin_face(i, latex=True).image(),
+                        f"{i}. érmeoldal szomszédossági mátrixa")
 
   def add_sub_graphs(self):
     for i, sub_graph in tqdm(enumerate(self.run.sub_graphs), desc="Export sub graphs", leave=False):
-      sub_graph_file = f'subgraph_{i:02}'
-      self.draw_adj(sub_graph["adj"], sub_graph_file)
+
+      self.draw_adj(sub_graph["adj"], self.loc.subgraph_adj(i))
 
       self.description += ["\\subsection{Részgráf}"]
       self.description += [sub_graph["describe"]]
-      self.add_graphics(
-          sub_graph_file, f"{i}. részgráf szomszédossági mátrixa")
+      self.add_graphics(self.loc.subgraph_adj(i, latex=True).image(),
+                        f"{i}. részgráf szomszédossági mátrixa")
 
   def add_simulations(self):
     self.description += ["\\section{Szimulációk}"]
@@ -228,23 +225,19 @@ class Exporter:
       mixing_time = simulation["mixing_time"]
       hitting_time = simulation["hitting_time"]
 
-      sim_file = f'sim{i:02}'
-      mix_time_file = f'{sim_file}_mixing_time'
-      hit_time_file = f'{sim_file}_hitting_time'
-
-      self.draw(simulation, sim_file)
+      self.draw(simulation, self.loc.simulation(i))
       self.draw_graphics(
           mixing_time,
           simulator.describe(),
           "Lépések",
           "Egymás utáni eloszlások euklideszi távolsága",
-          mix_time_file)
+          self.loc.simulation(i).mixing_time())
       self.draw_graphics(
           hitting_time,
           simulator.describe(),
           "Csúcsok",
           "Első nem 0 step",
-          hit_time_file)
+          self.loc.simulation(i).hitting_time())
 
       self.description += [f"\\subsection{{{simulator.describe()}}}"]
       self.description += [f"Kezdőcsúcs: {simulator.start}"]
@@ -252,20 +245,20 @@ class Exporter:
       self.description += [f"Lépésszám: {simulator.steps}"]
 
       self.add_graphics(
-          sim_file, f"{i}. szimuláció")
+          self.loc.simulation(i, latex=True).counts().image(), f"{i}. szimuláció")
       self.add_graphics(
-          f"{sim_file}_smaller", f"{i}. szimuláció levágva az elejét")
+          self.loc.simulation(i, latex=True).counts_short().image(), f"{i}. szimuláció levágva az elejét")
       self.add_graphics(
-          mix_time_file, f"{i}. szimuláció mixing time")
+          self.loc.simulation(i, latex=True).mixing_time().image(), f"{i}. szimuláció mixing time")
       self.add_graphics(
-          hit_time_file, f"{i}. szimuláció hitting time")
+          self.loc.simulation(i, latex=True).hitting_time().image(), f"{i}. szimuláció hitting time")
 
   def add_end(self):
     self.description += ["\\end{document}"]
 
   def run_command(self, command):
     process = subprocess.Popen(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=self.path)
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=self.loc.root)
     out, err = process.communicate()
     if process.returncode != 0:
       print("Out:")
@@ -276,8 +269,9 @@ class Exporter:
       print(err.decode())
 
   def create_latex(self):
+    # TODO use Locations here too
     latex_file = f'{self.run.filename}.tex'
-    with open(self.full_path(latex_file), 'w') as f:
+    with open(self.loc.root / latex_file, 'w') as f:
       f.writelines("\n".join(self.description))
 
     self.run_command(["latexmk", "-pdf", "-silent", latex_file])
@@ -286,8 +280,6 @@ class Exporter:
       self.run_command(["latexmk", "-c"])
 
   def export(self):
-    os.makedirs(self.path)
-
     self.add_begin()
     self.add_graph()
     self.add_coin_faces()
