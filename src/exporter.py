@@ -19,11 +19,12 @@ class Exporter:
   def full_path(self, filename):
     return f"{self.path}/{filename}"
 
-  def draw_graphics(self, y, xlabel, ylabel, filename):
+  def draw_graphics(self, y, title, xlabel, ylabel, filename):
     N = len(y)
     x = np.arange(0, N, 1)
     fig, ax = plt.subplots(1, 1)
     pcm = ax.plot(x, y)
+    ax.set_title(title)
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.set_ylim(ymin=0)
@@ -90,6 +91,7 @@ class Exporter:
         norm=colors.LogNorm(vmin=np.min(
             counts[np.nonzero(counts)]), vmax=counts.max())
     )
+    ax.set_title(simulator.describe())
     ax.set_xlabel('Csúcsindexek')
     ax.set_ylabel('Lépések')
     fig.tight_layout()
@@ -114,6 +116,7 @@ class Exporter:
           norm=colors.LogNorm(vmin=np.min(
               counts_smaller[np.nonzero(counts_smaller)]), vmax=counts_smaller.max())
       )
+      ax.set_title(simulator.describe())
       ax.set_xlabel('Csúcsindexek')
       ax.set_ylabel('Lépések')
       fig.tight_layout()
@@ -134,6 +137,21 @@ class Exporter:
         f"\\includegraphics[width = 0.7\\columnwidth]{{{file}}}"]
     self.description += [f"\\caption{{{caption}}}"]
     self.description += ["\\end{figure}"]
+
+  def add_numbers(self, numbers):
+    n = len(numbers)
+    cols = 8
+    self.description += ["\\begin{centering}"]
+    self.description += [f"\\begin{{tabular}}{{{'|'.join(['r']*cols)}}}"]
+    for i in range(0, n, cols):
+      if i is not 0:
+        self.description += ["\\hline"]
+      end = i+cols if i+cols <= n else n
+      nums = numbers[i:end]
+      strings = map(lambda x: f'{x: .6f}', nums)
+      self.description += [f"{' & '.join(strings)} \\\\"]
+    self.description += ["\\end{tabular}"]
+    self.description += ["\\end{centering}"]
 
   def add_begin(self):
     self.description += ["% Geometry setup"]
@@ -177,11 +195,10 @@ class Exporter:
     self.draw_adj(self.run.graph_adj, graph_file)
 
     self.description += ["\\section{Gráf}"]
-    self.description += ["\\subsection{Sajátértékek}"]
-    self.description += [
-        ', '.join(map(lambda n: f"${n:.2f}$", self.run.eigen_values))]
-    self.description += ["\\subsection{Szomszédossági mátrix}"]
     self.add_graphics(graph_file, "Gráf szomszédossági mátrixa")
+    self.description += ["\\subsection{Sajátértékek}"]
+    self.add_numbers(sorted(self.run.eigens.keys(), reverse=True))
+    self.description += ["\\subsection{Szomszédossági mátrix}"]
 
   def add_coin_faces(self):
     for i, coin_face in tqdm(enumerate(self.run.coin_faces), desc="Export coin faces", leave=False):
@@ -218,11 +235,13 @@ class Exporter:
       self.draw(simulation, sim_file)
       self.draw_graphics(
           mixing_time,
+          simulator.describe(),
           "Lépések",
           "Egymás utáni eloszlások euklideszi távolsága",
           mix_time_file)
       self.draw_graphics(
           hitting_time,
+          simulator.describe(),
           "Csúcsok",
           "Első nem 0 step",
           hit_time_file)
@@ -244,24 +263,27 @@ class Exporter:
   def add_end(self):
     self.description += ["\\end{document}"]
 
-  def create_latex(self):
-    latex_file = self.full_path(f'{self.run.filename}.tex')
-    with open(latex_file, 'w') as f:
-      f.writelines("\n".join(self.description))
-
-    latexmk = ["latexmk", "-pdf", "-silent",
-               latex_file, f"-outdir={self.path}"]
+  def run_command(self, command):
     process = subprocess.Popen(
-        latexmk, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=self.path)
     out, err = process.communicate()
-
     if process.returncode != 0:
-      print("Latexmk out:")
+      print("Out:")
       print("------------")
       print(out.decode())
-      print(f"Latexmk error ({process.returncode}):")
+      print(f"Error ({process.returncode}):")
       print("------------")
       print(err.decode())
+
+  def create_latex(self):
+    latex_file = f'{self.run.filename}.tex'
+    with open(self.full_path(latex_file), 'w') as f:
+      f.writelines("\n".join(self.description))
+
+    self.run_command(["latexmk", "-pdf", "-silent", latex_file])
+    clean = True
+    if clean:
+      self.run_command(["latexmk", "-c"])
 
   def export(self):
     os.makedirs(self.path)

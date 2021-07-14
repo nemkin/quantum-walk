@@ -3,6 +3,7 @@ import pydng
 import time
 import numpy as np
 from datetime import datetime
+import itertools
 
 
 class Run:
@@ -24,9 +25,18 @@ class Run:
 
     return title, subtitle, filename
 
-  def eigen_values(adj):
+  def eigens(adj):
     eigen_values, eigen_vectors = np.linalg.eig(adj)
-    return sorted(eigen_values, reverse=True)
+    eigens = [{"value": eigen_values[i], "vector": eigen_vectors[i]}
+              for i in range(len(eigen_values))]
+    return {key: list(map(lambda g: g["vector"], group))
+            for key, group in itertools.groupby(eigens, lambda x: x["value"])}
+
+  def limiting_dists(adj):
+    transition_mat = adj/adj.sum(0)
+    eigen_values, eigen_vectors = np.linalg.eig(transition_mat)
+    eigen_vectors_1 = eigen_vectors[:, np.isclose(eigen_values, 1)]
+    return eigen_vectors_1
 
   def mixing_time(counts):
     n = len(counts)
@@ -58,7 +68,8 @@ class Run:
     self.title, self.subtitle, self.filename = Run.make_name()
     self.N = graph.vertex_count()
     self.graph_adj = graph.adjacency_matrix()
-    self.eigen_values = Run.eigen_values(self.graph_adj)
+    self.eigens = Run.eigens(self.graph_adj)
+    self.limiting_dists = Run.limiting_dists(self.graph_adj)
     self.coin_faces = graph.coin_faces()
     self.sub_graphs = map(
         lambda sub_graph: {
