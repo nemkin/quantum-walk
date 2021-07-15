@@ -138,7 +138,7 @@ class Exporter:
 
   def add_numbers(self, numbers):
     n = len(numbers)
-    cols = 10
+    cols = 5
     self.description += ["\\begin{centering}"]
     self.description += [f"\\begin{{tabular}}{{{'|'.join(['r']*cols)}}}"]
     for i in range(0, n, cols):

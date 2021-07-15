@@ -1,4 +1,6 @@
 
+from simulators.coins.dft import Dft
+from graphs.subgraphs.Hypercube import Hypercube
 from simulators.coins.grover import Grover
 from simulators.coins.hadamard import Hadamard
 from exporter import Exporter
@@ -54,7 +56,7 @@ def run_path():
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 1000, 1000),
-      Quantum(Grover(), N//2, 1, 1000)
+      Quantum(Hadamard(), N//2, 1, 1000)
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
@@ -66,7 +68,18 @@ def run_grid():
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 1000, 1000),
-      Quantum(Grover(), N//2, 1, 1000),
+      Quantum(Hadamard(), N//2, 1, 1000),
+  ]
+  run = Run(graph, simulators)
+  Exporter(run).export()
+  Tester(run).test()
+
+
+def run_hypercube():
+  graph = Graph('Hypercube', [Hypercube(range(2**3))])
+  simulators = [
+      Classical(0, 50, 50),
+      Quantum(Dft(), 0, 1, 50),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
@@ -76,5 +89,8 @@ def run_grid():
 archive()
 # run_dumbbell()
 # run_glued_binary()
-run_path()
-run_grid()
+
+# run_path()
+# run_grid()
+
+run_hypercube()
