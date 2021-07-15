@@ -49,6 +49,12 @@ class SimulationLocations(Locations):
   def mixing_time(self):
     return FileEnding(self.root / "mixing_time", self.latex)
 
+  def coin_start(self):
+    return FileEnding(self.root / "coin_start", self.latex)
+
+  def coin_step(self):
+    return FileEnding(self.root / "coin_step", self.latex)
+
 
 class RunLocations(Locations):
   def __init__(self, run):

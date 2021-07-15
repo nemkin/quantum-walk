@@ -1,6 +1,4 @@
-import sys
 import numpy as np
-from scipy import linalg as splinalg
 from tqdm import tqdm
 
 from simulators.simulator import Simulator
@@ -8,25 +6,26 @@ from simulators.simulator import Simulator
 
 class Quantum(Simulator):
 
+  def __init__(self, coin, start, simulations, steps):
+    self.coin = coin
+    self.start = start
+    self.simulations = simulations
+    self.steps = steps
+
   def probability(probability_amplitudes):
     return (probability_amplitudes.real**2 + probability_amplitudes.imag**2).sum(axis=1)
-
-  def coin_start_state(size):
-    return [1/np.sqrt(2), 1j/np.sqrt(2)] + [0]*(size-2)
-
-  def coin(size):
-    return splinalg.dft(size) / np.sqrt(size)
 
   def simulate(self, graph):
 
     N = graph.vertex_count()
     regularity = graph.max_degree()
-    coin = Quantum.coin(regularity)
+    self.coin.set_size(regularity)
+    coin_step = self.coin.step()
 
     for _ in tqdm(range(self.simulations), desc=f"{graph.name}: {self.describe()} simulations", leave=False):
 
       pos = np.zeros((N, regularity), dtype=complex)
-      pos[self.start] = Quantum.coin_start_state(regularity)
+      pos[self.start] = self.coin.start()
 
       currpos = pos
       counts = np.zeros((1, N), dtype=float)
@@ -36,7 +35,7 @@ class Quantum(Simulator):
         nextpos = np.zeros((N, regularity), dtype=complex)
         for i in tqdm(range(N), desc=f"{graph.name}: {self.describe()} vertexes", leave=False):
           n = graph.neighbours(i)
-          for index, multiplicators in enumerate(coin):
+          for index, multiplicators in enumerate(coin_step):
             nextpos[n[index],
                     index] += currpos[i].dot(np.squeeze(multiplicators))
         currpos = nextpos
@@ -46,5 +45,8 @@ class Quantum(Simulator):
 
     return counts
 
+  def is_quantum(self):
+    return True
+
   def describe(self):
-    return "Kvantum szimuláció"
+    return f"Kvantum szimuláció ({self.coin.describe()})"

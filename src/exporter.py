@@ -253,6 +253,13 @@ class Exporter:
       self.add_graphics(
           self.loc.simulation(i, latex=True).hitting_time().image(), f"{i}. szimuláció hitting time")
 
+      if simulator.is_quantum():
+        with open(self.loc.simulation(i).coin_start().text(), "w") as f:
+          f.write(np.array2string(np.array(simulator.coin.start())))
+
+        with open(self.loc.simulation(i).coin_step().text(), "w") as f:
+          f.write(np.array2string(simulator.coin.step()))
+
   def add_end(self):
     self.description += ["\\end{document}"]
 

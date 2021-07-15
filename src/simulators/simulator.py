@@ -4,3 +4,6 @@ class Simulator(object):
     self.start = start
     self.simulations = simulations
     self.steps = steps
+
+  def is_quantum(self):
+    return False

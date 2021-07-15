@@ -1,4 +1,6 @@
 
+from simulators.coins.grover import Grover
+from simulators.coins.hadamard import Hadamard
 from exporter import Exporter
 from tester import Tester
 from run import Run
@@ -48,11 +50,11 @@ def run_glued_binary():
 
 
 def run_path():
-  graph = Graph('Path', [Path(range(9))])
+  graph = Graph('Path', [Path(range(225))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 5000, 1000),
-      Quantum(N//2, 1, 1000)
+      Classical(N//2, 1000, 1000),
+      Quantum(Grover(), N//2, 1, 1000)
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
@@ -60,11 +62,11 @@ def run_path():
 
 
 def run_grid():
-  graph = Graph('Grid', [Grid(range(9))])
+  graph = Graph('Grid', [Grid(range(225))])
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 1000, 1000),
-      Quantum(N//2, 1, 1000),
+      Quantum(Grover(), N//2, 1, 1000),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
