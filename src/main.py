@@ -53,7 +53,7 @@ def run_glued_binary():
 
 
 def run_path():
-  graph = Graph('Path', [Path(range(5))])
+  graph = Graph('Path', [Path(range(50))])
   N = graph.vertex_count()
   simulators = [
       # Classical(N//2, 10, 7),
