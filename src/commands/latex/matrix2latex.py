@@ -1,14 +1,19 @@
+from commands.print.matrix2string import matrix2string
+
+
 def insert_every(list, inserted, steps=None):
-  if steps == None:
-    return list
   for index, element in enumerate(list):
     yield element
-    if (index+1) % steps == 0 and (index+1) != len(list):
+    if steps != None and (index+1) % steps == 0 and (index+1) != len(list):
       yield inserted
 
 
 def matrix2latex(matrix, divider_steps=None):
+
   latex = []
+  if matrix.ndim == 1:
+    n = matrix.shape[0]
+    matrix = matrix.reshape(1, n)
   rows, cols = matrix.shape
 
   latex += ["\\documentclass[border=1em]{standalone}"]
@@ -30,6 +35,7 @@ def matrix2latex(matrix, divider_steps=None):
     latex_rows += [f"{' & '.join(nums)} \\\\"]
 
   latex += insert_every(latex_rows, "\\hline", divider_steps)
+
   latex += ["\\end{array}"]
   latex += ["\\right)"]
   latex += ["$"]

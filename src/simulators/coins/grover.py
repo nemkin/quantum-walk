@@ -7,9 +7,9 @@ class Grover(Coin):
 
   def start(self):
     if self.size == 2:
-      return [1/np.sqrt(2), 1j/np.sqrt(2)]
+      return np.array([1/np.sqrt(2), 1j/np.sqrt(2)])
     if self.size == 4:
-      return [1/2, 1j/2, -1/2, -1j/2]
+      return np.array([1/2, 1j/2, -1/2, -1j/2])
     raise f"Grover coin nincs definiálva ${self.size} méretre!"
 
   def step(self):

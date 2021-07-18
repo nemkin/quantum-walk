@@ -263,11 +263,13 @@ class Exporter:
                    matrix2latex(simulation_matrix, simulator.coin.size))
 
       if simulator.is_quantum():
-        with open(self.loc.simulation(i).coin_start().text(), "w") as f:
-          f.write(matrix2string(np.array(simulator.coin.start())))
+        create_latex(
+            self.loc.simulation(i).coin_start().latex(),
+            matrix2latex(simulator.coin.start()))
 
-        with open(self.loc.simulation(i).coin_step().text(), "w") as f:
-          f.write(matrix2string(simulator.coin.step()))
+        create_latex(
+            self.loc.simulation(i).coin_step().latex(),
+            matrix2latex(simulator.coin.step()))
 
   def add_end(self):
     self.description += ["\\end{document}"]
