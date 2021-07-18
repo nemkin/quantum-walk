@@ -1,11 +1,13 @@
-def insert_every(list, steps, inserted):
+def insert_every(list, inserted, steps=None):
+  if steps == None:
+    return list
   for index, element in enumerate(list):
     yield element
     if (index+1) % steps == 0 and (index+1) != len(list):
       yield inserted
 
 
-def matrix2latex(matrix, divider_steps):
+def matrix2latex(matrix, divider_steps=None):
   latex = []
   rows, cols = matrix.shape
 
@@ -19,7 +21,7 @@ def matrix2latex(matrix, divider_steps):
   latex += ["$"]
   latex += ["\\left("]
 
-  column_definition = ''.join(insert_every(['c']*cols, divider_steps, '|'))
+  column_definition = ''.join(insert_every(['c']*cols, '|', divider_steps))
   latex += [f"\\begin{{array}}{{{column_definition}}}"]
 
   latex_rows = []
@@ -27,7 +29,7 @@ def matrix2latex(matrix, divider_steps):
     nums = map(lambda x: f'{x:.6f}', matrix[i, :])
     latex_rows += [f"{' & '.join(nums)} \\\\"]
 
-  latex += insert_every(latex_rows, divider_steps, "\\hline")
+  latex += insert_every(latex_rows, "\\hline", divider_steps)
   latex += ["\\end{array}"]
   latex += ["\\right)"]
   latex += ["$"]

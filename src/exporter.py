@@ -1,3 +1,4 @@
+from commands.latex.matrix2latex import matrix2latex
 from commands.latex.create_latex import create_latex
 from commands.bash.run_bash import run_bash
 from commands.print.matrix2string import matrix2string
@@ -194,7 +195,7 @@ class Exporter:
     self.draw_adj(self.run.graph_adj, self.loc.graph_adj())
 
     self.description += ["\\section{Gráf}"]
-    self.add_graphics(self.loc.graph_adj(latex=True).image(),
+    self.add_graphics(self.loc.graph_adj(is_latex=True).image(),
                       "Gráf szomszédossági mátrixa")
     self.description += ["\\subsection{Szomszédossági mátrix}"]
 
@@ -203,7 +204,7 @@ class Exporter:
       self.draw_adj(coin_face, self.loc.coin_face(i))
 
       self.description += ["\\subsection{Érme oldal}"]
-      self.add_graphics(self.loc.coin_face(i, latex=True).image(),
+      self.add_graphics(self.loc.coin_face(i, is_latex=True).image(),
                         f"{i}. érmeoldal szomszédossági mátrixa")
 
   def add_sub_graphs(self):
@@ -213,7 +214,7 @@ class Exporter:
 
       self.description += ["\\subsection{Részgráf}"]
       self.description += [sub_graph["describe"]]
-      self.add_graphics(self.loc.subgraph_adj(i, latex=True).image(),
+      self.add_graphics(self.loc.subgraph_adj(i, is_latex=True).image(),
                         f"{i}. részgráf szomszédossági mátrixa")
 
   def add_simulations(self):
@@ -224,6 +225,7 @@ class Exporter:
       counts = simulation["counts"]
       mixing_time = simulation["mixing_time"]
       hitting_time = simulation["hitting_time"]
+      simulation_matrix = simulation["simulation_matrix"]
       eigens = simulation["eigens"]
 
       self.draw(simulation, self.loc.simulation(i))
@@ -246,16 +248,19 @@ class Exporter:
       self.description += [f"Lépésszám: {simulator.steps}"]
 
       self.add_graphics(
-          self.loc.simulation(i, latex=True).counts().image(), f"{i}. szimuláció")
+          self.loc.simulation(i, is_latex=True).counts().image(), f"{i}. szimuláció")
       self.add_graphics(
-          self.loc.simulation(i, latex=True).counts_short().image(), f"{i}. szimuláció levágva az elejét")
+          self.loc.simulation(i, is_latex=True).counts_short().image(), f"{i}. szimuláció levágva az elejét")
       self.add_graphics(
-          self.loc.simulation(i, latex=True).mixing_time().image(), f"{i}. szimuláció mixing time")
+          self.loc.simulation(i, is_latex=True).mixing_time().image(), f"{i}. szimuláció mixing time")
       self.add_graphics(
-          self.loc.simulation(i, latex=True).hitting_time().image(), f"{i}. szimuláció hitting time")
+          self.loc.simulation(i, is_latex=True).hitting_time().image(), f"{i}. szimuláció hitting time")
 
       self.description += ["\\subsection{Sajátértékek}"]
       self.add_numbers(sorted(eigens.keys(), reverse=True))
+
+      create_latex(self.loc.simulation(i).simulation_matrix().latex(),
+                   matrix2latex(simulation_matrix, simulator.coin.size))
 
       if simulator.is_quantum():
         with open(self.loc.simulation(i).coin_start().text(), "w") as f:

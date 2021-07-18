@@ -86,13 +86,12 @@ class Run:
     mixing_time = Run.mixing_time(counts)
     hitting_time = Run.hitting_time(counts)
     simulation_matrix = Run.get_simulation_matrix(graph, simulator)
-    create_latex("/home/nemkin/Downloads/try.tex",
-                 matrix2latex(simulation_matrix, simulator.coin.size))
     return {
         "simulator": simulator,
         "counts": counts,
         "mixing_time": mixing_time,
         "hitting_time": hitting_time,
+        "simulation_matrix": simulation_matrix,
         "eigens": Run.eigens(simulation_matrix),
         # "limiting_dists": Run.limiting_dists(simulation_matrix)
     }

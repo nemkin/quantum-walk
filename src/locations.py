@@ -8,7 +8,7 @@ class Locations:
     return f"{file}_{index:02}"
 
   def makedirs(self, path):
-    if not self.latex:
+    if not self.is_latex:
       try:
         os.makedirs(path.parents[0])
       except OSError:
@@ -17,9 +17,9 @@ class Locations:
 
 
 class FileEnding(Locations):
-  def __init__(self, path, latex):
+  def __init__(self, path, is_latex):
     self.path = path
-    self.latex = latex
+    self.is_latex = is_latex
 
   def image(self):
     return self.makedirs(self.path.with_suffix(".jpg"))
@@ -30,50 +30,56 @@ class FileEnding(Locations):
   def text(self):
     return self.makedirs(self.path.with_suffix(".txt"))
 
+  def latex(self):
+    return self.makedirs(self.path.with_suffix(".tex"))
+
 
 class SimulationLocations(Locations):
-  def __init__(self, root, index, latex):
+  def __init__(self, root, index, is_latex):
     self.root = root / Locations.indexed("sim", index)
     self.index = index
-    self.latex = latex
+    self.is_latex = is_latex
 
   def counts(self):
-    return FileEnding(self.root / "counts", self.latex)
+    return FileEnding(self.root / "counts", self.is_latex)
 
   def counts_short(self):
-    return FileEnding(self.root / "counts_short", self.latex)
+    return FileEnding(self.root / "counts_short", self.is_latex)
 
   def hitting_time(self):
-    return FileEnding(self.root / "hitting_time", self.latex)
+    return FileEnding(self.root / "hitting_time", self.is_latex)
 
   def mixing_time(self):
-    return FileEnding(self.root / "mixing_time", self.latex)
+    return FileEnding(self.root / "mixing_time", self.is_latex)
 
   def coin_start(self):
-    return FileEnding(self.root / "coin_start", self.latex)
+    return FileEnding(self.root / "coin_start", self.is_latex)
 
   def coin_step(self):
-    return FileEnding(self.root / "coin_step", self.latex)
+    return FileEnding(self.root / "coin_step", self.is_latex)
+
+  def simulation_matrix(self):
+    return FileEnding(self.root / "simulation_matrix", self.is_latex)
 
 
 class RunLocations(Locations):
   def __init__(self, run):
     self.run = run
     self.root = Config.new_root / self.run.filename
-    self.latex = False
+    self.is_latex = False
     self.makedirs(self.root)
 
-  def get_root(self, latex):
-    return self.root if not latex else Path('.')
+  def get_root(self, is_latex):
+    return self.root if not is_latex else Path('.')
 
-  def graph_adj(self, latex=False):
-    return FileEnding(self.get_root(latex) / "graph" / "graph", latex)
+  def graph_adj(self, is_latex=False):
+    return FileEnding(self.get_root(is_latex) / "graph" / "graph", is_latex)
 
-  def subgraph_adj(self, index, latex=False):
-    return FileEnding(self.get_root(latex) / "graph" / Locations.indexed("sub_graph", index), latex)
+  def subgraph_adj(self, index, is_latex=False):
+    return FileEnding(self.get_root(is_latex) / "graph" / Locations.indexed("sub_graph", index), is_latex)
 
-  def coin_face(self, index, latex=False):
-    return FileEnding(self.get_root(latex) / "coin_faces" / Locations.indexed("coin_face", index), latex)
+  def coin_face(self, index, is_latex=False):
+    return FileEnding(self.get_root(is_latex) / "coin_faces" / Locations.indexed("coin_face", index), is_latex)
 
-  def simulation(self, index, latex=False):
-    return SimulationLocations(self.get_root(latex), index, latex)
+  def simulation(self, index, is_latex=False):
+    return SimulationLocations(self.get_root(is_latex), index, is_latex)
