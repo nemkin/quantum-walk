@@ -1,4 +1,4 @@
-from commands import print_matrix
+from commands import mat2string, print_matrix
 from locations import RunLocations
 import os
 import subprocess
@@ -120,11 +120,6 @@ class Exporter:
       ax.set_ylabel('Lépések')
       fig.tight_layout()
 
-      print()
-      print()
-      print(simloc.counts_short().image())
-      print()
-      print()
       fig.savefig(simloc.counts_short().image())
       plt.close(fig)
 
@@ -263,10 +258,10 @@ class Exporter:
 
       if simulator.is_quantum():
         with open(self.loc.simulation(i).coin_start().text(), "w") as f:
-          f.write(print_matrix(np.array(simulator.coin.start())))
+          f.write(mat2string(np.array(simulator.coin.start())))
 
         with open(self.loc.simulation(i).coin_step().text(), "w") as f:
-          f.write(print_matrix(simulator.coin.step()))
+          f.write(mat2string(simulator.coin.step()))
 
   def add_end(self):
     self.description += ["\\end{document}"]

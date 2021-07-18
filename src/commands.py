@@ -4,7 +4,11 @@ import numpy as np
 
 
 def print_matrix(m):
-  print(np.array2string(m, max_line_width=200, precision=2))
+  print(mat2string(m))
+
+
+def mat2string(m):
+  return np.array2string(m, max_line_width=200, precision=2)
 
 
 def archive():
