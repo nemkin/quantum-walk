@@ -53,23 +53,50 @@ class Run:
     invalid_value = -1
     return np.where(mask.any(axis=axis), mask.argmax(axis=axis), invalid_value)
 
+  def get_classical_simulation_matrix(graph):
+    adj = graph.adjacency_matrix()
+    return adj / adj.sum(axis=0)
+
+  def get_quantum_simulation_matrix(graph, coin):
+    regularity = graph.max_degree()
+    N = graph.vertex_count()
+    coin.set_size(regularity)
+
+    graph_coin_faces = graph.coin_faces()
+    coin_matrix = coin.step()
+
+    S_hat = np.zeros((N*regularity, N*regularity), dtype=complex)
+    for i in range(regularity):
+      m = np.zeros((regularity, regularity), dtype=complex)
+      m[:, i] = coin_matrix[:, i]
+      S_hat += np.kron(graph_coin_faces[i], m)
+
+    return S_hat
+
+  def get_simulation_matrix(graph, simulator):
+    if simulator.is_quantum():
+      return Run.get_quantum_simulation_matrix(graph, simulator.coin)
+    else:
+      return Run.get_classical_simulation_matrix(graph)
+
   def get_simulation(graph, simulator):
     counts = simulator.simulate(graph)
     mixing_time = Run.mixing_time(counts)
     hitting_time = Run.hitting_time(counts)
+    simulation_matrix = Run.get_simulation_matrix(graph, simulator)
     return {
         "simulator": simulator,
         "counts": counts,
         "mixing_time": mixing_time,
-        "hitting_time": hitting_time
+        "hitting_time": hitting_time,
+        "eigens": Run.eigens(simulation_matrix),
+        "limiting_dists": Run.limiting_dists(simulation_matrix)
     }
 
   def __init__(self, graph, simulators):
     self.title, self.subtitle, self.filename = Run.make_name()
     self.N = graph.vertex_count()
     self.graph_adj = graph.adjacency_matrix()
-    self.eigens = Run.eigens(self.graph_adj)
-    self.limiting_dists = Run.limiting_dists(self.graph_adj)
     self.coin_faces = graph.coin_faces()
     self.sub_graphs = map(
         lambda sub_graph: {

@@ -51,7 +51,7 @@ def run_glued_binary():
 
 
 def run_path():
-  graph = Graph('Path', [Path(range(7))])
+  graph = Graph('Path', [Path(range(5))])
   N = graph.vertex_count()
   simulators = [
       # Classical(N//2, 10, 7),
@@ -97,6 +97,10 @@ archive()
 # run_hypercube()
 
 
+def is_unitary(m):
+  return np.allclose(np.eye(m.shape[0]), m.dot(m.T.conj()))
+
+
 coin = Hadamard()
 graph = Graph('Path', [Path(range(5))])
 regularity = graph.max_degree()
@@ -113,9 +117,10 @@ for i in range(regularity):
   S_hat += np.kron(graph_coin_faces[i], m)
 
 print(np.array2string(S_hat, max_line_width=200, precision=2))
+print(is_unitary(S_hat))
 
-current = np.identity(regularity*N, dtype=complex)
-for i in range(30):
-  current = S_hat.dot(current)
-  print()
-  print(np.array2string(current, max_line_width=200, precision=2))
+# current = np.identity(regularity*N, dtype=complex)
+# for i in range(30):
+#  current = S_hat.dot(current)
+#  print()
+#  print(np.array2string(current, max_line_width=200, precision=2))

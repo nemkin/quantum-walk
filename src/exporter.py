@@ -194,8 +194,6 @@ class Exporter:
     self.description += ["\\section{Gráf}"]
     self.add_graphics(self.loc.graph_adj(latex=True).image(),
                       "Gráf szomszédossági mátrixa")
-    self.description += ["\\subsection{Sajátértékek}"]
-    self.add_numbers(sorted(self.run.eigens.keys(), reverse=True))
     self.description += ["\\subsection{Szomszédossági mátrix}"]
 
   def add_coin_faces(self):
@@ -224,6 +222,7 @@ class Exporter:
       counts = simulation["counts"]
       mixing_time = simulation["mixing_time"]
       hitting_time = simulation["hitting_time"]
+      eigens = simulation["eigens"]
 
       self.draw(simulation, self.loc.simulation(i))
       self.draw_graphics(
@@ -252,6 +251,9 @@ class Exporter:
           self.loc.simulation(i, latex=True).mixing_time().image(), f"{i}. szimuláció mixing time")
       self.add_graphics(
           self.loc.simulation(i, latex=True).hitting_time().image(), f"{i}. szimuláció hitting time")
+
+      self.description += ["\\subsection{Sajátértékek}"]
+      self.add_numbers(sorted(eigens.keys(), reverse=True))
 
       if simulator.is_quantum():
         with open(self.loc.simulation(i).coin_start().text(), "w") as f:
