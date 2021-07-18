@@ -1,4 +1,6 @@
 from tqdm import tqdm
+from commands.latex.create_latex import create_latex
+from commands.latex.matrix2latex import matrix2latex
 import pydng
 import time
 import numpy as np
@@ -84,6 +86,8 @@ class Run:
     mixing_time = Run.mixing_time(counts)
     hitting_time = Run.hitting_time(counts)
     simulation_matrix = Run.get_simulation_matrix(graph, simulator)
+    create_latex("/home/nemkin/Downloads/try.tex",
+                 matrix2latex(simulation_matrix, simulator.coin.size))
     return {
         "simulator": simulator,
         "counts": counts,

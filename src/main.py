@@ -96,7 +96,6 @@ run_path()
 # run_grid()
 # run_hypercube()
 
-create_latex("/home/nemkin/Downloads/try.tex", matrix2latex(np.eye(10), 3))
 
 # def is_unitary(m):
 #   return np.allclose(np.eye(m.shape[0]), m.dot(m.T.conj()))
