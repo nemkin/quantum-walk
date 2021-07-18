@@ -1,4 +1,3 @@
-from commands import print_matrix
 from tqdm import tqdm
 import pydng
 import time
@@ -76,11 +75,9 @@ class Run:
 
   def get_simulation_matrix(graph, simulator):
     if simulator.is_quantum():
-      m = Run.get_quantum_simulation_matrix(graph, simulator.coin)
+      return Run.get_quantum_simulation_matrix(graph, simulator.coin)
     else:
-      m = Run.get_classical_simulation_matrix(graph)
-    print_matrix(m)
-    return m
+      return Run.get_classical_simulation_matrix(graph)
 
   def get_simulation(graph, simulator):
     counts = simulator.simulate(graph)

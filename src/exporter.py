@@ -1,6 +1,7 @@
-from commands import mat2string, print_matrix
+from commands.latex.create_latex import create_latex
+from commands.bash.run_bash import run_bash
+from commands.print.matrix2string import matrix2string
 from locations import RunLocations
-import os
 import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
@@ -258,36 +259,16 @@ class Exporter:
 
       if simulator.is_quantum():
         with open(self.loc.simulation(i).coin_start().text(), "w") as f:
-          f.write(mat2string(np.array(simulator.coin.start())))
+          f.write(matrix2string(np.array(simulator.coin.start())))
 
         with open(self.loc.simulation(i).coin_step().text(), "w") as f:
-          f.write(mat2string(simulator.coin.step()))
+          f.write(matrix2string(simulator.coin.step()))
 
   def add_end(self):
     self.description += ["\\end{document}"]
 
-  def run_command(self, command):
-    process = subprocess.Popen(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=self.loc.root)
-    out, err = process.communicate()
-    if process.returncode != 0:
-      print("Out:")
-      print("------------")
-      print(out.decode())
-      print(f"Error ({process.returncode}):")
-      print("------------")
-      print(err.decode())
-
   def create_latex(self):
-    # TODO use Locations here too
-    latex_file = f'{self.run.filename}.tex'
-    with open(self.loc.root / latex_file, 'w') as f:
-      f.writelines("\n".join(self.description))
-
-    self.run_command(["latexmk", "-pdf", "-silent", latex_file])
-    clean = True
-    if clean:
-      self.run_command(["latexmk", "-c"])
+    create_latex(self.loc.root/(f'{self.run.filename}.tex'), self.description)
 
   def export(self):
     self.add_begin()
