@@ -23,25 +23,27 @@ class Quantum(Simulator):
     coin_step = self.coin.step()
 
     for _ in tqdm(range(self.simulations), desc=f"{graph.name}: {self.describe()} simulations", leave=False):
+      with open("/home/nemkin/Desktop/res.txt", 'w') as f:
+        pos = np.zeros((N, regularity), dtype=complex)
+        pos[self.start] = self.coin.start()
 
-      pos = np.zeros((N, regularity), dtype=complex)
-      pos[self.start] = self.coin.start()
+        currpos = pos
+        f.write(np.array2string(currpos) + "\n\n")
+        counts = np.zeros((1, N), dtype=float)
+        counts[0, self.start] = 1
 
-      currpos = pos
-      counts = np.zeros((1, N), dtype=float)
-      counts[0, self.start] = 1
-
-      for _ in tqdm(range(self.steps), desc=f"{graph.name}: {self.describe()} steps", leave=False):
-        nextpos = np.zeros((N, regularity), dtype=complex)
-        for i in tqdm(range(N), desc=f"{graph.name}: {self.describe()} vertexes", leave=False):
-          n = graph.neighbours(i)
-          for index, multiplicators in enumerate(coin_step):
-            nextpos[n[index],
-                    index] += currpos[i].dot(np.squeeze(multiplicators))
-        currpos = nextpos
-        probabilities = Quantum.probability(currpos)
-        counts = counts = np.concatenate(
-            (counts, np.array([probabilities])), axis=0)
+        for _ in tqdm(range(self.steps), desc=f"{graph.name}: {self.describe()} steps", leave=False):
+          nextpos = np.zeros((N, regularity), dtype=complex)
+          for i in tqdm(range(N), desc=f"{graph.name}: {self.describe()} vertexes", leave=False):
+            n = graph.neighbours(i)
+            for index, multiplicators in enumerate(coin_step):
+              nextpos[n[index],
+                      index] += currpos[i].dot(np.squeeze(multiplicators))
+          currpos = nextpos
+          f.write(np.array2string(currpos) + "\n\n")
+          probabilities = Quantum.probability(currpos)
+          counts = counts = np.concatenate(
+              (counts, np.array([probabilities])), axis=0)
 
     return counts
 
