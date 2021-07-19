@@ -1,4 +1,6 @@
-from commands.latex.matrix2latex import matrix2latex
+from commands.latex.matrix2latex import matrix2latex_document
+from commands.latex.eigens2latex import eigens2latex
+from commands.maths.eigens import Eigens
 from commands.latex.create_latex import create_latex
 from commands.bash.run_bash import run_bash
 from commands.print.matrix2string import matrix2string
@@ -259,17 +261,25 @@ class Exporter:
       self.description += ["\\subsection{Sajátértékek}"]
       self.add_numbers(sorted(eigens.keys(), reverse=True))
 
+      if simulator.is_quantum():
+        size = simulator.coin.size
+      else:
+        size = None
+
       create_latex(self.loc.simulation(i).simulation_matrix().latex(),
-                   matrix2latex(simulation_matrix, simulator.coin.size))
+                   matrix2latex_document(simulation_matrix, size))
+
+      create_latex(self.loc.simulation(i).eigens().latex(),
+                   eigens2latex(Eigens(simulation_matrix)))
 
       if simulator.is_quantum():
         create_latex(
             self.loc.simulation(i).coin_start().latex(),
-            matrix2latex(simulator.coin.start()))
+            matrix2latex_document(simulator.coin.start()))
 
         create_latex(
             self.loc.simulation(i).coin_step().latex(),
-            matrix2latex(simulator.coin.step()))
+            matrix2latex_document(simulator.coin.step()))
 
   def add_end(self):
     self.description += ["\\end{document}"]

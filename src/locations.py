@@ -61,6 +61,9 @@ class SimulationLocations(Locations):
   def simulation_matrix(self):
     return FileEnding(self.root / "simulation_matrix", self.is_latex)
 
+  def eigens(self):
+    return FileEnding(self.root / "eigens", self.is_latex)
+
 
 class RunLocations(Locations):
   def __init__(self, run):

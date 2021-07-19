@@ -1,4 +1,4 @@
-from commands.print.matrix2string import matrix2string
+from commands.latex.wrap_standalone_latex import wrap_standalone_latex
 
 
 def insert_every(list, inserted, steps=None):
@@ -8,21 +8,13 @@ def insert_every(list, inserted, steps=None):
       yield inserted
 
 
-def matrix2latex(matrix, divider_steps=None):
-
+def matrix2latex_format(matrix, divider_steps=None):
   latex = []
   if matrix.ndim == 1:
     n = matrix.shape[0]
     matrix = matrix.reshape(1, n)
   rows, cols = matrix.shape
 
-  latex += ["\\documentclass[border=1em]{standalone}"]
-  latex += [""]
-  latex += ["% Table setup"]
-  latex += ["\\usepackage[table]{xcolor} % Cell colors"]
-  latex += [""]
-  latex += ["\\begin{document}"]
-  latex += [""]
   latex += ["$"]
   latex += ["\\left("]
 
@@ -39,7 +31,8 @@ def matrix2latex(matrix, divider_steps=None):
   latex += ["\\end{array}"]
   latex += ["\\right)"]
   latex += ["$"]
-  latex += [""]
-  latex += ["\\end{document}"]
-
   return latex
+
+
+def matrix2latex_document(matrix, divider_steps=None):
+  return wrap_standalone_latex(matrix2latex_format(matrix, divider_steps))

@@ -1,5 +1,3 @@
-from commands.latex.create_latex import create_latex
-from commands.latex.matrix2latex import matrix2latex
 from commands.files.archive import archive
 from simulators.quantum import Quantum
 from simulators.classical import Classical
@@ -92,8 +90,8 @@ def run_hypercube():
 archive()
 # run_dumbbell()
 # run_glued_binary()
-run_path()
-# run_grid()
+# run_path()
+run_grid()
 # run_hypercube()
 
 
