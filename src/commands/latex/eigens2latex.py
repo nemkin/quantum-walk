@@ -1,17 +1,17 @@
-from commands.latex.wrap_standalone_latex import wrap_standalone_latex
-from commands.latex.matrix2latex import matrix2latex_format
+from commands.latex.vector2latex import vector2latex
 
 
 def eigens2latex(eigens):
   latex = []
   values = eigens.get_eigen_values()
 
-  for value in values:
-    latex += [f"${value:.6f}$:"]
-    latex += ["\\newline"]
+  for value in sorted(values, reverse=True):
+    latex += [f"${value:.3f}$:"]
+    latex += ["\\begin{itemize}"]
     vectors = eigens.get_eigen_vectors_for(value)
     for vector in vectors:
-      latex += matrix2latex_format(vector)
-      latex += ["\\newline"]
+      latex += ["\\item"]
+      latex += vector2latex(vector)
+    latex += ["\\end{itemize}"]
 
-  return wrap_standalone_latex(latex)
+  return latex

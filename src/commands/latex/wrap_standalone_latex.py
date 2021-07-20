@@ -1,6 +1,6 @@
 def wrap_standalone_latex(inner_latex):
   latex = []
-  latex += ["\\documentclass[border=1em,varwidth]{standalone}"]
+  latex += ["\\documentclass[border=1em]{standalone}"]
   latex += [""]
   latex += ["% Table setup"]
   latex += ["\\usepackage[table]{xcolor} % Cell colors"]

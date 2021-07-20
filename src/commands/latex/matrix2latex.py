@@ -23,7 +23,7 @@ def matrix2latex_format(matrix, divider_steps=None):
 
   latex_rows = []
   for i in range(rows):
-    nums = map(lambda x: f'{x:.6f}', matrix[i, :])
+    nums = map(lambda x: f'{x:.3f}', matrix[i, :])
     latex_rows += [f"{' & '.join(nums)} \\\\"]
 
   latex += insert_every(latex_rows, "\\hline", divider_steps)

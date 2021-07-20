@@ -258,8 +258,8 @@ class Exporter:
       self.add_graphics(
           self.loc.simulation(i, is_latex=True).hitting_time().image(), f"{i}. szimuláció hitting time")
 
-      self.description += ["\\subsection{Sajátértékek}"]
-      self.add_numbers(sorted(eigens.keys(), reverse=True))
+      self.description += ["\\subsection{Sajátértékek, sajátvektorok}"]
+      self.description += eigens2latex(Eigens(simulation_matrix))
 
       if simulator.is_quantum():
         size = simulator.coin.size
@@ -268,9 +268,6 @@ class Exporter:
 
       create_latex(self.loc.simulation(i).simulation_matrix().latex(),
                    matrix2latex_document(simulation_matrix, size))
-
-      create_latex(self.loc.simulation(i).eigens().latex(),
-                   eigens2latex(Eigens(simulation_matrix)))
 
       if simulator.is_quantum():
         create_latex(
