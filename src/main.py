@@ -65,7 +65,7 @@ def run_path():
 
 
 def run_grid():
-  graph = Graph('Grid', [Grid(range(16))])
+  graph = Graph('Grid', [Grid(range(9))])
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 50, 100),
@@ -94,9 +94,9 @@ def run_hypercube():
 archive()
 # run_dumbbell()
 # run_glued_binary()
-run_path()
+# run_path()
 run_grid()
-run_hypercube()
+# run_hypercube()
 
 
 # def is_unitary(m):
