@@ -69,6 +69,10 @@ class Exporter:
     simulator = simulation["simulator"]
     counts = simulation["counts"]
 
+    self.draw_adj(
+        counts[-1, :].reshape((50, 50)), simloc.counts())
+
+    return
     smaller = 2 * self.run.N
     steps_smaller = simulator.steps - smaller
 
@@ -226,13 +230,14 @@ class Exporter:
 
     for i, simulation in tqdm(enumerate(self.run.simulations),  desc="Export simulations", leave=False):
       simulator = simulation["simulator"]
-      counts = simulation["counts"]
-      mixing_time = simulation["mixing_time"]
-      hitting_time = simulation["hitting_time"]
-      simulation_matrix = simulation["simulation_matrix"]
-      eigens = simulation["eigens"]
+      # counts = simulation["counts"]
+      # mixing_time = simulation["mixing_time"]
+      # hitting_time = simulation["hitting_time"]
+      # simulation_matrix = simulation["simulation_matrix"]
+      # eigens = simulation["eigens"]
 
       self.draw(simulation, self.loc.simulation(i))
+      continue
       self.draw_graphics(
           mixing_time,
           simulator.describe(),
@@ -298,9 +303,9 @@ class Exporter:
 
   def export(self):
     self.add_begin()
-    self.add_graph()
-    self.add_coin_faces()
-    self.add_sub_graphs()
+    # self.add_graph()
+    # self.add_coin_faces()
+    # self.add_sub_graphs()
     self.add_simulations()
     self.add_end()
 
