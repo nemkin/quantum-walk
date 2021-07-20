@@ -199,9 +199,9 @@ class Exporter:
                  matrix2latex_document(self.run.graph_adj))
 
     self.description += ["\\section{Gráf}"]
+    self.description += ["\\subsection{Szomszédossági mátrix}"]
     self.add_graphics(self.loc.graph_adj(is_latex=True).image(),
                       "Gráf szomszédossági mátrixa")
-    self.description += ["\\subsection{Szomszédossági mátrix}"]
 
   def add_coin_faces(self):
     for i, coin_face in tqdm(enumerate(self.run.coin_faces), desc="Export coin faces", leave=False):
@@ -268,17 +268,24 @@ class Exporter:
       else:
         size = None
 
+      self.draw_adj(np.absolute(simulation_matrix),
+                    self.loc.simulation(i).simulation_matrix())
       create_latex(self.loc.simulation(i).simulation_matrix().latex(),
                    matrix2latex_document(simulation_matrix, size))
 
-      if simulator.is_quantum():
-        create_latex(
-            self.loc.simulation(i).coin_start().latex(),
-            matrix2latex_document(simulator.coin.start()))
+      self.description += ["\\section{Szimulációs mátrix}"]
+      self.description += [f"\\subsection{{{i}. szimuláció mátrixa}}"]
+      self.add_graphics(self.loc.simulation(i, is_latex=True).simulation_matrix().image(),
+                        f"{i}. szimuláció mátrixa")
 
-        create_latex(
-            self.loc.simulation(i).coin_step().latex(),
-            matrix2latex_document(simulator.coin.step()))
+    if simulator.is_quantum():
+      create_latex(
+          self.loc.simulation(i).coin_start().latex(),
+          matrix2latex_document(simulator.coin.start()))
+
+      create_latex(
+          self.loc.simulation(i).coin_step().latex(),
+          matrix2latex_document(simulator.coin.step()))
 
   def add_end(self):
     self.description += ["\\end{document}"]
