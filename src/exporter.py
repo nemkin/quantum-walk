@@ -278,14 +278,17 @@ class Exporter:
       self.add_graphics(self.loc.simulation(i, is_latex=True).simulation_matrix().image(),
                         f"{i}. szimuláció mátrixa")
 
-    if simulator.is_quantum():
-      create_latex(
-          self.loc.simulation(i).coin_start().latex(),
-          matrix2latex_document(simulator.coin.start()))
+      if simulator.is_quantum():  # TODO is quantum miert nem jo itt?
+        create_latex(
+            self.loc.simulation(i).coin_start().latex(),
+            matrix2latex_document(simulator.coin.start()))
 
-      create_latex(
-          self.loc.simulation(i).coin_step().latex(),
-          matrix2latex_document(simulator.coin.step()))
+        self.description += ["\\subsection{Érme sajátértékek, sajátvektorok}"]
+        self.description += eigens2latex(Eigens(simulator.coin.step()))
+
+        create_latex(
+            self.loc.simulation(i).coin_step().latex(),
+            matrix2latex_document(simulator.coin.step()))
 
   def add_end(self):
     self.description += ["\\end{document}"]

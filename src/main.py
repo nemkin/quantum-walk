@@ -55,9 +55,9 @@ def run_path():
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 10, 7),
-      Quantum(Hadamard(), N//2, 1, 7),
-      Quantum(Grover(), N//2, 1, 7),
-      Quantum(Dft(), N//2, 1, 7)
+      Quantum(Hadamard(), N//2, 1, 100),
+      Quantum(Grover(), N//2, 1, 100),
+      Quantum(Dft(), N//2, 1, 100)
   ]
   run = Run(graph, simulators)
   Exporter(run).export()

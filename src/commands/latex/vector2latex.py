@@ -8,7 +8,7 @@ def vector2latex(vector):
 
   latex += ["$\\big($"]
 
-  nums = map(lambda x: f'${x:.3f}$', vector)
+  nums = map(lambda x: f'${x:.10f}$', vector)
   latex += [f"{', '.join(nums)}"]
 
   latex += ["$\\big)$"]
