@@ -63,11 +63,11 @@ def run_path():
 
 
 def run_grid():
-  graph = Graph('Grid', [Grid(range(9))])
+  graph = Graph('Grid', [Grid(range(16))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 50, 50),
-      Quantum(Grover(), N//2, 1, 50),
+      Classical(N//2, 50, 100),
+      Quantum(Grover(), N//2, 1, 100),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()

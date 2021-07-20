@@ -6,7 +6,7 @@ def eigens2latex(eigens):
   values = eigens.get_eigen_values()
 
   for value in sorted(values, reverse=True):
-    latex += [f"${value:.3f}$:"]
+    latex += [f"${value:.10f}$:"]
     latex += ["\\begin{itemize}"]
     vectors = eigens.get_eigen_vectors_for(value)
     for vector in vectors:

@@ -195,6 +195,8 @@ class Exporter:
 
   def add_graph(self):
     self.draw_adj(self.run.graph_adj, self.loc.graph_adj())
+    create_latex(self.loc.graph_adj().latex(),
+                 matrix2latex_document(self.run.graph_adj))
 
     self.description += ["\\section{Gráf}"]
     self.add_graphics(self.loc.graph_adj(is_latex=True).image(),
