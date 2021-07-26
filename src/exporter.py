@@ -9,6 +9,8 @@ import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+from matplotlib import cm
+
 from tqdm import tqdm
 from config import Config
 
@@ -65,12 +67,40 @@ class Exporter:
     with open(filename.numpy(), 'wb') as f:
       np.save(f, adj)
 
+  def draw_adj_3d(self, adj, filename):
+    fig, ax = plt.subplots(dpi=300,
+                           subplot_kw={"projection": "3d"})
+    X, Y = np.meshgrid(range(adj.shape[0]), range(adj.shape[1]))
+    ax.plot_surface(
+        X,
+        Y,
+        adj,
+        cmap=cm.coolwarm,
+        linewidth=0,
+        antialiased=False)
+    ax.set_zlim(0, 1)
+
+    # ax.xaxis.tick_top()
+    # ax.invert_yaxis()
+
+    fig.tight_layout()
+    fig.savefig(filename.image())
+    plt.close(fig)
+
+    with open(filename.text(), "w") as f:
+      f.write(np.array2string(adj))
+
+    with open(filename.numpy(), 'wb') as f:
+      np.save(f, adj)
+
   def draw(self, simulation, simloc):
     simulator = simulation["simulator"]
     counts = simulation["counts"]
 
-    self.draw_adj(
-        counts[-1, :].reshape((50, 50)), simloc.counts())
+    size = int(np.sqrt(counts.shape[1]))
+    for i in range(counts.shape[0]):
+      self.draw_adj_3d(
+          counts[i, :].reshape((size, size)), simloc.counts(i))
 
     return
     smaller = 2 * self.run.N

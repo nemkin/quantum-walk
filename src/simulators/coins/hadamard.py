@@ -9,6 +9,7 @@ import math
 class Hadamard(Coin):
 
   def start(self):
+    return np.array([1/2, -1j/2, -1/2, 1j/2])
     if not is_power_of_2(self.size):
       raise "Nem 2 hatvány a Hadamard érme oldalak száma!"
 
