@@ -78,7 +78,7 @@ class Exporter:
         cmap=cm.coolwarm,
         linewidth=0,
         antialiased=False)
-    ax.set_zlim(0, 1)
+    # ax.set_zlim(0, 1)
 
     # ax.xaxis.tick_top()
     # ax.invert_yaxis()

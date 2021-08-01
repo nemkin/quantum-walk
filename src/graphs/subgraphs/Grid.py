@@ -15,16 +15,21 @@ class Grid(SubGraph):
     return index // self.side
 
   def left(self, index):
+    # row = index // self.side
+    # col = index % self.side
+
+    # new_col = (col-1) % self.side
+    # return row*self.side + new_col
     if self.row(index) == self.row(index-1):
       return index-1
     else:
-      return (index + self.side - 1) % self.n
+      return index + self.side - 1
 
   def right(self, index):
     if self.row(index) == self.row(index+1):
       return index+1
     else:
-      return (index - self.side + 1) % self.n
+      return index - self.side + 1
 
   def top(self, index):
     return (index + self.side) % self.n

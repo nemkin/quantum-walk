@@ -69,7 +69,7 @@ def run_grid():
   N = graph.vertex_count()
   simulators = [
       # Classical(N//2, 50, 100),
-      Quantum(Hadamard(), N//2, 1, 500),
+      Quantum(Hadamard(), N//2, 1, 100),
       # Quantum(Grover(), N//2, 1, 100),
       # Quantum(Dft(), N//2, 1, 100),
   ]

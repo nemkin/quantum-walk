@@ -36,6 +36,7 @@ class Quantum(Simulator):
           nextpos = np.zeros((N, regularity), dtype=complex)
           for i in tqdm(range(N), desc=f"{graph.name}: {self.describe()} vertexes", leave=False):
             n = graph.neighbours(i)
+            # TODO: ez itt sor vagy oszlop?
             for index, multiplicators in enumerate(coin_step):
               nextpos[n[index],
                       index] += currpos[i].dot(np.squeeze(multiplicators))
