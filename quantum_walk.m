@@ -23,20 +23,15 @@ for i=0:N-1
   shift_up(up+1, i+1) = shift_up(up+1, i+1) + 1;
 end
 
-I_4 = eye(4);
-
-S = kron(shift_left, I_4(1,:)'*I_4(1,:)) + ...
-    kron(shift_right, I_4(2,:)'*I_4(2,:)) + ...
-    kron(shift_down, I_4(3,:)'*I_4(3,:)) + ...
-    kron(shift_up, I_4(4,:)'*I_4(4,:));
+S = kron(shift_left, [1,0,0,0]'*[1,0,0,0]) + ...
+    kron(shift_right, [0,1,0,0]'*[0,1,0,0]) + ...
+    kron(shift_down, [0,0,1,0]'*[0,0,1,0]) + ...
+    kron(shift_up, [0,0,0,1]'*[0,0,0,1]);
 
 I = eye(N);
 C = hadamard(4) / 2;
-
-U = S * kron(I, C); % Ajjaj ezek itt sorok lettek, nem oszlopok!
-
+U = S * kron(I, C);
 start = kron(start_pos, start_coin);
-
 result = (U^steps*start')';
 
 prob = zeros(1,N);
@@ -50,10 +45,8 @@ end
 
 plane = reshape(prob,[n,n])
 
-x = 1:1:n;
-y = 1:1:n;
-surf(x,y,plane)
-view(2)
+figure
+surfl(plane)
 
 function ret = step2d(i, stepx, stepy, n)
   i_x = mod(i,n);
