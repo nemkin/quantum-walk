@@ -1,10 +1,10 @@
-n = 3
+n = 25
 N = n*n
-steps = 100
+steps = 25
 
 start_pos = zeros(1,N);
 start_pos(floor(N/2)+1) = 1;
-start_coin = [1,0,0,0];
+start_coin = [1/2,i/2,i/2,-1/2];
 
 shift_left = zeros(N,N);
 shift_right = zeros(N,N);
@@ -17,7 +17,6 @@ for i=0:N-1
   down = step2d(i, 0, -1, n);
   up = step2d(i, 0, 1, n);
   
-  
   shift_left(left+1, i+1) = shift_left(left+1, i+1) + 1;
   shift_right(right+1, i+1) = shift_right(right+1, i+1) + 1;
   shift_down(down+1, i+1) = shift_down(down+1, i+1) + 1;
@@ -25,7 +24,6 @@ for i=0:N-1
 end
 
 I_4 = eye(4);
-
 
 S = kron(shift_left, I_4(1,:)'*I_4(1,:)) + ...
     kron(shift_right, I_4(2,:)'*I_4(2,:)) + ...
@@ -39,7 +37,7 @@ U = S * kron(I, C); % Ajjaj ezek itt sorok lettek, nem oszlopok!
 
 start = kron(start_pos, start_coin);
 
-result = (U^100*start')'
+result = (U^steps*start')';
 
 prob = zeros(1,N);
 for k=1:N
@@ -49,6 +47,13 @@ for k=1:N
   proj = M_hat_k * result';
   prob(1,k) = proj'*conj(proj);
 end
+
+plane = reshape(prob,[n,n])
+
+x = 1:1:n;
+y = 1:1:n;
+surf(x,y,plane)
+view(2)
 
 function ret = step2d(i, stepx, stepy, n)
   i_x = mod(i,n);
