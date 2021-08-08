@@ -1,19 +1,10 @@
 n = 25
 N = n*n
-steps = 25
+steps = 12
 
 start_pos = zeros(1,N);
 start_pos(floor(N/2)+1) = 1;
-% start_coin = [1/2,i/2,i/2,-1/2];
-start_coin_1 = [1,0,0,0]
-start_coin_4 = [0,0,0,1]
-
-% 1. érme: y
-% 2. érme: x
-% [1,0,0,0] = kron([1,0],[1,0])
-% [0,1,0,0] = kron([1,0],[0,1])
-% [0,0,1,0] = kron([0,1],[1,0])
-% [0,0,0,1] = kron([0,1],[0,1])
+start_coin = kron([1/sqrt(2),1i/sqrt(2)], [1/sqrt(2), 1i/sqrt(2)])
 
 shift_left = zeros(N,N);
 shift_right = zeros(N,N);
@@ -32,63 +23,39 @@ for i=0:N-1
   shift_up(up+1, i+1) = shift_up(up+1, i+1) + 1;
 end
 
-S_x = kron(shift_left, [1,0,0,0]'*[1,0,0,0]) + ...
-    kron(shift_right, [0,1,0,0]'*[0,1,0,0])
-    
-S_y =kron(shift_down, [0,0,1,0]'*[0,0,1,0]) + ...
-    kron(shift_up, [0,0,0,1]'*[0,0,0,1]);
+% 1. érme: y
+% 2. érme: x
+% [1,0,0,0] = kron([1,0],[1,0]) up & left
+% [0,1,0,0] = kron([1,0],[0,1]) up & right
+% [0,0,1,0] = kron([0,1],[1,0]) down & left
+% [0,0,0,1] = kron([0,1],[0,1]) down & right
+
+S = kron(shift_up * shift_left, [1,0,0,0]' * [1,0,0,0]) + ...
+kron(shift_up * shift_right, [0,1,0,0]' * [0,1,0,0]) + ...
+kron(shift_down * shift_left, [0,0,1,0]' * [0,0,1,0]) + ...
+kron(shift_down * shift_right, [0,0,0,1]' * [0,0,0,1]);
 
 I = eye(N);
+C = hadamard(4) / 2;
+U = S * kron(I, C);
 
-C = hadamard(2) / sqrt(2);
-I_2 = eye(2)
+start= kron(start_pos, start_coin);
 
-C_x = kron(C, I_2)
-C_y = kron(I_2, C)
+result = (U^steps*start')';
 
-U = S_x * kron(I, C_x) + S_y * kron(I, C_y);
-
-start_1 = kron(start_pos, start_coin_1);
-start_4 = kron(start_pos, start_coin_4);
-
-result_1 = (U^steps*start_1')';
-result_4 = (U^steps*start_4')';
-
-prob_1 = zeros(1,N);
+prob = zeros(1,N);
 for k=1:N
   posn = zeros(1,N);
   posn(1,k) = 1;
   M_hat_k = kron(posn'*posn, eye(4));
-  proj = M_hat_k * result_1';
-  prob_1(1,k) = proj'*proj;
+  proj = M_hat_k * result';
+  prob(1,k) = proj'*proj;
 end
 
-prob_4 = zeros(1,N);
-for k=1:N
-  posn = zeros(1,N);
-  posn(1,k) = 1;
-  M_hat_k = kron(posn'*posn, eye(4));
-  proj = M_hat_k * result_4';
-  prob_4(1,k) = proj'*proj;
-end
-
-plane_1 = reshape(prob_1,[n,n]);
-plane_4 = reshape(prob_4,[n,n]);
-
-plane_4_step_1 = flip(plane_4)
-plane_4_step_2 = plane_4_step_1'
-plane_4_flipped = flip(plane_4_step_2)
-
-isequal(plane_1, plane_4_flipped)
+plane = reshape(prob,[n,n]);
 
 figure
-surf(plane_1)
-
-figure
-surf(plane_4_flipped)
-
-figure
-surf(plane_1-plane_4_flipped)
+surf(plane)
 
 function ret = step2d(i, stepx, stepy, n)
   i_x = mod(i,n);
