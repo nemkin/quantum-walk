@@ -25,10 +25,10 @@ end
 
 % 1. érme: y
 % 2. érme: x
-% [1,0,0,0] = kron([1,0],[1,0]) up & left
-% [0,1,0,0] = kron([1,0],[0,1]) up & right
-% [0,0,1,0] = kron([0,1],[1,0]) down & left
-% [0,0,0,1] = kron([0,1],[0,1]) down & right
+% [1,0,0,0] = kron([1,0],[1,0]) up & left -> left
+% [0,1,0,0] = kron([1,0],[0,1]) up & right -> right
+% [0,0,1,0] = kron([0,1],[1,0]) down & left -> down
+% [0,0,0,1] = kron([0,1],[0,1]) down & right -> up
 
 S = kron(shift_up * shift_left, [1,0,0,0]' * [1,0,0,0]) + ...
 kron(shift_up * shift_right, [0,1,0,0]' * [0,1,0,0]) + ...
