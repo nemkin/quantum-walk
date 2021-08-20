@@ -1,15 +1,16 @@
-n = 25
+tic;
+n = 100
 N = n*n
-steps = 12
+steps = 1000
 
-start_pos = zeros(1,N);
+start_pos = sparse(zeros(1,N));
 start_pos(floor(N/2)+1) = 1;
-start_coin = kron([1/sqrt(2),1i/sqrt(2)], [1/sqrt(2), 1i/sqrt(2)])
+start_coin = sparse(kron([1/sqrt(2),1i/sqrt(2)], [1/sqrt(2), 1i/sqrt(2)]))
 
-shift_left = zeros(N,N);
-shift_right = zeros(N,N);
-shift_down = zeros(N,N);
-shift_up = zeros(N,N);
+shift_left = sparse(zeros(N,N));
+shift_right = sparse(zeros(N,N));
+shift_down = sparse(zeros(N,N));
+shift_up = sparse(zeros(N,N));
 
 for i=0:N-1
   left = step2d(i, -1, 0, n);
@@ -35,27 +36,29 @@ kron(shift_up * shift_right, [0,1,0,0]' * [0,1,0,0]) + ...
 kron(shift_down * shift_left, [0,0,1,0]' * [0,0,1,0]) + ...
 kron(shift_down * shift_right, [0,0,0,1]' * [0,0,0,1]);
 
-I = eye(N);
-C = hadamard(4) / 2;
+I = speye(N);
+C = sparse(hadamard(4) / 2);
 U = S * kron(I, C);
 
 start= kron(start_pos, start_coin);
 
 result = (U^steps*start')';
 
-prob = zeros(1,N);
-for k=1:N
-  posn = zeros(1,N);
-  posn(1,k) = 1;
-  M_hat_k = kron(posn'*posn, eye(4));
-  proj = M_hat_k * result';
-  prob(1,k) = proj'*proj;
-end
 
-plane = reshape(prob,[n,n]);
+%prob = zeros(1,N);
+%for k=1:N
+%  posn = zeros(1,N);
+%  posn(1,k) = 1;
+%  M_hat_k = kron(posn'*posn, eye(4));
+%  proj = M_hat_k * result';
+%  prob(1,k) = proj'*proj;
+%end
 
-figure
-surf(plane)
+%plane = reshape(prob,[n,n]);
+
+%figure
+%surf(plane)
+toc;
 
 function ret = step2d(i, stepx, stepy, n)
   i_x = mod(i,n);
