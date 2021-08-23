@@ -3,7 +3,7 @@
 \usepackage{ifluatex}
 \newif\ifxetexorluatex % a new conditional starts as false
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi>0
-   \xetexorluatextrue
+  \xetexorluatextrue
 \fi
 
 \ifxetexorluatex
@@ -40,25 +40,29 @@
 \singlespacing
 
 \newcommand{\selecthungarian}{
-	\selectlanguage{magyar}
-	\setlength{\parindent}{2em}
-	\setlength{\parskip}{0em}
-	\frenchspacing
+  \selectlanguage{magyar}
+  \setlength{\parindent}{2em}
+  \setlength{\parskip}{0em}
+  \frenchspacing
 }
 
 \newcommand{\selectenglish}{
-	\selectlanguage{english}
-	\setlength{\parindent}{0em}
-	\setlength{\parskip}{0.5em}
-	\nonfrenchspacing
-	\renewcommand{\figureautorefname}{Figure}
-	\renewcommand{\tableautorefname}{Table}
-	\renewcommand{\partautorefname}{Part}
-	\renewcommand{\chapterautorefname}{Chapter}
-	\renewcommand{\sectionautorefname}{Section}
-	\renewcommand{\subsectionautorefname}{Section}
-	\renewcommand{\subsubsectionautorefname}{Section}
+  \selectlanguage{english}
+  \setlength{\parindent}{0em}
+  \setlength{\parskip}{0.5em}
+  \nonfrenchspacing
+  \renewcommand{\figureautorefname}{Figure}
+  \renewcommand{\tableautorefname}{Table}
+  \renewcommand{\partautorefname}{Part}
+  \renewcommand{\chapterautorefname}{Chapter}
+  \renewcommand{\sectionautorefname}{Section}
+  \renewcommand{\subsectionautorefname}{Section}
+  \renewcommand{\subsubsectionautorefname}{Section}
 }
 
 \usepackage[numbers]{natbib}
 \usepackage{xspace}
+
+% Personal
+\usepackage{tikz}
+\usepackage{physics} % Braket notation
