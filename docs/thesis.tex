@@ -8,35 +8,21 @@
 \input{include/packages}
 
 %TODO Set the main variables
-\newcommand{\vikszerzoVezeteknev}{Gipsz}
-\newcommand{\vikszerzoKeresztnev}{Jakab}
+\newcommand{\vikszerzoVezeteknev}{Nemkin}
+\newcommand{\vikszerzoKeresztnev}{Viktória}
 
 \newcommand{\vikkonzulensAMegszolitas}{dr.~}
-\newcommand{\vikkonzulensAVezeteknev}{Konzulens}
-\newcommand{\vikkonzulensAKeresztnev}{Egy}
+\newcommand{\vikkonzulensAVezeteknev}{Friedl}
+\newcommand{\vikkonzulensAKeresztnev}{Katalin}
 
-\newcommand{\vikkonzulensBMegszolitas}{}
-\newcommand{\vikkonzulensBVezeteknev}{Konzulens}
-\newcommand{\vikkonzulensBKeresztnev}{Kettő}
-
-\newcommand{\vikkonzulensCMegszolitas}{}
-\newcommand{\vikkonzulensCVezeteknev}{}
-\newcommand{\vikkonzulensCKeresztnev}{}
-
-\newcommand{\vikcim}{Elektronikus terelők} % Cím
-\newcommand{\viktanszek}{\bmemit} % Tanszék
-\newcommand{\vikdoktipus}{\bsc} % Dokumentum típusa (\bsc vagy \msc)
-\newcommand{\vikmunkatipusat}{szakdolgozatot} % a "hallgató nyilatkozat" részhez: szakdolgozatot vagy diplomatervet
+\newcommand{\vikcim}{Kvantum bolyongások} % Cím
+\newcommand{\viktanszek}{\bmeszit} % Tanszék
+\newcommand{\vikdoktipus}{\msc} % Dokumentum típusa (\bsc vagy \msc)
 
 \input{include/tdk-variables}
 \newcommand{\szerzoMeta}{\vikszerzoVezeteknev{} \vikszerzoKeresztnev} % egy szerző esetén
-%\newcommand{\szerzoMeta}{\vikszerzoVezeteknev{} \vikszerzoKeresztnev, \tdkszerzoB} % két szerző esetén
 
-%TODO Language configuration -- choose one
-% Beállítások magyar nyelvű dolgozathoz
-%\input{include/thesis-hu}
-% Settings for English documents
-\input{include/thesis-en}
+\input{include/thesis-hu}
 
 \input{include/preamble}
 
@@ -47,18 +33,9 @@
 
 \pagenumbering{gobble}
 
-%TODO These includes define guidelines -- remove these
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\include{include/guideline}
-\include{include/project}
-
 \selectthesislanguage
 
-%TODO Titlepage -- choose one from below
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\include{include/titlepage}		   % Szakdolgozat/Diplomaterv címlap
-%\include{include/titlepage-tdk}	% TDK címlap
-%\include{include/titlepage-otdk}   % OTDK címlap
+\include{include/titlepage-tdk}	% TDK címlap
 
 
 % Table of Contents
@@ -68,7 +45,6 @@
 
 % Declaration and Abstract
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\include{include/declaration} %TODO Hallgatói nyilatkozat -- TDK és OTDK esetén törlendő!
 \include{content/abstract}    %TODO Összefoglaló -- TDK és OTDK esetén nem kötelező
 
 
