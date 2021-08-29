@@ -37,7 +37,8 @@ kron(shift_down * shift_left, [0,0,1,0]' * [0,0,1,0]) + ...
 kron(shift_down * shift_right, [0,0,0,1]' * [0,0,0,1]);
 
 I = speye(N);
-C = sparse(hadamard(4) / 2);
+C = full(sparse(hadamard(4) / 2))
+stop
 U = S * kron(I, C);
 
 start= kron(start_pos, start_coin);
