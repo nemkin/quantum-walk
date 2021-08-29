@@ -1,3 +1,5 @@
+from commands.maths.kronecker_power import kronecker_power
+from commands.maths.is_power_of_2 import is_power_of_2
 import numpy as np
 import scipy as sp
 from simulators.coins.coin import Coin
@@ -6,11 +8,12 @@ from simulators.coins.coin import Coin
 class Grover(Coin):
 
   def start(self):
-    if self.size == 2:
-      return np.array([1/np.sqrt(2), 1j/np.sqrt(2)])
-    if self.size == 4:
-      return np.array([1/2, 1j/2, -1/2, -1j/2])
-    raise f"Grover coin nincs definiálva ${self.size} méretre!"
+    if not is_power_of_2(self.size):
+      raise "Nem 2 hatvány a Grover érme oldalak száma!"
+
+    exp = int(np.log2(self.size))
+    size_2 = np.array([1/np.sqrt(2), 1j/np.sqrt(2)])
+    return kronecker_power(size_2, exp)
 
   def step(self):
     ones = np.ones((self.size, self.size), dtype=complex)
