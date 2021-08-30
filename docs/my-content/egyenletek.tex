@@ -192,14 +192,14 @@ $p_{i}\in\mathds{C}$ ahol $0 \leq{} i < N$, $\forall{}i$-re és $\sum\limits_{i=
 
 \begin{align}
   S =
-  (S_{\text{up}} * S_{\text{left}}) \otimes (X_{\text{head}} \otimes X_{\text{head}}) +   \\
-  (S_{\text{up}} * S_{\text{right}}) \otimes (X_{\text{head}} \otimes X_{\text{tail}}) +  \\
-  (S_{\text{down}} * S_{\text{left}}) \otimes (X_{\text{tail}} \otimes X_{\text{head}}) + \\
-  (S_{\text{down}} * S_{\text{right}}) \otimes (X_{\text{tail}} \otimes X_{\text{tail}})
+  (S_{\text{up}} S_{\text{left}}) \otimes (X_{\text{head}} \otimes X_{\text{head}}) +    \\
+  (S_{\text{up}}  S_{\text{right}}) \otimes (X_{\text{head}} \otimes X_{\text{tail}}) +  \\
+  (S_{\text{down}}  S_{\text{left}}) \otimes (X_{\text{tail}} \otimes X_{\text{head}}) + \\
+  (S_{\text{down}} S_{\text{right}}) \otimes (X_{\text{tail}} \otimes X_{\text{tail}})
 \end{align}
 
 \begin{align}
-  C_4 = H^{\otimes2} = \frac{1}{2} *
+  C_4 = H^{\otimes2} = \frac{1}{2}
   \begin{pmatrix}
     1 & 1  & 1  & 1  \\
     1 & -1 & 1  & -1 \\
@@ -218,7 +218,7 @@ $p_{i}\in\mathds{C}$ ahol $0 \leq{} i < N$, $\forall{}i$-re és $\sum\limits_{i=
   (S_{\text{up}} S_{\text{right}}) \otimes (X_{\text{head}} \otimes X_{\text{tail}}) +   \\
   (S_{\text{down}}  S_{\text{left}}) \otimes (X_{\text{tail}} \otimes X_{\text{head}}) + \\
   (S_{\text{down}} S_{\text{right}}) \otimes (X_{\text{tail}} \otimes X_{\text{tail}}))
-  * (I_9 \otimes C_4)
+  (I_9 \otimes C_4)
 \end{align}
 
 \definition[Tenzorszorzás azonosság: mátrix szorzással disztibutív]
@@ -279,10 +279,19 @@ Bal oldalt 9*9-es, jobb oldalt 4*4-es mátrixok vannak.
   (A_n \otimes I_m)(I_n \otimes B_m) = A_n \otimes B_m
 \end{align}
 
+
 \begin{align}
-  U =
-  ((S_{\text{up}}  S_{\text{left}}) \otimes I_2) (I_9 \otimes (X_{\text{head}}C_2)) \otimes (X_{\text{head}}C_2) +   \\
-  ((S_{\text{up}}  S_{\text{right}}) \otimes I_2) (I_9 \otimes (X_{\text{head}}C_2)) \otimes (X_{\text{tail}}C_2) +  \\
-  ((S_{\text{down}}  S_{\text{left}}) \otimes I_2) (I_9 \otimes (X_{\text{tail}}C_2)) \otimes (X_{\text{head}}C_2) + \\
-  ((S_{\text{down}}  S_{\text{right}}) \otimes I_2) (I_9 \otimes (X_{\text{tail}}C_2)) \otimes (X_{\text{tail}}C_2)
+  S = ((S_{\text{up}} \otimes  X_{\text{head}} \otimes I) +
+  (S_{\text{up}} \otimes X_{\text{tail}} \otimes I))
+  ((S_{\text{left}} \otimes I \otimes X_{\text{head}}) +
+  (S_{\text{right}} \otimes I \otimes  X_{\text{tail}} ))
 \end{align}
+
+
+% \begin{align}
+%   U =
+%   ((S_{\text{up}}  S_{\text{left}}) \otimes I_2) (I_9 \otimes (X_{\text{head}}C_2)) \otimes (X_{\text{head}}C_2) +   \\
+%   ((S_{\text{up}}  S_{\text{right}}) \otimes I_2) (I_9 \otimes (X_{\text{head}}C_2)) \otimes (X_{\text{tail}}C_2) +  \\
+%   ((S_{\text{down}}  S_{\text{left}}) \otimes I_2) (I_9 \otimes (X_{\text{tail}}C_2)) \otimes (X_{\text{head}}C_2) + \\
+%   ((S_{\text{down}}  S_{\text{right}}) \otimes I_2) (I_9 \otimes (X_{\text{tail}}C_2)) \otimes (X_{\text{tail}}C_2)
+% \end{align}
