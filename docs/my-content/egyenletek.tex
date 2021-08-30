@@ -1,7 +1,7 @@
 \chapter{Egyenletek}
 \label{sec:Egyenletek}
 
-\section{Kvantum séta a rácson}
+\section{Kvantumséta a rácson}
 
 A következőkben a rácson, mint 4-reguláris gráfon vett bolyongást fogjuk
 részletesen megvizsgálni.
@@ -42,17 +42,21 @@ $p_{i}\in\mathds{C}$ ahol $0 \leq{} i < N$, $\forall{}i$-re és $\sum\limits_{i=
 \end{definition}
 
 % https://en.wikipedia.org/wiki/Shift_matrix
-\begin{definition}[Upper shift matrix]
-  Az $U_{k}$ mátrix egy olyan ($k\times{}k$)-s mátrix, aminek a felső mellékátlóján
-  $1$-esek vannak, máshol $0$-k. Ennek az $i$. sor, $j$. oszlopában:
+\begin{definition}[Upper cyclic shift matrix]
+  Az $U_{k}$ mátrix egy olyan ($k\times{}k$)-s mátrix, aminek a felső mellékátlóján és a bal alsó sarokban
+  $1$-esek vannak, máshol $0$-k.
+  Az index számozása moduló k történik.
+  Ennek az $i$. sor, $j$. oszlopában:
   \begin{align}
-    U_{k}[i,j] = \delta_{i+1,j}
+    U_{k}[i,j] = \delta_{(i+1),j}
   \end{align}
 \end{definition}
 
-\begin{definition}[Lower shift matrix]
-  Az $L_{k}$ mátrix egy olyan ($k\times{}k$)-s mátrix, aminek az alsó mellékátlóján
-  $1$-esek vannak, máshol $0$-k. Ennek az $i$. sor, $j$. oszlopában:
+\begin{definition}[Lower cyclic shift matrix]
+  Az $L_{k}$ mátrix egy olyan ($k\times{}k$)-s mátrix, aminek az alsó mellékátlóján és a jobb felső sarokban
+  $1$-esek vannak, máshol $0$-k.
+  Az index számozása moduló k történik.
+  Ennek az $i$. sor, $j$. oszlopában:
   \begin{align}
     L_{k}[i,j] = \delta_{i,j+1}
   \end{align}
@@ -61,6 +65,16 @@ $p_{i}\in\mathds{C}$ ahol $0 \leq{} i < N$, $\forall{}i$-re és $\sum\limits_{i=
 \begin{align}
   L = U^{T}
 \end{align}
+
+
+\begin{itemize}
+  \item Rács = két körnek a tenzorszorzata.
+  \item Fel/le = mindig 1 sorral felette/alatta lévő (modulóval) van összekötve = n-el van elcsúsztatva.
+  \item Függőlegesen számozva ugyanígy csak fordított elnevezések.
+  \item Jobbra-balra = 1 távolság, kivéve sor végén, ahol a sor elejére ugrik = kis körök.
+  \item Tenzorszorzás tulajdonságait előre kiszedni, műveletek, használatkor hivatkozni.
+  \item Többsoros képleteknek csak 1 száma legyen.
+\end{itemize}
 
 \section{Példa}
 
@@ -103,8 +117,8 @@ $p_{i}\in\mathds{C}$ ahol $0 \leq{} i < N$, $\forall{}i$-re és $\sum\limits_{i=
 
     \end{tikzpicture}
   \end{center}
-  \caption{n=5-ös rács}
-  \label{fig:5Racs}
+  \caption{n=3-ös rács}
+  \label{fig:3Racs}
 \end{figure}
 
 \begin{align}
@@ -112,7 +126,7 @@ $p_{i}\in\mathds{C}$ ahol $0 \leq{} i < N$, $\forall{}i$-re és $\sum\limits_{i=
 \end{align}
 
 \begin{align}
-  S_{\text{left}} =
+  S_{\text{left}} = I_3 \otimes U_3 =
   \begin{pmatrix}
     0                  & \textcolor{red}{1} & 0                  & 0                  & 0                  & 0                  & 0                  & 0                  & 0                  \\
     0                  & 0                  & \textcolor{red}{1} & 0                  & 0                  & 0                  & 0                  & 0                  & 0                  \\
@@ -127,7 +141,7 @@ $p_{i}\in\mathds{C}$ ahol $0 \leq{} i < N$, $\forall{}i$-re és $\sum\limits_{i=
 \end{align}
 
 \begin{align}
-  S_{\text{right}} =
+  S_{\text{right}} = I_3 \otimes L_3 =
   \begin{pmatrix}
     0                  & 0                  & \textcolor{red}{1} & 0                  & 0                  & 0                  & 0                  & 0                  & 0                  \\
     \textcolor{red}{1} & 0                  & 0                  & 0                  & 0                  & 0                  & 0                  & 0                  & 0                  \\
@@ -143,7 +157,7 @@ $p_{i}\in\mathds{C}$ ahol $0 \leq{} i < N$, $\forall{}i$-re és $\sum\limits_{i=
 
 
 \begin{align}
-  S_{\text{down}} =
+  S_{\text{down}} = U_3^3 = U_3 \otimes I_3 =
   \begin{pmatrix}
     0                  & 0                  & 0                  & \textcolor{red}{1} & 0                  & 0                  & 0                  & 0                  & 0                  \\
     0                  & 0                  & 0                  & 0                  & \textcolor{red}{1} & 0                  & 0                  & 0                  & 0                  \\
@@ -159,7 +173,7 @@ $p_{i}\in\mathds{C}$ ahol $0 \leq{} i < N$, $\forall{}i$-re és $\sum\limits_{i=
 
 
 \begin{align}
-  S_{\text{up}} =
+  S_{\text{up}} = L_3^3 = L_3 \otimes I_3 =
   \begin{pmatrix}
     0                  & 0                  & 0                  & 0                  & 0                  & 0                  & \textcolor{red}{1} & 0                  & 0                  \\
     0                  & 0                  & 0                  & 0                  & 0                  & 0                  & 0                  & \textcolor{red}{1} & 0                  \\
@@ -282,7 +296,7 @@ Bal oldalt 9*9-es, jobb oldalt 4*4-es mátrixok vannak.
 
 \begin{align}
   S = ((S_{\text{up}} \otimes  X_{\text{head}} \otimes I) +
-  (S_{\text{up}} \otimes X_{\text{tail}} \otimes I))
+  (S_{\text{down}} \otimes X_{\text{tail}} \otimes I))
   ((S_{\text{left}} \otimes I \otimes X_{\text{head}}) +
   (S_{\text{right}} \otimes I \otimes  X_{\text{tail}} ))
 \end{align}
