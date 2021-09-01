@@ -1,6 +1,26 @@
 \chapter{Egyenletek}
 \label{sec:Egyenletek}
 
+\section{Tenzorszorzás azonosságai}
+
+\definition[Asszociativitás]
+\begin{align}
+  (A \otimes B) \otimes C = A \otimes (B \otimes C)
+\end{align}
+
+\definition[Disztibutivitás a mátrixszorzás felett]
+Ha A és C, illetve B és D kompatibilisek, akkor:
+\begin{align}
+  (A \otimes B)(C \otimes D) = (AC) \otimes (BD)
+\end{align}
+
+
+\definition[Lemma: Egységmátrixok beolvadása]
+\begin{align}
+  (A_n \otimes I_m)(I_n \otimes B_m) = A_n \otimes B_m
+\end{align}
+
+
 \section{Kvantumséta a rácson}
 
 A következőkben a rácson, mint 4-reguláris gráfon vett bolyongást fogjuk
@@ -236,10 +256,6 @@ $p_{i}\in\mathds{C}$ ahol $0 \leq{} i < N$, $\forall{}i$-re és $\sum\limits_{i=
 \end{align}
 
 \definition[Tenzorszorzás azonosság: mátrix szorzással disztibutív]
-Ha A és C, illetve B és D kompatibilisek, akkor:
-\begin{align}
-  (A \otimes B)(C \otimes D) = (AC) \otimes (BD)
-\end{align}
 
 Bal oldalt 9*9-es, jobb oldalt 4*4-es mátrixok vannak.
 
@@ -275,9 +291,6 @@ Bal oldalt 9*9-es, jobb oldalt 4*4-es mátrixok vannak.
 
 \definition[Tenzorszorzás azonosság: asszociatív]
 
-\begin{align}
-  (A \otimes B) \otimes C = A \otimes (B \otimes C)
-\end{align}
 
 \begin{align}
   U =
@@ -289,9 +302,6 @@ Bal oldalt 9*9-es, jobb oldalt 4*4-es mátrixok vannak.
 
 
 \definition[Tenzorszorzás Lemma?]
-\begin{align}
-  (A_n \otimes I_m)(I_n \otimes B_m) = A_n \otimes B_m
-\end{align}
 
 
 \begin{align}
