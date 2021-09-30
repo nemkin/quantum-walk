@@ -26,14 +26,12 @@
 \selectthesislanguage
 \include{include/titlepage-tdk}
 \tableofcontents\vfill
-\include{content/abstract}
 
+\include{content/01_begin/abstract}
 \pagenumbering{arabic}
-\include{content/introduction}
-\include{content/egyenletek}
-
-% Acknowledgements
-\include{content/acknowledgement}
+\include{content/01_begin/introduction}
+\include{content/02_math/egyenletek}
+\include{content/10_end/acknowledgement}
 
 % List of Figures, Tables
 %\listoffigures\addcontentsline{toc}{chapter}{\listfigurename}
@@ -45,6 +43,6 @@
 \bibliography{bib/mybib}
 
 % Appendices
-\include{content/appendices}
+\include{content/10_end/appendices}
 
 \end{document}
