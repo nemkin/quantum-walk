@@ -1,23 +1,67 @@
 \chapter{Egyenletek}
 \label{sec:Egyenletek}
 
-\section{Tenzorszorzás azonosságai}
+\section{Tenzorszorzás}
 
-\definition[Asszociativitás]
+\definition{Tenzorszorzat} Az $r \times s$ méretű $A$ és $t \times u$ méretű $B$
+mátrixok $rt \times su$ méretű $A \otimes B$ tenzorszorzata a következőképpen
+definiált:
+
+\begin{center}
+  $A = \begin{pmatrix}
+      a_{11} & a_{12} & \dots  & a_{1s} \\
+      a_{21} & a_{22} & \dots  & a_{2s} \\
+      \vdots & \vdots & \ddots & \vdots \\
+      a_{r1} & a_{r2} & \ddots & a_{rs}
+    \end{pmatrix}
+  $
+  és
+  $B = \begin{pmatrix}
+      b_{11} & b_{12} & \dots  & b_{1u} \\
+      b_{21} & b_{22} & \dots  & b_{2u} \\
+      \vdots & \vdots & \ddots & \vdots \\
+      b_{t1} & b_{t2} & \ddots & b_{tu}
+    \end{pmatrix}
+  $ esetén
+\end{center}
+
+\begin{center}
+  $A \otimes B = \begin{pmatrix}
+      a_{11}B & a_{12}B & \dots  & a_{1s}B \\
+      a_{21}B & a_{22}B & \dots  & a_{2s}B \\
+      \vdots  & \vdots  & \ddots & \vdots  \\
+      a_{r1}B & a_{r2}B & \ddots & a_{rs}B
+    \end{pmatrix}
+  $
+\end{center}
+
+\subsection{Azonosságai}
+
+\theorem[Asszociativitás]
 \begin{align}
   (A \otimes B) \otimes C = A \otimes (B \otimes C)
 \end{align}
 
-\definition[Disztibutivitás a mátrixszorzás felett]
+\theorem[Disztibutivitás a mátrixszorzás felett]
 Ha A és C, illetve B és D kompatibilisek, akkor:
 \begin{align}
   (A \otimes B)(C \otimes D) = (AC) \otimes (BD)
 \end{align}
 
 
-\definition[Lemma: Egységmátrixok beolvadása]
+\theorem[Lemma: Egységmátrixok beolvadása]
 \begin{align}
   (A_n \otimes I_m)(I_n \otimes B_m) = A_n \otimes B_m
+\end{align}
+
+
+\section{Unitér mátrixok}
+\change{Ezt a Wikipedia-ról szedtem, hivatkozni: https://en.wikipedia.org/wiki/Unitary\_matrix}
+\definition{Unitary matrix} A complex square matrix U is unitary if its conjugate
+transpose U* is also its inverse, as in:
+
+\begin{align}
+U*U = UU* = I
 \end{align}
 
 
