@@ -1,9 +1,4 @@
-% !TeX spellcheck = hu_HU
-% !TeX encoding = UTF-8
-% !TeX program = xelatex
-% TODO Change language to en_GB (recommended) or en_US for English documents
-\documentclass[11pt,a4paper,oneside]{report}             % Single-side
-%\documentclass[11pt,a4paper,twoside,openright]{report}  % Duplex
+\documentclass[11pt,a4paper,oneside]{report}
 
 \input{include/packages}
 
@@ -15,71 +10,41 @@
 \newcommand{\vikkonzulensAVezeteknev}{Friedl}
 \newcommand{\vikkonzulensAKeresztnev}{Katalin}
 
-\newcommand{\vikcim}{Simulation of quantum walks on a classical computer} % Cím
-\newcommand{\viktanszek}{\bmeszit} % Tanszék
-\newcommand{\vikdoktipus}{\msc} % Dokumentum típusa (\bsc vagy \msc)
+\newcommand{\vikcim}{Simulation of quantum walks\\on a classical computer}
+\newcommand{\viktanszek}{\bmeszit}
+\newcommand{\vikdoktipus}{\msc}
 
 \input{include/tdk-variables}
-\newcommand{\szerzoMeta}{\vikszerzoVezeteknev{} \vikszerzoKeresztnev} % egy szerző esetén
+\newcommand{\szerzoMeta}{\vikszerzoVezeteknev{} \vikszerzoKeresztnev}
 
 \input{include/thesis-en}
-
 \input{include/preamble}
 
-%--------------------------------------------------------------------------------------
-% Table of contents and the main text
-%--------------------------------------------------------------------------------------
 \begin{document}
 
 \pagenumbering{gobble}
-
 \selectthesislanguage
-
-\include{include/titlepage-tdk}	% TDK címlap
-
-
-% Table of Contents
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\include{include/titlepage-tdk}
 \tableofcontents\vfill
+\include{content/abstract}
 
-
-% Declaration and Abstract
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\include{content/abstract}    %TODO Összefoglaló -- TDK és OTDK esetén nem kötelező
-
-
-% The main part of the thesis
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \pagenumbering{arabic}
-
-%TODO import your own content
-\include{my-content/egyenletek}
 \include{content/introduction}
-\include{content/latex-tools}
-\include{content/thesis-format}
-\include{content/template-usage}
-
+\include{content/egyenletek}
 
 % Acknowledgements
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \include{content/acknowledgement}
 
-
 % List of Figures, Tables
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %\listoffigures\addcontentsline{toc}{chapter}{\listfigurename}
 %\listoftables\addcontentsline{toc}{chapter}{\listtablename}
 
-
 % Bibliography
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\nocite{*}
 \addcontentsline{toc}{chapter}{\bibname}
 \bibliography{bib/mybib}
 
-
-% Appendix
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Appendices
 \include{content/appendices}
 
-%\label{page:last}
 \end{document}
