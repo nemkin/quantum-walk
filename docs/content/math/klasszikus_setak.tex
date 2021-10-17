@@ -19,9 +19,12 @@ $P(X_k = x_k | X_{k-1} = x_{k-1}, \dots, X_1 = x_1) = P(X_k = x_k | X_{k-1} = x_
 $\forall k\geq{}2$ and $x_{1},\dots, x{k}$ from the value set.
 
 \definition{\textbf{Homogenous Markov-chain}} Time invariant, i.e.:
-$P(\Phi_k = i | \Phi_{k-1} = j) = p_{j,i}$ $\forall k\geq{}2$, $\forall i,j \in{} A$, which is called the transition probability from $i$ to $j$.
+$P(\Phi_k = i | \Phi_{k-1} = j) = p_{j,i}$ $\forall k\geq{}2$, $\forall i,j \in{} A$, which is called the transition probability from $i$ to $j$ and form the transition probability matrix $P$.
 
 This allows us to represent Homogenous Markov-chains as directed graphs.
 
 \definition{\textbf{Graph representation of homogenous Markov-chains}}
-Graph $G(V,E)$ represents a homogenous Markov-chain, if $V=A$ and $E(i,j) = p_{j,i}$ $\forall{}i,j\in{}A$.
+Graph $G(V,E)$ represents a homogenous Markov-chain $X_1, X_2, X_3, \dots$, (with value set $A$ and transition probability matrix $P$), if $V=A$ and $E(i,j) = p_{j,i}$ $\forall{}i,j\in{}A$.
+
+\definition{\textbf{Random walk on a graph}}
+A random walk on this graph $G$ visits the nodes represented by the Markov-chain: $X_1, X_2, X_3, \dots$.
