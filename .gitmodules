@@ -1,0 +1,3 @@
+[submodule "docs/tdk"]
+	path = docs/tdk
+	url = git@github.com:nemkin/tdk.git
