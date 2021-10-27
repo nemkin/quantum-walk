@@ -136,30 +136,31 @@ class Exporter:
     fig.savefig(simloc.counts().image())
     plt.close(fig)
 
-    if steps_smaller > 0:
-      div = np.gcd(self.run.N, steps_smaller)
-      x = 6  # self.run.N // div
-      y = 12  # steps_smaller // div
+    # Counts_short
+    #if steps_smaller > 0:
+    #  div = np.gcd(self.run.N, steps_smaller)
+    #  x = 6  # self.run.N // div
+    #  y = 12  # steps_smaller // div
+    #
+    #  fig, ax = plt.subplots(1, 1, figsize=(x, y))
+    #  pcm = ax.pcolor(
+    #      vertexes_X,
+    #      steps_Y_smaller,
+    #      counts_smaller,
+    #      cmap='rainbow',
+    #      shading='auto',
+    #      linewidths=1,
+    #      snap=True,
+    #      norm=colors.LogNorm(vmin=np.min(
+    #          counts_smaller[np.nonzero(counts_smaller)]), vmax=counts_smaller.max())
+    #  )
+    #  ax.set_title(simulator.describe())
+    #  ax.set_xlabel('Vertexes')
+    #  ax.set_ylabel('Steps')
+    #  fig.tight_layout()
 
-      fig, ax = plt.subplots(1, 1, figsize=(x, y))
-      pcm = ax.pcolor(
-          vertexes_X,
-          steps_Y_smaller,
-          counts_smaller,
-          cmap='rainbow',
-          shading='auto',
-          linewidths=1,
-          snap=True,
-          norm=colors.LogNorm(vmin=np.min(
-              counts_smaller[np.nonzero(counts_smaller)]), vmax=counts_smaller.max())
-      )
-      ax.set_title(simulator.describe())
-      ax.set_xlabel('Vertexes')
-      ax.set_ylabel('Steps')
-      fig.tight_layout()
-
-      fig.savefig(simloc.counts_short().image())
-      plt.close(fig)
+    #  fig.savefig(simloc.counts_short().image())
+    #  plt.close(fig)
 
     with open(simloc.counts().text(), "w") as f:
       f.write(np.array2string(counts))
@@ -287,8 +288,8 @@ class Exporter:
 
       self.add_graphics(
           self.loc.simulation(i, is_latex=True).counts().image(), f"{i}th simulation")
-      self.add_graphics(
-          self.loc.simulation(i, is_latex=True).counts_short().image(), f"{i}th simulation, removing the beginning")
+      #self.add_graphics(
+      #    self.loc.simulation(i, is_latex=True).counts_short().image(), f"{i}th simulation, removing the beginning")
       self.add_graphics(
           self.loc.simulation(i, is_latex=True).mixing_time().image(), f"{i}th simulation mixing time")
       self.add_graphics(
