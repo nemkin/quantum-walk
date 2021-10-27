@@ -81,32 +81,32 @@ class Run:
 
   def get_simulation(graph, simulator):
     counts = simulator.simulate(graph)
-    # mixing_time = Run.mixing_time(counts)
-    # hitting_time = Run.hitting_time(counts)
-    # simulation_matrix = Run.get_simulation_matrix(graph, simulator)
+    mixing_time = Run.mixing_time(counts)
+    hitting_time = Run.hitting_time(counts)
+    simulation_matrix = Run.get_simulation_matrix(graph, simulator)
     return {
         "simulator": simulator,
         "counts": counts,
-        # "mixing_time": mixing_time,
-        # "hitting_time": hitting_time,
-        # "simulation_matrix": simulation_matrix,
-        # "eigens": Run.eigens(simulation_matrix),
-        # "limiting_dists": Run.limiting_dists(simulation_matrix)
+        "mixing_time": mixing_time,
+        "hitting_time": hitting_time,
+        "simulation_matrix": simulation_matrix,
+        "eigens": Run.eigens(simulation_matrix),
+        "limiting_dists": Run.limiting_dists(simulation_matrix)
     }
 
   def __init__(self, graph, simulators):
     self.title, self.subtitle, self.filename = Run.make_name()
     self.N = graph.vertex_count()
-    # self.graph_adj = graph.adjacency_matrix()
-    # self.coin_faces = graph.coin_faces()
-    # self.sub_graphs = map(
-    #     lambda sub_graph: {
-    #         "describe": sub_graph.describe(),
-    #         "adj": sub_graph.adjacency_matrix(self.N)
-    #     },
-    #     tqdm(graph.sub_graphs,
-    #          desc=f"{graph.name} subgraph adjacency matrices", leave=False)
-    # )
+    self.graph_adj = graph.adjacency_matrix()
+    self.coin_faces = graph.coin_faces()
+    self.sub_graphs = map(
+        lambda sub_graph: {
+            "describe": sub_graph.describe(),
+            "adj": sub_graph.adjacency_matrix(self.N)
+        },
+        tqdm(graph.sub_graphs,
+             desc=f"{graph.name} subgraph adjacency matrices", leave=False)
+    )
     self.simulations = map(
         lambda s: Run.get_simulation(graph, s),
         tqdm(simulators, desc=f"{graph.name} simulations",

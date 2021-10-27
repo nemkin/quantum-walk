@@ -68,14 +68,14 @@ def run_grid():
   graph = Graph('Grid', [Grid(range(9))])
   N = graph.vertex_count()
   simulators = [
-      # Classical(N//2, 50, 100),
+      Classical(N//2, 50, 100),
       Quantum(Hadamard(), N//2, 1, 100),
-      # Quantum(Grover(), N//2, 1, 100),
-      # Quantum(Dft(), N//2, 1, 100),
+      Quantum(Grover(), N//2, 1, 100),
+      Quantum(Dft(), N//2, 1, 100),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
-  # Tester(run).test()
+  Tester(run).test()
 
 
 def run_hypercube():
@@ -92,11 +92,11 @@ def run_hypercube():
 
 
 archive()
-# run_dumbbell()
-# run_glued_binary()
-# run_path()
+run_dumbbell()
+run_glued_binary()
+run_path()
 run_grid()
-# run_hypercube()
+run_hypercube()
 
 
 # def is_unitary(m):

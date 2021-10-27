@@ -97,12 +97,12 @@ class Exporter:
     simulator = simulation["simulator"]
     counts = simulation["counts"]
 
-    size = int(np.sqrt(counts.shape[1]))
-    for i in range(counts.shape[0]):
-      self.draw_adj_3d(
-          counts[i, :].reshape((size, size)), simloc.counts(i))
-
-    return
+#    size = int(np.sqrt(counts.shape[1]))
+#    for i in range(counts.shape[0]):
+#      self.draw_adj_3d(
+#          counts[i, :].reshape((size, size)), simloc.counts(i))
+#
+#    return
     smaller = 2 * self.run.N
     steps_smaller = simulator.steps - smaller
 
@@ -196,7 +196,7 @@ class Exporter:
     self.description += ["\\usepackage[margin=1.5cm]{geometry}"]
     self.description += [""]
     self.description += ["% Language setup"]
-    self.description += ["\\usepackage[magyar]{babel} % Babel for Hungarian"]
+    self.description += ["\\usepackage[english]{babel} % Babel for Hungarian"]
     self.description += [
         "\\usepackage[T1]{fontenc} % Output character encoding"]
     self.description += [
@@ -256,18 +256,17 @@ class Exporter:
                         f"{i}th subgraph adjacency matrix")
 
   def add_simulations(self):
-    self.description += ["\\section{Szimulációk}"]
+    self.description += ["\\section{Simulations}"]
 
     for i, simulation in tqdm(enumerate(self.run.simulations),  desc="Export simulations", leave=False):
       simulator = simulation["simulator"]
-      # counts = simulation["counts"]
-      # mixing_time = simulation["mixing_time"]
-      # hitting_time = simulation["hitting_time"]
-      # simulation_matrix = simulation["simulation_matrix"]
-      # eigens = simulation["eigens"]
+      counts = simulation["counts"]
+      mixing_time = simulation["mixing_time"]
+      hitting_time = simulation["hitting_time"]
+      simulation_matrix = simulation["simulation_matrix"]
+      eigens = simulation["eigens"]
 
       self.draw(simulation, self.loc.simulation(i))
-      continue
       self.draw_graphics(
           mixing_time,
           simulator.describe(),
@@ -333,9 +332,9 @@ class Exporter:
 
   def export(self):
     self.add_begin()
-    # self.add_graph()
-    # self.add_coin_faces()
-    # self.add_sub_graphs()
+    self.add_graph()
+    self.add_coin_faces()
+    self.add_sub_graphs()
     self.add_simulations()
     self.add_end()
 
