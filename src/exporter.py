@@ -125,7 +125,7 @@ class Exporter:
         shading='auto',
         linewidths=1,
         snap=True,
-        norm=colors.LogNorm(vmin=0.0001, vmax=1)
+        norm=colors.LogNorm(vmin=0.0001, vmax=0.1)
     )
     ax.set_title(simulator.describe())
     ax.set_xlabel('Vertexes')
