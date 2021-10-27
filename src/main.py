@@ -19,16 +19,14 @@ from graphs.subgraphs.Hypercube import Hypercube
 from simulators.coins.dft import Dft
 import numpy as np
 
+steps = 200
 
 def run_dumbbell():
   graph = Dumbbell(100, 2, 10)
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 1, 1000),
-      Classical(N//2, 10, 1000),
-      Classical(N//2, 100, 1000),
-      Classical(N//2, 1000, 1000),
-      Quantum(Dft(), N//2, 1, 1000),
+      Classical(N//2, 1000, steps),
+      Quantum(Dft(), N//2, 1, steps),
   ]
 
   run = Run(graph, simulators)
@@ -39,17 +37,12 @@ def run_dumbbell():
 def run_glued_binary():
   graph = GluedBinary(10)
   simulators = [
-      Classical(0, 1, 1000),
-      Classical(0, 10, 1000),
-      Classical(0, 100, 1000),
-      Classical(0, 1000, 1000),
-      Quantum(Dft(), 0, 1, 10),
+      Classical(0, 1000, steps),
+      Quantum(Dft(), 0, 1, steps),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
   Tester(run).test()
-
-steps = 200
 
 def run_path():
   graph = Graph('Path', [Path(range(101))])
