@@ -147,7 +147,7 @@ class Exporter:
     self.description += ["\\begin{centering}"]
     self.description += [f"\\begin{{tabular}}{{{'|'.join(['r']*cols)}}}"]
     for i in range(0, n, cols):
-      if i is not 0:
+      if i != 0:
         self.description += ["\\hline"]
       end = i+cols if i+cols <= n else n
       nums = numbers[i:end]

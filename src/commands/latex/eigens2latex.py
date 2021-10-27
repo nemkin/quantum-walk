@@ -9,9 +9,12 @@ def eigens2latex(eigens):
   for value in sorted(values, reverse=True):
     latex += [f"${value:.10f}$:\\"]
     angle = np.angle(value, deg=True)
-    osztva = 360 / angle
-    latex += [f"Bezárt szög: ${angle:.10f}$ \\"]
-    latex += [f"360 / bezárt szög: ${osztva:.10f}$\\"]
+    if angle != 0:
+        osztva = 360 / angle
+    else:
+        osztva = np.Inf
+    latex += [f"Angle: ${angle:.10f}$ \\"]
+    latex += [f"360 / angle: ${osztva:.10f}$\\"]
     latex += ["\\begin{itemize}"]
     vectors = eigens.get_eigen_vectors_for(value)
     for vector in vectors:
