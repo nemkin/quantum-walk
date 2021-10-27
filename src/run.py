@@ -32,8 +32,11 @@ class Run:
     return {key: list(map(lambda g: g["vector"], group))
             for key, group in itertools.groupby(eigens, lambda x: x["value"])}
 
-  def limiting_dists(adj):
-    transition_mat = adj/adj.sum(0)
+  def limiting_dists(adj, is_quantum):
+    if is_quantum:
+        transition_mat = adj
+    else:
+        transition_mat = adj / adj.sum(0)
     eigen_values, eigen_vectors = np.linalg.eig(transition_mat)
     eigen_vectors_1 = eigen_vectors[:, np.isclose(eigen_values, 1)]
     return eigen_vectors_1
@@ -68,10 +71,13 @@ class Run:
     S_hat = np.zeros((N*regularity, N*regularity), dtype=complex)
     for i in range(regularity):
       m = np.zeros((regularity, regularity), dtype=complex)
-      m[:, i] = coin_matrix[:, i]
-      S_hat += np.kron(graph_coin_faces[i], m)
+      m[i, i] = 1
+      S_i = np.kron(graph_coin_faces[i], m)
+      S_hat += S_i
 
-    return S_hat
+    C_hat = np.kron(np.eye(N), coin_matrix)
+    U = np.matmul(S_hat, C_hat)
+    return U
 
   def get_simulation_matrix(graph, simulator):
     if simulator.is_quantum():
@@ -91,7 +97,7 @@ class Run:
         "hitting_time": hitting_time,
         "simulation_matrix": simulation_matrix,
         "eigens": Run.eigens(simulation_matrix),
-        "limiting_dists": Run.limiting_dists(simulation_matrix)
+        "limiting_dists": Run.limiting_dists(simulation_matrix, simulator.is_quantum())
     }
 
   def __init__(self, graph, simulators):
