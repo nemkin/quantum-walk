@@ -49,7 +49,7 @@ def run_glued_binary():
   Exporter(run).export()
   Tester(run).test()
 
-steps = 500
+steps = 200
 
 def run_path():
   graph = Graph('Path', [Path(range(101))])
@@ -66,7 +66,7 @@ def run_path():
 
 
 def run_grid():
-  graph = Graph('Grid', [Grid(range(9))])
+  graph = Graph('Grid', [Grid(range(16))])
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 1000, steps),

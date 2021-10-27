@@ -48,7 +48,7 @@ class Exporter:
         X,
         Y,
         adj,
-        cmap='plasma',
+        cmap='rainbow',
         shading='auto',
         linewidths=1,
         snap=True,
@@ -121,11 +121,11 @@ class Exporter:
         vertexes_X,
         steps_Y,
         counts,
-        cmap='plasma',
+        cmap='rainbow',
         shading='auto',
         linewidths=1,
         snap=True,
-        norm=colors.LogNorm(vmin=0.0001, vmax=0.1)
+        norm=colors.LogNorm(vmin=np.min(counts[np.nonzero(counts)]), vmax=counts.max())
     )
     ax.set_title(simulator.describe())
     ax.set_xlabel('Vertexes')
@@ -271,7 +271,7 @@ class Exporter:
           mixing_time,
           simulator.describe(),
           "Steps",
-          "Euclidean distance between consecutive distributions",
+          "Euclidean distance between the last and the current distributions",
           self.loc.simulation(i).mixing_time())
       self.draw_graphics(
           hitting_time,
