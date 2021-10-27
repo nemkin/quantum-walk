@@ -95,8 +95,8 @@ class Exporter:
             counts[np.nonzero(counts)]), vmax=counts.max())
     )
     ax.set_title(simulator.describe())
-    ax.set_xlabel('Csúcsindexek')
-    ax.set_ylabel('Lépések')
+    ax.set_xlabel('Vertexes')
+    ax.set_ylabel('Steps')
     fig.tight_layout()
 
     fig.savefig(simloc.counts().image())
@@ -120,8 +120,8 @@ class Exporter:
               counts_smaller[np.nonzero(counts_smaller)]), vmax=counts_smaller.max())
       )
       ax.set_title(simulator.describe())
-      ax.set_xlabel('Csúcsindexek')
-      ax.set_ylabel('Lépések')
+      ax.set_xlabel('Vertexes')
+      ax.set_ylabel('Steps')
       fig.tight_layout()
 
       fig.savefig(simloc.counts_short().image())
@@ -198,28 +198,28 @@ class Exporter:
     create_latex(self.loc.graph_adj().latex(),
                  matrix2latex_document(self.run.graph_adj))
 
-    self.description += ["\\section{Gráf}"]
-    self.description += ["\\subsection{Szomszédossági mátrix}"]
+    self.description += ["\\section{Graph}"]
+    self.description += ["\\subsection{Adjacency matrix}"]
     self.add_graphics(self.loc.graph_adj(is_latex=True).image(),
-                      "Gráf szomszédossági mátrixa")
+                      "Graph adjacency matrix")
 
   def add_coin_faces(self):
     for i, coin_face in tqdm(enumerate(self.run.coin_faces), desc="Export coin faces", leave=False):
       self.draw_adj(coin_face, self.loc.coin_face(i))
 
-      self.description += ["\\subsection{Érme oldal}"]
+      self.description += ["\\subsection{Coin face}"]
       self.add_graphics(self.loc.coin_face(i, is_latex=True).image(),
-                        f"{i}. érmeoldal szomszédossági mátrixa")
+                        f"{i}th coin face adjacency matrix")
 
   def add_sub_graphs(self):
     for i, sub_graph in tqdm(enumerate(self.run.sub_graphs), desc="Export sub graphs", leave=False):
 
       self.draw_adj(sub_graph["adj"], self.loc.subgraph_adj(i))
 
-      self.description += ["\\subsection{Részgráf}"]
+      self.description += ["\\subsection{Subgraph}"]
       self.description += [sub_graph["describe"]]
       self.add_graphics(self.loc.subgraph_adj(i, is_latex=True).image(),
-                        f"{i}. részgráf szomszédossági mátrixa")
+                        f"{i}th subgraph adjacency matrix")
 
   def add_simulations(self):
     self.description += ["\\section{Szimulációk}"]
@@ -236,31 +236,31 @@ class Exporter:
       self.draw_graphics(
           mixing_time,
           simulator.describe(),
-          "Lépések",
-          "Egymás utáni eloszlások euklideszi távolsága",
+          "Steps",
+          "Euclidean distance between consecutive distributions",
           self.loc.simulation(i).mixing_time())
       self.draw_graphics(
           hitting_time,
           simulator.describe(),
-          "Csúcsok",
-          "Első nem 0 step",
+          "Vertices",
+          "First non-zero step",
           self.loc.simulation(i).hitting_time())
 
       self.description += [f"\\subsection{{{simulator.describe()}}}"]
-      self.description += [f"Kezdőcsúcs: {simulator.start}"]
-      self.description += [f"Bolyongók: {simulator.simulations}"]
-      self.description += [f"Lépésszám: {simulator.steps}"]
+      self.description += [f"Starting vertex: {simulator.start}"]
+      self.description += [f"Walkers: {simulator.simulations}"]
+      self.description += [f"Steps: {simulator.steps}"]
 
       self.add_graphics(
-          self.loc.simulation(i, is_latex=True).counts().image(), f"{i}. szimuláció")
+          self.loc.simulation(i, is_latex=True).counts().image(), f"{i}th simulation")
       self.add_graphics(
-          self.loc.simulation(i, is_latex=True).counts_short().image(), f"{i}. szimuláció levágva az elejét")
+          self.loc.simulation(i, is_latex=True).counts_short().image(), f"{i}th simulation, removing the beginning")
       self.add_graphics(
-          self.loc.simulation(i, is_latex=True).mixing_time().image(), f"{i}. szimuláció mixing time")
+          self.loc.simulation(i, is_latex=True).mixing_time().image(), f"{i}th simulation mixing time")
       self.add_graphics(
-          self.loc.simulation(i, is_latex=True).hitting_time().image(), f"{i}. szimuláció hitting time")
+          self.loc.simulation(i, is_latex=True).hitting_time().image(), f"{i}th simulation hitting time")
 
-      self.description += ["\\subsection{Sajátértékek, sajátvektorok}"]
+      self.description += ["\\subsection{Eigenvalues, eigenvectors}"]
       self.description += eigens2latex(Eigens(simulation_matrix))
 
       if simulator.is_quantum():
@@ -273,17 +273,17 @@ class Exporter:
       create_latex(self.loc.simulation(i).simulation_matrix().latex(),
                    matrix2latex_document(simulation_matrix, size))
 
-      self.description += ["\\section{Szimulációs mátrix}"]
-      self.description += [f"\\subsection{{{i}. szimuláció mátrixa}}"]
+      self.description += ["\\section{Simulation matrix}"]
+      self.description += [f"\\subsection{{{i}.th simulation matrix}}"]
       self.add_graphics(self.loc.simulation(i, is_latex=True).simulation_matrix().image(),
-                        f"{i}. szimuláció mátrixa")
+                        f"{i}th simulation matrix")
 
       if simulator.is_quantum():  # TODO is quantum miert nem jo itt?
         create_latex(
             self.loc.simulation(i).coin_start().latex(),
             matrix2latex_document(simulator.coin.start()))
 
-        self.description += ["\\subsection{Érme sajátértékek, sajátvektorok}"]
+        self.description += ["\\subsection{Coin eigenvalues, eigenvectors}"]
         self.description += eigens2latex(Eigens(simulator.coin.step()))
 
         create_latex(
