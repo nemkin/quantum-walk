@@ -10,7 +10,8 @@ class Grover(Coin):
   def start(self):
     if not is_power_of_2(self.size):
       raise "Nem 2 hatvány a Grover érme oldalak száma!"
-
+    return np.array([1/np.sqrt(2), 1j/np.sqrt(2)] + [0 for _ in range(self.size-2)])
+    
     exp = int(np.log2(self.size))
     size_2 = np.array([1/np.sqrt(2), 1j/np.sqrt(2)])
     return kronecker_power(size_2, exp)
