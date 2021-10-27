@@ -52,7 +52,7 @@ class Exporter:
         shading='auto',
         linewidths=1,
         snap=True,
-        norm=colors.LogNorm(vmin=np.min(adj[np.nonzero(adj)]), vmax=adj.max())
+        norm=colors.LogNorm(0.0001,1)
     )
     ax.xaxis.tick_top()
     ax.invert_yaxis()
