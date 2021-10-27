@@ -9,6 +9,8 @@ import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+from matplotlib import cm
+
 from tqdm import tqdm
 from config import Config
 
@@ -65,10 +67,42 @@ class Exporter:
     with open(filename.numpy(), 'wb') as f:
       np.save(f, adj)
 
+  def draw_adj_3d(self, adj, filename):
+    fig, ax = plt.subplots(dpi=300,
+                           subplot_kw={"projection": "3d"})
+    X, Y = np.meshgrid(range(adj.shape[0]), range(adj.shape[1]))
+    ax.plot_surface(
+        X,
+        Y,
+        adj,
+        cmap=cm.coolwarm,
+        linewidth=0,
+        antialiased=False)
+    # ax.set_zlim(0, 1)
+
+    # ax.xaxis.tick_top()
+    # ax.invert_yaxis()
+
+    fig.tight_layout()
+    fig.savefig(filename.image())
+    plt.close(fig)
+
+    with open(filename.text(), "w") as f:
+      f.write(np.array2string(adj))
+
+    with open(filename.numpy(), 'wb') as f:
+      np.save(f, adj)
+
   def draw(self, simulation, simloc):
     simulator = simulation["simulator"]
     counts = simulation["counts"]
 
+    size = int(np.sqrt(counts.shape[1]))
+    for i in range(counts.shape[0]):
+      self.draw_adj_3d(
+          counts[i, :].reshape((size, size)), simloc.counts(i))
+
+    return
     smaller = 2 * self.run.N
     steps_smaller = simulator.steps - smaller
 
@@ -226,13 +260,14 @@ class Exporter:
 
     for i, simulation in tqdm(enumerate(self.run.simulations),  desc="Export simulations", leave=False):
       simulator = simulation["simulator"]
-      counts = simulation["counts"]
-      mixing_time = simulation["mixing_time"]
-      hitting_time = simulation["hitting_time"]
-      simulation_matrix = simulation["simulation_matrix"]
-      eigens = simulation["eigens"]
+      # counts = simulation["counts"]
+      # mixing_time = simulation["mixing_time"]
+      # hitting_time = simulation["hitting_time"]
+      # simulation_matrix = simulation["simulation_matrix"]
+      # eigens = simulation["eigens"]
 
       self.draw(simulation, self.loc.simulation(i))
+      continue
       self.draw_graphics(
           mixing_time,
           simulator.describe(),
@@ -298,9 +333,9 @@ class Exporter:
 
   def export(self):
     self.add_begin()
-    self.add_graph()
-    self.add_coin_faces()
-    self.add_sub_graphs()
+    # self.add_graph()
+    # self.add_coin_faces()
+    # self.add_sub_graphs()
     self.add_simulations()
     self.add_end()
 
