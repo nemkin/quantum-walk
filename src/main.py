@@ -49,15 +49,16 @@ def run_glued_binary():
   Exporter(run).export()
   Tester(run).test()
 
+steps = 500
 
 def run_path():
-  graph = Graph('Path', [Path(range(16))])
+  graph = Graph('Path', [Path(range(101))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 10, 7),
-      Quantum(Hadamard(), N//2, 1, 100),
-      Quantum(Grover(), N//2, 1, 100),
-      Quantum(Dft(), N//2, 1, 100)
+      Classical(N//2, 1000, steps),
+      Quantum(Hadamard(), N//2, 1, steps),
+      Quantum(Grover(), N//2, 1, steps),
+      Quantum(Dft(), N//2, 1, steps)
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
@@ -68,10 +69,10 @@ def run_grid():
   graph = Graph('Grid', [Grid(range(9))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 50, 100),
-      Quantum(Hadamard(), N//2, 1, 100),
-      Quantum(Grover(), N//2, 1, 100),
-      Quantum(Dft(), N//2, 1, 100),
+      Classical(N//2, 1000, steps),
+      Quantum(Hadamard(), N//2, 1, steps),
+      Quantum(Grover(), N//2, 1, steps),
+      Quantum(Dft(), N//2, 1, steps),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
@@ -81,10 +82,10 @@ def run_grid():
 def run_hypercube():
   graph = Graph('Hypercube', [Hypercube(range(2**4))])
   simulators = [
-      Classical(0, 1000, 1000),
-      Quantum(Hadamard(), 0, 1, 100),
-      Quantum(Grover(), 0, 1, 100),
-      Quantum(Dft(), 0, 1, 100),
+      Classical(0, 1000, steps),
+      Quantum(Hadamard(), 0, 1, steps),
+      Quantum(Grover(), 0, 1, steps),
+      Quantum(Dft(), 0, 1, steps),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()

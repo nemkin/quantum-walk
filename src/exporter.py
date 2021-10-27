@@ -48,7 +48,7 @@ class Exporter:
         X,
         Y,
         adj,
-        cmap='rainbow',
+        cmap='plasma',
         shading='auto',
         linewidths=1,
         snap=True,
@@ -121,12 +121,11 @@ class Exporter:
         vertexes_X,
         steps_Y,
         counts,
-        cmap='rainbow',
+        cmap='plasma',
         shading='auto',
         linewidths=1,
         snap=True,
-        norm=colors.LogNorm(vmin=np.min(
-            counts[np.nonzero(counts)]), vmax=counts.max())
+        norm=colors.LogNorm(vmin=0.0001, vmax=1)
     )
     ax.set_title(simulator.describe())
     ax.set_xlabel('Vertexes')

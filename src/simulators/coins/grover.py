@@ -21,4 +21,4 @@ class Grover(Coin):
     return (2/self.size * ones) - diag_ones
 
   def describe(self):
-    return "Grover érme"
+    return "Grover coin"

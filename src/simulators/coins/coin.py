@@ -6,4 +6,4 @@ class Coin:
     self.size = size
 
   def describe(self):
-    return "Ismeretlen érme"
+    return "Unknown coin"

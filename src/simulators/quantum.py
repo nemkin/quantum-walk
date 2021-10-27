@@ -50,4 +50,4 @@ class Quantum(Simulator):
     return True
 
   def describe(self):
-    return f"Kvantum szimuláció ({self.coin.describe()})"
+    return f"Quantum simulation ({self.coin.describe()})"

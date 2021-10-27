@@ -15,4 +15,4 @@ class Hadamard(Coin):
     return splinalg.hadamard(self.size, dtype=complex) / np.sqrt(self.size)
 
   def describe(self):
-    return "Hadamard érme"
+    return "Hadamard coin"

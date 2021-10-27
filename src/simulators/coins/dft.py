@@ -12,4 +12,4 @@ class Dft(Coin):
     return sp.linalg.dft(self.size) / np.sqrt(self.size)
 
   def describe(self):
-    return "DFT érme"
+    return "DFT coin"

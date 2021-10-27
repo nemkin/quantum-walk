@@ -21,4 +21,4 @@ class Classical(Simulator):
     return counts / self.simulations
 
   def describe(self):
-    return "Klasszikus szimuláció"
+    return "Classical simulation"
