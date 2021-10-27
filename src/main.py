@@ -92,8 +92,8 @@ def run_hypercube():
 
 
 archive()
-run_dumbbell()
-run_glued_binary()
+#run_dumbbell()
+#run_glued_binary()
 run_path()
 run_grid()
 run_hypercube()
