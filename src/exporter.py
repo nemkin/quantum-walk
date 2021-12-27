@@ -294,8 +294,8 @@ class Exporter:
       self.add_graphics(
           self.loc.simulation(i, is_latex=True).hitting_time().image(), f"{i}th simulation hitting time")
 
-      self.description += ["\\subsection{Eigenvalues, eigenvectors}"]
-      self.description += eigens2latex(Eigens(simulation_matrix))
+      #self.description += ["\\subsection{Eigenvalues, eigenvectors}"]
+      #self.description += eigens2latex(Eigens(simulation_matrix))
 
       if simulator.is_quantum():
         size = simulator.coin.size
