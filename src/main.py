@@ -25,7 +25,7 @@ def run_dumbbell():
   graph = Dumbbell(100, 2, 10)
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 1000, steps),
+      Classical(N//2, 100, steps),
       Quantum(Dft(), N//2, 1, steps),
   ]
 
@@ -37,7 +37,7 @@ def run_dumbbell():
 def run_glued_binary():
   graph = GluedBinary(10)
   simulators = [
-      Classical(0, 1000, steps),
+      Classical(0, 100, steps),
       Quantum(Dft(), 0, 1, steps),
   ]
   run = Run(graph, simulators)
@@ -48,7 +48,7 @@ def run_path():
   graph = Graph('Path', [Path(range(101))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 1000, steps),
+      Classical(N//2, 100, steps),
       Quantum(Hadamard(), N//2, 1, steps),
       Quantum(Grover(), N//2, 1, steps),
       Quantum(Dft(), N//2, 1, steps)
@@ -62,7 +62,7 @@ def run_grid():
   graph = Graph('Grid', [Grid(range(16))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 1000, steps),
+      Classical(N//2, 100, steps),
       Quantum(Hadamard(), N//2, 1, steps),
       Quantum(Grover(), N//2, 1, steps),
       Quantum(Dft(), N//2, 1, steps),
@@ -75,7 +75,7 @@ def run_grid():
 def run_hypercube():
   graph = Graph('Hypercube', [Hypercube(range(2**4))])
   simulators = [
-      Classical(0, 1000, steps),
+      Classical(0, 100, steps),
       Quantum(Hadamard(), 0, 1, steps),
       Quantum(Grover(), 0, 1, steps),
       Quantum(Dft(), 0, 1, steps),
@@ -86,12 +86,11 @@ def run_hypercube():
 
 
 archive()
-#run_dumbbell()
-#run_glued_binary()
+run_dumbbell()
+run_glued_binary()
 run_path()
 run_grid()
 run_hypercube()
-
 
 # def is_unitary(m):
 #   return np.allclose(np.eye(m.shape[0]), m.dot(m.T.conj()))
