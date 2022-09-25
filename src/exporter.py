@@ -295,7 +295,7 @@ class Exporter:
           self.loc.simulation(i, is_latex=True).hitting_time().image(), f"{i}th simulation hitting time")
 
       self.description += ["\\subsection{Eigenvalues, eigenvectors}"]
-      self.description += eigens2latex(Eigens(simulation_matrix))
+      # self.description += eigens2latex(Eigens(simulation_matrix))
 
       if simulator.is_quantum():
         size = simulator.coin.size
@@ -304,8 +304,8 @@ class Exporter:
 
       self.draw_adj(np.absolute(simulation_matrix),
                     self.loc.simulation(i).simulation_matrix())
-      create_latex(self.loc.simulation(i).simulation_matrix().latex(),
-                   matrix2latex_document(simulation_matrix, size))
+      # create_latex(self.loc.simulation(i).simulation_matrix().latex(),
+      #              matrix2latex_document(simulation_matrix, size))
 
       self.description += ["\\section{Simulation matrix}"]
       self.description += [f"\\subsection{{{i}.th simulation matrix}}"]
@@ -318,7 +318,7 @@ class Exporter:
             matrix2latex_document(simulator.coin.start()))
 
         self.description += ["\\subsection{Coin eigenvalues, eigenvectors}"]
-        self.description += eigens2latex(Eigens(simulator.coin.step()))
+        # self.description += eigens2latex(Eigens(simulator.coin.step()))
 
         create_latex(
             self.loc.simulation(i).coin_step().latex(),

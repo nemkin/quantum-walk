@@ -86,11 +86,11 @@ def run_hypercube():
 
 
 archive()
-run_dumbbell()
-run_glued_binary()
+# run_dumbbell()
+# run_glued_binary()
 run_path()
-run_grid()
-run_hypercube()
+# run_grid()
+# run_hypercube()
 
 # def is_unitary(m):
 #   return np.allclose(np.eye(m.shape[0]), m.dot(m.T.conj()))

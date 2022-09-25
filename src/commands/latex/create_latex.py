@@ -9,5 +9,5 @@ def create_latex(file, latex, clean=True):
   with open(file, 'w') as f:
     f.writelines("\n".join(latex))
   run_bash(["latexmk", "-pdf", "-silent", filename], dir)
-  if clean:
-    run_bash(["latexmk", "-c"], dir)
+#  if clean:
+#    run_bash(["latexmk", "-c"], dir)
