@@ -2,7 +2,7 @@
 
 This code is accompanying my research project report submission to the Scientific Students' Association Conference.
 
-The report (in English) can be found at https://github.com/nemkin/tdk-2021/.
+The report (in English) can be found at [tdk-2021](https://github.com/nemkin/tdk-2021/).
 
 [PDF](https://github.com/nemkin/tdk-2021/blob/main/thesis.pdf)
 
