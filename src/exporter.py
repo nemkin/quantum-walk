@@ -44,10 +44,12 @@ class Exporter:
   def draw_adj(self, adj, filename):
     fig, ax = plt.subplots(1, 1, figsize=(6, 6))
     X, Y = np.meshgrid(range(adj.shape[0]+1), range(adj.shape[1]+1))
+
+    absadj = np.absolute(adj)
     ax.pcolormesh(
         X,
         Y,
-        adj,
+        absadj,
         cmap='rainbow',
         shading='auto',
         linewidths=1,
@@ -266,6 +268,14 @@ class Exporter:
       simulation_matrix = simulation["simulation_matrix"]
       eigens = simulation["eigens"]
 
+      periodicity = []
+      for index, row in enumerate(counts):
+          if np.allclose(row, counts[0]):
+              periodicity.append(index)
+      # np.where((counts == counts[0])).all(axis=1)
+      with open(self.loc.simulation(i).periodicity().text(), "w") as f:
+        f.write(' '.join(map(str, periodicity)))
+
       self.draw(simulation, self.loc.simulation(i))
       self.draw_graphics(
           mixing_time,
@@ -295,14 +305,14 @@ class Exporter:
           self.loc.simulation(i, is_latex=True).hitting_time().image(), f"{i}th simulation hitting time")
 
       self.description += ["\\subsection{Eigenvalues, eigenvectors}"]
-      # self.description += eigens2latex(Eigens(simulation_matrix))
+      self.description += eigens2latex(Eigens(simulation_matrix))
 
       if simulator.is_quantum():
         size = simulator.coin.size
       else:
         size = None
 
-      self.draw_adj(np.absolute(simulation_matrix),
+      self.draw_adj(simulation_matrix,
                     self.loc.simulation(i).simulation_matrix())
       # create_latex(self.loc.simulation(i).simulation_matrix().latex(),
       #              matrix2latex_document(simulation_matrix, size))
@@ -318,7 +328,7 @@ class Exporter:
             matrix2latex_document(simulator.coin.start()))
 
         self.description += ["\\subsection{Coin eigenvalues, eigenvectors}"]
-        # self.description += eigens2latex(Eigens(simulator.coin.step()))
+        self.description += eigens2latex(Eigens(simulator.coin.step()))
 
         create_latex(
             self.loc.simulation(i).coin_step().latex(),

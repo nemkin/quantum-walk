@@ -46,6 +46,9 @@ class SimulationLocations(Locations):
   #def counts_short(self):
   #  return FileEnding(self.root / "counts_short", self.is_latex)
 
+  def periodicity(self):
+    return FileEnding(self.root / "periodicity", self.is_latex)
+
   def hitting_time(self):
     return FileEnding(self.root / "hitting_time", self.is_latex)
 

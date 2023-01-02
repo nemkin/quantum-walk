@@ -18,9 +18,9 @@ def eigens2latex(eigens):
     latex += [f"  \\item 360 / angle: ${osztva:.10f}$\\"]
     latex += ["\\end{itemize}"]
     
-    # vectors = eigens.get_eigen_vectors_for(value)
-    # for vector in vectors:
-    # latex += vector2latex(vector)
+    #vectors = eigens.get_eigen_vectors_for(value)
+    #for vector in vectors:
+    #  latex += vector2latex(vector)
     
     latex += ["\\end{itemize}"]
 

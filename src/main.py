@@ -10,6 +10,7 @@ from graphs.composites.GluedBinary import GluedBinary
 from graphs.composites.Dumbbell import Dumbbell
 from graphs.Graph import Graph
 from graphs.subgraphs.Grid import Grid
+from graphs.subgraphs.GridDiagonal import GridDiagonal
 from run import Run
 from tester import Tester
 from exporter import Exporter
@@ -45,7 +46,7 @@ def run_glued_binary():
   Tester(run).test()
 
 def run_path():
-  graph = Graph('Path', [Path(range(101))])
+  graph = Graph('Path', [Path(range(4))])
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 100, steps),
@@ -71,6 +72,18 @@ def run_grid():
   Exporter(run).export()
   Tester(run).test()
 
+def run_diagonal_grid():
+  graph = Graph('DiagonalGrid', [GridDiagonal(range(16))])
+  N = graph.vertex_count()
+  simulators = [
+      Classical(N//2, 100, steps),
+      Quantum(Hadamard(), N//2, 1, steps),
+      Quantum(Grover(), N//2, 1, steps),
+      Quantum(Dft(), N//2, 1, steps),
+  ]
+  run = Run(graph, simulators)
+  Exporter(run).export()
+  Tester(run).test()
 
 def run_hypercube():
   graph = Graph('Hypercube', [Hypercube(range(2**4))])
@@ -88,8 +101,9 @@ def run_hypercube():
 archive()
 # run_dumbbell()
 # run_glued_binary()
-run_path()
+# run_path()
 # run_grid()
+run_diagonal_grid()
 # run_hypercube()
 
 # def is_unitary(m):
