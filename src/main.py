@@ -20,7 +20,7 @@ from graphs.subgraphs.Hypercube import Hypercube
 from simulators.coins.dft import Dft
 import numpy as np
 
-steps = 200
+steps = 100
 
 def run_dumbbell():
   graph = Dumbbell(100, 2, 10)
@@ -101,10 +101,10 @@ def run_hypercube():
 archive()
 # run_dumbbell()
 # run_glued_binary()
-# run_path()
-# run_grid()
+run_path()
+run_grid()
 run_diagonal_grid()
-# run_hypercube()
+run_hypercube()
 
 # def is_unitary(m):
 #   return np.allclose(np.eye(m.shape[0]), m.dot(m.T.conj()))

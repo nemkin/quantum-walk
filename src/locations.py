@@ -22,7 +22,7 @@ class FileEnding(Locations):
     self.is_latex = is_latex
 
   def image(self):
-    return self.makedirs(self.path.with_suffix(".jpg"))
+    return self.makedirs(self.path.with_suffix(".eps"))
 
   def numpy(self):
     return self.makedirs(self.path.with_suffix(".npy"))

@@ -20,9 +20,10 @@ class Hypercube(SubGraph):
     except ValueError:
       return []
 
-    return list(map(lambda i: self.vertexes[i],
+    a = list(map(lambda i: self.vertexes[i],
                     [Hypercube.flip_bit(index, bit_index)
                      for bit_index in range(self.bits)]))
+    return a #return a + [index for _ in a]
 
   def describe(self):
     return f"Hiperkocka {self.bits} bittel"

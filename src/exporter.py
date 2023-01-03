@@ -14,6 +14,9 @@ from matplotlib import cm
 from tqdm import tqdm
 from config import Config
 
+from matplotlib import cm
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
+
 np.set_printoptions(threshold=np.inf)
 
 
@@ -116,23 +119,37 @@ class Exporter:
 
     div = np.gcd(self.run.N, simulator.steps)
     x = 6  # self.run.N // div
-    y = 12  # simulator.steps // div
+    y = 5  # simulator.steps // div
 
+    N = 256
+    cmap = cm.get_cmap('rainbow', 256)
+    vals = cmap(np.linspace(0, 1, N))
+    red = np.array([1, 0, 0, 1])
+    #vals[-2:, :] = red
+    #vals[:, 0] = np.linspace(90/256, 1, N)
+    #vals[:, 1] = np.linspace(1, 0, N)
+    #vals[:, 2] = np.linspace(1, 0, N)
+    newcmp = ListedColormap(vals)
+   
     fig, ax = plt.subplots(1, 1, figsize=(x, y))
     pcm = ax.pcolor(
         vertexes_X,
         steps_Y,
         counts,
-        cmap='rainbow',
+        cmap='rainbow', # newcmp,
         shading='auto',
         linewidths=1,
         snap=True,
+        # vmin=0,
+        # vmax=1
         norm=colors.LogNorm(vmin=np.min(counts[np.nonzero(counts)]), vmax=counts.max())
+        #norm=colors.LogNorm(vmin=0.1, vmax=1.0)
     )
     ax.set_title(simulator.describe())
-    ax.set_xlabel('Vertexes')
+    ax.set_xlabel('Vertices')
     ax.set_ylabel('Steps')
     fig.tight_layout()
+    fig.colorbar(pcm)
 
     fig.savefig(simloc.counts().image())
     plt.close(fig)
@@ -156,7 +173,7 @@ class Exporter:
     #          counts_smaller[np.nonzero(counts_smaller)]), vmax=counts_smaller.max())
     #  )
     #  ax.set_title(simulator.describe())
-    #  ax.set_xlabel('Vertexes')
+    #  ax.set_xlabel('Vertices')
     #  ax.set_ylabel('Steps')
     #  fig.tight_layout()
 
