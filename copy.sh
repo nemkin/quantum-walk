@@ -1,3 +1,6 @@
+extension="eps"
+
+rm -rf output
 mkdir output
 mkdir output/cycle
 mkdir output/grid_horizontal_vertical
@@ -5,28 +8,28 @@ mkdir output/grid_diagonal
 mkdir output/hypercube
 
 names=(
-  "cycle/classical.eps"
-  "cycle/hadamard.eps"
-  "cycle/grover.eps"
-  "cycle/dft.eps"
-  "grid_horizontal_vertical/classical.eps"
-  "grid_horizontal_vertical/hadamard.eps"
-  "grid_horizontal_vertical/grover.eps"
-  "grid_horizontal_vertical/dft.eps"
-  "grid_diagonal/classical.eps"
-  "grid_diagonal/hadamard.eps"
-  "grid_diagonal/grover.eps"
-  "grid_diagonal/dft.eps"
-  "hypercube/classical.eps"
-  "hypercube/hadamard.eps"
-  "hypercube/grover.eps"
-  "hypercube/dft.eps")
+  "cycle/classical.${extension}"
+  "cycle/hadamard.${extension}"
+  "cycle/grover.${extension}"
+  "cycle/dft.${extension}"
+  "grid_horizontal_vertical/classical.${extension}"
+  "grid_horizontal_vertical/hadamard.${extension}"
+  "grid_horizontal_vertical/grover.${extension}"
+  "grid_horizontal_vertical/dft.${extension}"
+  "grid_diagonal/classical.${extension}"
+  "grid_diagonal/hadamard.${extension}"
+  "grid_diagonal/grover.${extension}"
+  "grid_diagonal/dft.${extension}"
+  "hypercube/classical.${extension}"
+  "hypercube/hadamard.${extension}"
+  "hypercube/grover.${extension}"
+  "hypercube/dft.${extension}")
 
 i=0
-while IFS= read -r result; do
-  cp "$result" output/"${names[$i]}"
-  let i++
-done
+find ./generations/new/ -name "counts0.${extension}" | sort |
+  while IFS= read -r result; do
+    cp "$result" output/"${names[$i]}"
+    let i++
+  done
 
-# find ./generations/new/ -name "counts0.eps" | sort | ./copy.sh
 

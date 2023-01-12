@@ -115,7 +115,7 @@ class Exporter:
     counts_smaller = counts[smaller:]
 
     steps_Y = np.arange(-0.5, simulator.steps, 1)
-    vertexes_X = np.arange(-0.5, self.run.N-1, 1)
+    vertexes_X = np.arange(0, self.run.N, 1)
 
     div = np.gcd(self.run.N, simulator.steps)
     x = 6  # self.run.N // div
@@ -148,7 +148,10 @@ class Exporter:
     ax.set_title(simulator.describe())
     ax.set_xlabel('Vertices')
     ax.set_ylabel('Steps')
+
+    ax.set_xticks(np.arange(0, self.run.N, 1), minor=False)
     ax.set_xticklabels(list(range(self.run.N)))
+    
     fig.tight_layout()
     fig.colorbar(pcm)
 
