@@ -148,6 +148,7 @@ class Exporter:
     ax.set_title(simulator.describe())
     ax.set_xlabel('Vertices')
     ax.set_ylabel('Steps')
+    ax.set_xticklabels(list(range(self.run.N)))
     fig.tight_layout()
     fig.colorbar(pcm)
 
