@@ -20,7 +20,7 @@ from graphs.subgraphs.Hypercube import Hypercube
 from simulators.coins.dft import Dft
 import numpy as np
 
-steps = 100
+steps = 10000
 
 def run_dumbbell():
   graph = Dumbbell(100, 2, 10)
@@ -59,14 +59,14 @@ def run_path():
   Tester(run).test()
 
 
-def run_grid():
-  graph = Graph('Grid', [Grid(range(16))])
+def run_grid(n):
+  graph = Graph('Grid', [Grid(range(n))])
   N = graph.vertex_count()
   simulators = [
-      Classical(N//2, 100, steps),
-      Quantum(Hadamard(), N//2, 1, steps),
+      #Classical(N//2, 50, steps),
+      #Quantum(Hadamard(), N//2, 1, steps),
       Quantum(Grover(), N//2, 1, steps),
-      Quantum(Dft(), N//2, 1, steps),
+      #Quantum(Dft(), N//2, 1, steps),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
@@ -102,9 +102,10 @@ archive()
 # run_dumbbell()
 # run_glued_binary()
 #run_path()
-#run_grid()
-#run_diagonal_grid()
-run_hypercube()
+for i in range(2,20):
+  run_grid(i**2)
+# run_diagonal_grid()
+# run_hypercube()
 
 # def is_unitary(m):
 #   return np.allclose(np.eye(m.shape[0]), m.dot(m.T.conj()))

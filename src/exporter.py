@@ -121,8 +121,8 @@ class Exporter:
     vertexes_X = np.arange(0, self.run.N, 1)
 
     div = np.gcd(self.run.N, simulator.steps)
-    x = 6  # self.run.N // div
-    y = 5  # simulator.steps // div
+    x = 5 # self.run.N // div # 6
+    y = 20 # simulator.steps // div # 5
 
     N = 256
     cmap = cm.get_cmap('rainbow', 256)
