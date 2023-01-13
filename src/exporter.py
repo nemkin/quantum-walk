@@ -121,8 +121,8 @@ class Exporter:
     vertexes_X = np.arange(0, self.run.N, 1)
 
     div = np.gcd(self.run.N, simulator.steps)
-    x = 6 # 6 # self.run.N // div # 5
-    y = 10 # 5 # simulator.steps // div # 20
+    x = 6 # 6 self.run.N // div # 5
+    y = 5 # 10 simulator.steps // div # 20
 
     N = 256
     cmap = cm.get_cmap('rainbow', 256)
@@ -135,20 +135,20 @@ class Exporter:
     #vals[:, 1] = np.linspace(1, 0, N)
     #vals[:, 2] = np.linspace(1, 0, N)
     newcmp = ListedColormap(vals)
-   
+
     fig, ax = plt.subplots(1, 1, figsize=(x, y))
     pcm = ax.pcolor(
         vertexes_X,
         steps_Y,
         counts,
-        cmap=newcmp, #'plasma', # newcmp,
+        cmap='rainbow', #newcmp, #'plasma', # newcmp,
         shading='auto',
         linewidths=1,
         snap=True,
         # vmin=0,
         # vmax=1
-        # norm=colors.LogNorm(vmin=np.min(counts[np.nonzero(counts)]), vmax=counts.max())
-        norm=colors.LogNorm(vmin=0.001, vmax=1.0)
+        norm=colors.LogNorm(vmin=np.min(counts[np.nonzero(counts)]), vmax=counts.max())
+        # norm=colors.LogNorm(vmin=0.001, vmax=1.0)
     )
     ax.set_title(simulator.describe())
     ax.set_xlabel('Vertices')

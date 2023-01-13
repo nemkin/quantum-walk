@@ -20,7 +20,7 @@ from graphs.subgraphs.Hypercube import Hypercube
 from simulators.coins.dft import Dft
 import numpy as np
 
-steps = 1000
+steps = 100
 
 def run_dumbbell():
   graph = Dumbbell(100, 2, 10)
@@ -46,7 +46,7 @@ def run_glued_binary():
   Tester(run).test()
 
 def run_path():
-  graph = Graph('Path', [Path(range(128))])
+  graph = Graph('Path', [Path(range(4))])
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 100, steps),
@@ -63,10 +63,10 @@ def run_grid():
   graph = Graph('Grid', [Grid(range(16))])
   N = graph.vertex_count()
   simulators = [
-      #Classical(N//2, 50, steps),
-      #Quantum(Hadamard(), N//2, 1, steps),
+      Classical(N//2, 50, steps),
+      Quantum(Hadamard(), N//2, 1, steps),
       Quantum(Grover(), N//2, 1, steps),
-      #Quantum(Dft(), N//2, 1, steps),
+      Quantum(Dft(), N//2, 1, steps),
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
@@ -86,7 +86,7 @@ def run_diagonal_grid():
   Tester(run).test()
 
 def run_hypercube():
-  graph = Graph('Hypercube', [Hypercube(range(2**8))])
+  graph = Graph('Hypercube', [Hypercube(range(2**4))])
   simulators = [
       Classical(0, 100, steps),
       Quantum(Hadamard(), 0, 1, steps),
@@ -102,9 +102,9 @@ archive()
 # run_dumbbell()
 # run_glued_binary()
 run_path()
-# run_grid()
-# run_diagonal_grid()
-# run_hypercube()
+run_grid()
+run_diagonal_grid()
+run_hypercube()
 
 # def is_unitary(m):
 #   return np.allclose(np.eye(m.shape[0]), m.dot(m.T.conj()))

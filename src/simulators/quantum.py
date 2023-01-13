@@ -43,7 +43,10 @@ class Quantum(Simulator):
         probabilities = Quantum.probability(currpos)
         counts = np.concatenate(
             (counts, np.array([probabilities])), axis=0)
-
+    
+    # Due to DFT numerical error
+    epsilon = 1e-25
+    counts[counts < epsilon] = 0.0
     return counts
 
   def is_quantum(self):
