@@ -39,6 +39,7 @@ class Exporter:
 
     fig.tight_layout()
     fig.savefig(filename.image())
+    fig.savefig(filename.vector_image())
     plt.close(fig)
 
     with open(filename.text(), "w") as f:
@@ -64,6 +65,7 @@ class Exporter:
 
     fig.tight_layout()
     fig.savefig(filename.image())
+    fig.savefig(filename.vector_image())
     plt.close(fig)
 
     with open(filename.text(), "w") as f:
@@ -90,6 +92,7 @@ class Exporter:
 
     fig.tight_layout()
     fig.savefig(filename.image())
+    fig.savefig(filename.vector_image())
     plt.close(fig)
 
     with open(filename.text(), "w") as f:
@@ -156,6 +159,7 @@ class Exporter:
     fig.colorbar(pcm)
 
     fig.savefig(simloc.counts().image())
+    fig.savefig(simloc.counts().vector_image())
     plt.close(fig)
 
     # Counts_short
@@ -182,6 +186,7 @@ class Exporter:
     #  fig.tight_layout()
 
     #  fig.savefig(simloc.counts_short().image())
+    #  fig.savefig(simloc.counts_short().vector_image())
     #  plt.close(fig)
 
     with open(simloc.counts().text(), "w") as f:
@@ -257,7 +262,7 @@ class Exporter:
 
     self.description += ["\\section{Graph}"]
     self.description += ["\\subsection{Adjacency matrix}"]
-    self.add_graphics(self.loc.graph_adj(is_latex=True).image(),
+    self.add_graphics(self.loc.graph_adj(is_latex=True).vector_image(),
                       "Graph adjacency matrix")
 
   def add_coin_faces(self):
@@ -265,7 +270,7 @@ class Exporter:
       self.draw_adj(coin_face, self.loc.coin_face(i))
 
       self.description += ["\\subsection{Coin face}"]
-      self.add_graphics(self.loc.coin_face(i, is_latex=True).image(),
+      self.add_graphics(self.loc.coin_face(i, is_latex=True).vector_image(),
                         f"{i}th coin face adjacency matrix")
 
   def add_sub_graphs(self):
@@ -275,7 +280,7 @@ class Exporter:
 
       self.description += ["\\subsection{Subgraph}"]
       self.description += [sub_graph["describe"]]
-      self.add_graphics(self.loc.subgraph_adj(i, is_latex=True).image(),
+      self.add_graphics(self.loc.subgraph_adj(i, is_latex=True).vector_image(),
                         f"{i}th subgraph adjacency matrix")
 
   def add_simulations(self):
@@ -317,13 +322,13 @@ class Exporter:
       self.description += [f"Steps: {simulator.steps}"]
 
       self.add_graphics(
-          self.loc.simulation(i, is_latex=True).counts().image(), f"{i}th simulation")
+          self.loc.simulation(i, is_latex=True).counts().vector_image(), f"{i}th simulation")
       #self.add_graphics(
-      #    self.loc.simulation(i, is_latex=True).counts_short().image(), f"{i}th simulation, removing the beginning")
+      #    self.loc.simulation(i, is_latex=True).counts_short().vector_image(), f"{i}th simulation, removing the beginning")
       self.add_graphics(
-          self.loc.simulation(i, is_latex=True).mixing_time().image(), f"{i}th simulation mixing time")
+          self.loc.simulation(i, is_latex=True).mixing_time().vector_image(), f"{i}th simulation mixing time")
       self.add_graphics(
-          self.loc.simulation(i, is_latex=True).hitting_time().image(), f"{i}th simulation hitting time")
+          self.loc.simulation(i, is_latex=True).hitting_time().vector_image(), f"{i}th simulation hitting time")
 
       self.description += ["\\subsection{Eigenvalues, eigenvectors}"]
       self.description += eigens2latex(Eigens(simulation_matrix))
@@ -340,7 +345,7 @@ class Exporter:
 
       self.description += ["\\section{Simulation matrix}"]
       self.description += [f"\\subsection{{{i}.th simulation matrix}}"]
-      self.add_graphics(self.loc.simulation(i, is_latex=True).simulation_matrix().image(),
+      self.add_graphics(self.loc.simulation(i, is_latex=True).simulation_matrix().vector_image(),
                         f"{i}th simulation matrix")
 
       if simulator.is_quantum():  # TODO is quantum miert nem jo itt?

@@ -21,8 +21,11 @@ class FileEnding(Locations):
     self.path = path
     self.is_latex = is_latex
 
-  def image(self):
+  def vector_image(self):
     return self.makedirs(self.path.with_suffix(".eps"))
+
+  def image(self):
+    return self.makedirs(self.path.with_suffix(".png"))
 
   def numpy(self):
     return self.makedirs(self.path.with_suffix(".npy"))

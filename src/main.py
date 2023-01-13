@@ -86,7 +86,7 @@ def run_diagonal_grid():
   Tester(run).test()
 
 def run_hypercube():
-  graph = Graph('Hypercube', [Hypercube(range(2**4))])
+  graph = Graph('Hypercube', [Hypercube(range(2**8))])
   simulators = [
       Classical(0, 100, steps),
       Quantum(Hadamard(), 0, 1, steps),
@@ -101,9 +101,9 @@ def run_hypercube():
 archive()
 # run_dumbbell()
 # run_glued_binary()
-run_path()
-run_grid()
-run_diagonal_grid()
+#run_path()
+#run_grid()
+#run_diagonal_grid()
 run_hypercube()
 
 # def is_unitary(m):
