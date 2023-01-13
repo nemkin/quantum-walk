@@ -20,7 +20,7 @@ from graphs.subgraphs.Hypercube import Hypercube
 from simulators.coins.dft import Dft
 import numpy as np
 
-steps = 10000
+steps = 1000
 
 def run_dumbbell():
   graph = Dumbbell(100, 2, 10)
@@ -46,7 +46,7 @@ def run_glued_binary():
   Tester(run).test()
 
 def run_path():
-  graph = Graph('Path', [Path(range(4))])
+  graph = Graph('Path', [Path(range(128))])
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 100, steps),
@@ -59,8 +59,8 @@ def run_path():
   Tester(run).test()
 
 
-def run_grid(n):
-  graph = Graph('Grid', [Grid(range(n))])
+def run_grid():
+  graph = Graph('Grid', [Grid(range(16))])
   N = graph.vertex_count()
   simulators = [
       #Classical(N//2, 50, steps),
@@ -101,9 +101,8 @@ def run_hypercube():
 archive()
 # run_dumbbell()
 # run_glued_binary()
-#run_path()
-for i in range(2,20):
-  run_grid(i**2)
+run_path()
+# run_grid()
 # run_diagonal_grid()
 # run_hypercube()
 

@@ -121,13 +121,15 @@ class Exporter:
     vertexes_X = np.arange(0, self.run.N, 1)
 
     div = np.gcd(self.run.N, simulator.steps)
-    x = 5 # self.run.N // div # 6
-    y = 20 # simulator.steps // div # 5
+    x = 6 # 6 # self.run.N // div # 5
+    y = 10 # 5 # simulator.steps // div # 20
 
     N = 256
     cmap = cm.get_cmap('rainbow', 256)
-    vals = cmap(np.linspace(0, 1, N))
-    red = np.array([1, 0, 0, 1])
+    vals1 = cmap(np.linspace(0, 1, N))
+    vals2 = cmap(np.linspace(1, 1, N))
+    vals = np.vstack((vals1, vals2))
+    # red = np.array([1, 0, 0, 1])
     #vals[-2:, :] = red
     #vals[:, 0] = np.linspace(90/256, 1, N)
     #vals[:, 1] = np.linspace(1, 0, N)
@@ -139,21 +141,21 @@ class Exporter:
         vertexes_X,
         steps_Y,
         counts,
-        cmap='rainbow', # newcmp,
+        cmap=newcmp, #'plasma', # newcmp,
         shading='auto',
         linewidths=1,
         snap=True,
         # vmin=0,
         # vmax=1
-        norm=colors.LogNorm(vmin=np.min(counts[np.nonzero(counts)]), vmax=counts.max())
-        #norm=colors.LogNorm(vmin=0.1, vmax=1.0)
+        # norm=colors.LogNorm(vmin=np.min(counts[np.nonzero(counts)]), vmax=counts.max())
+        norm=colors.LogNorm(vmin=0.001, vmax=1.0)
     )
     ax.set_title(simulator.describe())
     ax.set_xlabel('Vertices')
     ax.set_ylabel('Steps')
 
-    ax.set_xticks(np.arange(0, self.run.N, 1), minor=False)
-    ax.set_xticklabels(list(range(self.run.N)))
+    ax.set_xticks(np.arange(0, self.run.N, 10), minor=False)
+    ax.set_xticklabels(list(range(0,self.run.N, 10)))
     
     fig.tight_layout()
     fig.colorbar(pcm)
