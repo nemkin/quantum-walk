@@ -46,18 +46,30 @@ def run_glued_binary():
   Tester(run).test()
 
 def run_path():
-  graph = Graph('Path', [Path(range(4))])
+  graph = Graph('Path', [Path(range(50))])
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 100, steps),
-      Quantum(Hadamard(), N//2, 1, steps),
-      Quantum(Grover(), N//2, 1, steps),
-      Quantum(Dft(), N//2, 1, steps)
+      #Quantum(Hadamard(), N//2, 1, steps),
+      #Quantum(Grover(), N//2, 1, steps),
+      #Quantum(Dft(), N//2, 1, steps)
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
   Tester(run).test()
 
+def run_circle():
+  graph = Graph('Circle', [Circle(range(50), [1])])
+  N = graph.vertex_count()
+  simulators = [
+      Classical(N//2, 100, steps),
+      #Quantum(Hadamard(), N//2, 1, steps),
+      #Quantum(Grover(), N//2, 1, steps),
+      #Quantum(Dft(), N//2, 1, steps)
+  ]
+  run = Run(graph, simulators)
+  Exporter(run).export()
+  Tester(run).test()
 
 def run_grid():
   graph = Graph('Grid', [Grid(range(16))])
@@ -102,9 +114,10 @@ archive()
 # run_dumbbell()
 # run_glued_binary()
 run_path()
-run_grid()
-run_diagonal_grid()
-run_hypercube()
+run_circle()
+#run_grid()
+#run_diagonal_grid()
+#run_hypercube()
 
 # def is_unitary(m):
 #   return np.allclose(np.eye(m.shape[0]), m.dot(m.T.conj()))
