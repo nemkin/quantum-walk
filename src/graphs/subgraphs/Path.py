@@ -8,20 +8,16 @@ class Path(SubGraph):
     self.n = len(self.vertexes)
 
   def left(self, index):
-    return (index-1) % self.n
-    # TODO: Nem permutáció mátrix!
-    if 0 <= index-1:
-      return index-1
+    if index % 2:
+      return max(0, index-1)
     else:
-      return index
+      return min(self.n-1, index+1)
 
   def right(self, index):
-    return (index+1) % self.n
-    # TODO: Nem permutáció mátrix!
-    if index+1 < self.n:
-      return index+1
+    if index % 2:
+      return min(self.n-1, index+1)
     else:
-      return index
+      return max(0, index-1)
 
   def neighbours(self, vertex):
     try:

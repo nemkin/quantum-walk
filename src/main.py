@@ -20,7 +20,7 @@ from graphs.subgraphs.Hypercube import Hypercube
 from simulators.coins.dft import Dft
 import numpy as np
 
-steps = 100
+steps = 200
 
 def run_dumbbell():
   graph = Dumbbell(100, 2, 10)
@@ -50,22 +50,22 @@ def run_path():
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 100, steps),
-      #Quantum(Hadamard(), N//2, 1, steps),
-      #Quantum(Grover(), N//2, 1, steps),
-      #Quantum(Dft(), N//2, 1, steps)
+      Quantum(Hadamard(), N//2, 1, steps),
+      Quantum(Grover(), N//2, 1, steps),
+      Quantum(Dft(), N//2, 1, steps)
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
   Tester(run).test()
 
 def run_circle():
-  graph = Graph('Circle', [Circle(range(50), [1])])
+  graph = Graph('Circle', [Circle(range(50), [-1, 1])])
   N = graph.vertex_count()
   simulators = [
       Classical(N//2, 100, steps),
-      #Quantum(Hadamard(), N//2, 1, steps),
-      #Quantum(Grover(), N//2, 1, steps),
-      #Quantum(Dft(), N//2, 1, steps)
+      Quantum(Hadamard(), N//2, 1, steps),
+      Quantum(Grover(), N//2, 1, steps),
+      Quantum(Dft(), N//2, 1, steps)
   ]
   run = Run(graph, simulators)
   Exporter(run).export()
