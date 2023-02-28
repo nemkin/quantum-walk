@@ -56,4 +56,4 @@ class Grid(SubGraph):
     )
 
   def describe(self):
-    return f"Irányítatlan élekből álló grid."
+    return f"Iranyitatlan elekbol allo grid."

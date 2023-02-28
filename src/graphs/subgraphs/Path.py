@@ -30,4 +30,4 @@ class Path(SubGraph):
     return list(map(lambda i: self.vertexes[i], [self.left(index), self.right(index)]))
 
   def describe(self):
-    return f"Irányítatlan élekből álló út."
+    return f"Iranyitatlan elekbol allo ut."

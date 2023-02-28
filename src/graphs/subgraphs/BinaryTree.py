@@ -22,4 +22,4 @@ class BinaryTree(SubGraph):
     return result
 
   def describe(self):
-    return f"Bináris fa, szülő = index/2, gyerekek = index*2 és index*2 + 1"
+    return f"Binaris fa, szulo = index/2, gyerekek = index*2 es index*2 + 1"

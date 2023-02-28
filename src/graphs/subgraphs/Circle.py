@@ -17,4 +17,4 @@ class Circle(SubGraph):
 
   def describe(self):
     dist_str = ", ".join(map(str, self.neighbour_distances))
-    return f"Kör {dist_str} távolságokat behúzva"
+    return f"Kor {dist_str} tavolsagokat behuzva"

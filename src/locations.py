@@ -15,7 +15,6 @@ class Locations:
         pass
     return path
 
-
 class FileEnding(Locations):
   def __init__(self, path, is_latex):
     self.path = path
@@ -35,6 +34,9 @@ class FileEnding(Locations):
 
   def latex(self):
     return self.makedirs(self.path.with_suffix(".tex"))
+    
+  def json(self):
+    return self.makedirs(self.path.with_suffix(".json"))
 
 
 class SimulationLocations(Locations):
@@ -70,7 +72,6 @@ class SimulationLocations(Locations):
   def eigens(self):
     return FileEnding(self.root / "eigens", self.is_latex)
 
-
 class RunLocations(Locations):
   def __init__(self, run):
     self.run = run
@@ -80,6 +81,9 @@ class RunLocations(Locations):
 
   def get_root(self, is_latex):
     return self.root if not is_latex else Path('.')
+
+  def export(self, is_latex):
+    return FileEnding(self.get_root(is_latex) / "export", is_latex)
 
   def graph_adj(self, is_latex=False):
     return FileEnding(self.get_root(is_latex) / "graph" / "graph", is_latex)

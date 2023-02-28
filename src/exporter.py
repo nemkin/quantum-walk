@@ -369,6 +369,9 @@ class Exporter:
     create_latex(self.loc.root/(f'{self.run.filename}.tex'), self.description)
 
   def export(self):
+
+    self.run.save(self.loc.export(False).json())
+
     self.add_begin()
     self.add_graph()
     self.add_coin_faces()

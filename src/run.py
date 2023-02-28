@@ -4,8 +4,17 @@ import time
 import numpy as np
 from datetime import datetime
 import itertools
+import json
 
-
+def convert(o):
+  try:
+    if isinstance(o, np.ndarray):
+      return o.tolist()
+    if isinstance(o, map):
+      return list(o)
+    return "DOUBLE NO " + str(type(o)) #o.__dict__
+  except:
+    return "OH NO AN ERROR"
 class Run:
 
   def make_name():
@@ -86,34 +95,58 @@ class Run:
 
   def get_simulation(graph, simulator):
     counts = simulator.simulate(graph)
-    mixing_time = Run.mixing_time(counts)
-    hitting_time = Run.hitting_time(counts)
     simulation_matrix = Run.get_simulation_matrix(graph, simulator)
     return {
         "simulator": simulator,
         "counts": counts,
-        "mixing_time": mixing_time,
-        "hitting_time": hitting_time,
         "simulation_matrix": simulation_matrix,
+        "mixing_time": Run.mixing_time(counts),
+        "hitting_time": Run.hitting_time(counts),
         "eigens": Run.eigens(simulation_matrix),
         "limiting_dists": Run.limiting_dists(simulation_matrix, simulator.is_quantum())
     }
+
+  def save(self, to):
+    print(self.title)
+    print()
+    print()
+    print()
+    print()
+    alternative = {
+      "title": self.title,
+      "subtitle": self.subtitle,
+      "filename": self.filename,
+      "N": self.N,
+      "graph_adj": self.graph_adj,
+      "coin_faces": self.coin_faces,
+      "sub_graphs": self.sub_graphs,
+      "simulations": list(map(lambda s: 
+        {
+          "simulator": s["simulator"],
+          "counts": s["counts"],
+          "simulation_matrix": s["simulation_matrix"]
+        }, self.simulations))
+    }
+
+    j = json.dumps(alternative, default=lambda o: convert(o), sort_keys=True, indent=4)
+    with open(to, 'w') as f:
+      f.write(j)
 
   def __init__(self, graph, simulators):
     self.title, self.subtitle, self.filename = Run.make_name()
     self.N = graph.vertex_count()
     self.graph_adj = graph.adjacency_matrix()
     self.coin_faces = graph.coin_faces()
-    self.sub_graphs = map(
+    self.sub_graphs = list(map(
         lambda sub_graph: {
             "describe": sub_graph.describe(),
             "adj": sub_graph.adjacency_matrix(self.N)
         },
         tqdm(graph.sub_graphs,
              desc=f"{graph.name} subgraph adjacency matrices", leave=False)
-    )
-    self.simulations = map(
+    ))
+    self.simulations = list(map(
         lambda s: Run.get_simulation(graph, s),
         tqdm(simulators, desc=f"{graph.name} simulations",
              leave=False)
-    )
+    ))

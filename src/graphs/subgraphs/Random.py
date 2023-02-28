@@ -23,4 +23,4 @@ class Random(SubGraph):
     return list(map(lambda ni: self.vertexes[ni], neighbour_indices))
 
   def describe(self):
-    return f"Gráf véletlen élekből {self.edge_probability} valószínűséggel"
+    return f"Graf veletlen elekbol {self.edge_probability} valoszinuseggel"
