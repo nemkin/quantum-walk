@@ -45,8 +45,11 @@ class SimulationLocations(Locations):
     self.index = index
     self.is_latex = is_latex
 
-  def counts(self, i=0):
-    return FileEnding(self.root / f"counts{i}", self.is_latex)
+  def counts(self, i=None):
+    if i == None:
+      return FileEnding(self.root / f"counts", self.is_latex)
+    else:
+      return FileEnding(self.root / f"counts{i}", self.is_latex)
 
   #def counts_short(self):
   #  return FileEnding(self.root / "counts_short", self.is_latex)

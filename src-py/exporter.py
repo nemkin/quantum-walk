@@ -74,43 +74,24 @@ class Exporter:
     with open(filename.numpy(), 'wb') as f:
       np.save(f, adj)
 
-  def draw_adj_3d(self, adj, filename):
-    fig, ax = plt.subplots(dpi=300,
-                           subplot_kw={"projection": "3d"})
+  def draw_all_counts_2d_lattice_for_video(self, adj, filename):
     X, Y = np.meshgrid(range(adj.shape[0]), range(adj.shape[1]))
-    ax.plot_surface(
-        X,
-        Y,
-        adj,
-        cmap=cm.coolwarm,
-        linewidth=0,
-        antialiased=False)
-    # ax.set_zlim(0, 1)
-
-    # ax.xaxis.tick_top()
-    # ax.invert_yaxis()
-
-    fig.tight_layout()
-    fig.savefig(filename.image())
-    fig.savefig(filename.vector_image())
-    plt.close(fig)
-
-    with open(filename.text(), "w") as f:
-      f.write(np.array2string(adj))
-
-    with open(filename.numpy(), 'wb') as f:
-      np.save(f, adj)
+    plt.imshow(adj, cmap='coolwarm', interpolation='nearest', vmin=0.0, vmax=1.0)
+    plt.colorbar()
+    plt.gcf().set_dpi(300)
+    plt.show()
+    plt.tight_layout()
+    plt.savefig(filename.image())
+    plt.close()
 
   def draw(self, simulation, simloc):
     simulator = simulation["simulator"]
     counts = simulation["counts"]
 
-#    size = int(np.sqrt(counts.shape[1]))
-#    for i in range(counts.shape[0]):
-#      self.draw_adj_3d(
-#          counts[i, :].reshape((size, size)), simloc.counts(i))
-#
-#    return
+    size = int(np.sqrt(counts.shape[1]))
+    for i in range(counts.shape[0]):
+      self.draw_all_counts_2d_lattice_for_video(counts[i, :].reshape((size, size)), simloc.counts(i))
+    
     smaller = 2 * self.run.N
     steps_smaller = simulator.steps - smaller
 
