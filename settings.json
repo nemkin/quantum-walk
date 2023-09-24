@@ -1,0 +1,5 @@
+{
+  "docker.environment": {
+    "DOCKER_HOST": "ssh://vikto@magellan.local"
+  }
+}
