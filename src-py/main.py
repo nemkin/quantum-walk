@@ -19,8 +19,9 @@ from simulators.coins.grover import Grover
 from graphs.subgraphs.Hypercube import Hypercube
 from simulators.coins.dft import Dft
 import numpy as np
+from memory_profiler import profile
 
-steps = 200
+steps = 1000
 
 # def run_dumbbell():
 #   graph = Dumbbell(100, 2, 10)
@@ -45,31 +46,32 @@ steps = 200
 #   Exporter(run).export()
 #   Tester(run).test()
 
-# def run_path():
-#   graph = Graph('Path', [Path(range(50))])
-#   N = graph.vertex_count()
-#   simulators = [
-#       Classical(N//2, 100, steps),
-#       Quantum(Hadamard(), N//2, 1, steps),
-#       Quantum(Grover(), N//2, 1, steps),
-#       Quantum(Dft(), N//2, 1, steps)
-#   ]
-#   run = Run(graph, simulators)
-#   Exporter(run).export()
-#   Tester(run).test()
+def run_path():
+  graph = Graph('Path', [Path(range(100))])
+  N = graph.vertex_count()
+  simulators = [
+      Classical(N//2, 100, steps),
+      Quantum(Hadamard(), N//2, 1, steps)
+#      Quantum(Grover(), N//2, 1, steps),
+#      Quantum(Dft(), N//2, 1, steps)
+  ]
+  run = Run(graph, simulators)
+  Exporter(run).export()
+  Tester(run).test()
 
-# def run_circle():
-#   graph = Graph('Circle', [Circle(range(50), [-1, 1])])
-#   N = graph.vertex_count()
-#   simulators = [
-#       Classical(N//2, 100, steps),
-#       Quantum(Hadamard(), N//2, 1, steps),
-#       Quantum(Grover(), N//2, 1, steps),
-#       Quantum(Dft(), N//2, 1, steps)
-#   ]
-#   run = Run(graph, simulators)
-#   Exporter(run).export()
-#   Tester(run).test()
+@profile
+def run_circle():
+  graph = Graph('Circle', [Circle(range(5000), [-1, 1])])
+  N = graph.vertex_count()
+  simulators = [
+#      Classical(N//2, 100, steps),
+      Quantum(Hadamard(), N//2, 1, steps)
+#      Quantum(Grover(), N//2, 1, steps),
+#      Quantum(Dft(), N//2, 1, steps)
+  ]
+  run = Run(graph, simulators)
+  # Exporter(run).export()
+  # Tester(run).test()
 
 def run_grid():
   graph = Graph('Grid', [Grid(range(16))])
@@ -110,13 +112,14 @@ def run_diagonal_grid():
 #   Tester(run).test()
 
 
+
 archive()
 # run_dumbbell()
 # run_glued_binary()
 # run_path()
-# run_circle()
-run_grid()
-run_diagonal_grid()
+run_circle()
+# run_grid()
+# run_diagonal_grid()
 # run_hypercube()
 
 # def is_unitary(m):

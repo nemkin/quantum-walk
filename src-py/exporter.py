@@ -88,9 +88,9 @@ class Exporter:
     simulator = simulation["simulator"]
     counts = simulation["counts"]
 
-    size = int(np.sqrt(counts.shape[1]))
-    for i in range(counts.shape[0]):
-      self.draw_all_counts_2d_lattice_for_video(counts[i, :].reshape((size, size)), simloc.counts(i))
+    # size = int(np.sqrt(counts.shape[1]))
+    # for i in range(counts.shape[0]):
+    #   self.draw_all_counts_2d_lattice_for_video(counts[i, :].reshape((size, size)), simloc.counts(i))
     
     smaller = 2 * self.run.N
     steps_smaller = simulator.steps - smaller
